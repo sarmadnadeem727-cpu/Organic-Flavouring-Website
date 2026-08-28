@@ -1,0 +1,6 @@
+{
+  "name": "Organic Flavouring",
+  "description": "Premium organic spices, crafted for every kitchen. 100% natural and pure flavour.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
