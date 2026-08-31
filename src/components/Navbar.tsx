@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ShoppingBag, MessageCircle, Sparkles } from 'lucide-react';
-import { brandLogo, officialInfo } from '../data/products';
+import { Menu, X, ShoppingBag, Search, User } from 'lucide-react';
+import { brandLogo } from '../data/products';
 import { useCart } from '../context/CartContext';
 
-export default function Navbar() {
+interface NavbarProps {
+  onOpenCertModal?: () => void;
+  onOpenContactModal?: () => void;
+}
+
+export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const { totalItems, setIsCartOpen } = useCart();
   const location = useLocation();
 
@@ -18,151 +24,138 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Shop', path: '/shop' },
-    { name: 'Origin', path: '/origin' },
-    { name: 'About', path: '/about' },
-    { name: 'Certifications', path: '/certifications' },
-    { name: 'Contact', path: '/contact' }
-  ];
-
   return (
     <>
-      {/* Top Announcement Bar */}
-      <div className="bg-[#3D6B2C] text-white text-[11px] py-1.5 px-4 text-center tracking-wider font-semibold flex items-center justify-center gap-2">
-        <Sparkles className="w-3.5 h-3.5 text-[#E8A63C]" />
-        <span>🌿 Free Nationwide Delivery on Orders over Rs. 2,500 • Cash on Delivery Available</span>
+      {/* Top Notification Bar */}
+      <div className="bg-[#F7F5F2] text-[#222222] text-xs py-2 px-4 text-center border-b border-[#E5E0D8] font-medium flex items-center justify-center gap-4">
+        <span>Free Nationwide Delivery on Orders over Rs. 2,500</span>
+        <span className="hidden sm:inline text-[#666666]">|</span>
+        <button onClick={onOpenCertModal} className="hidden sm:inline text-[#D9542F] hover:underline font-semibold cursor-pointer">
+          Halal & ISO Certified
+        </button>
       </div>
 
-      {/* Main Sticky Navigation Bar */}
+      {/* Sticky White Header */}
       <nav
-        className={`sticky top-0 z-40 transition-all duration-300 ${
-          isScrolled
-            ? 'bg-[#FFFBF5]/95 backdrop-blur-md shadow-sm py-2.5 border-b border-[#F0E6D8]'
-            : 'bg-[#FFFBF5] py-3.5 border-b border-[#F0E6D8]'
+        className={`sticky top-0 z-40 bg-white border-b border-[#E5E0D8] transition-shadow duration-200 ${
+          isScrolled ? 'shadow-sm' : ''
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+          <div className="flex items-center justify-between gap-6">
             
-            {/* Brand Logo & Lockup (Matching actual logo text & leaf colors) */}
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-[#6FAE3E] p-0.5 bg-white shadow-xs group-hover:border-[#D9542F] transition-colors flex items-center justify-center shrink-0">
-                <img
-                  src={brandLogo}
-                  alt="Organic Flavouring"
-                  className="w-full h-full object-cover rounded-full"
-                />
-              </div>
-              <div className="flex flex-col text-left">
-                <div className="flex items-center gap-1 font-heading text-lg sm:text-2xl font-bold tracking-tight leading-tight">
-                  <span className="text-[#6FAE3E]">Organic</span>
-                  <span className="text-[#D9542F]">Flavouring</span>
-                </div>
-                <span className="text-[9px] sm:text-[10px] tracking-wider uppercase text-[#8C7E72] font-bold">
-                  Online Spice Store • Est. 1994
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-3 shrink-0">
+              <img
+                src={brandLogo}
+                alt="Organic Flavouring"
+                className="w-9 h-9 object-cover rounded-full border border-[#E5E0D8]"
+              />
+              <div className="flex flex-col">
+                <span className="font-bold text-lg text-[#222222] leading-none">
+                  Organic <span className="text-[#D9542F]">Flavouring</span>
                 </span>
+                <span className="text-[10px] text-[#666666] font-medium mt-0.5">Established 1994</span>
               </div>
             </Link>
 
-            {/* Desktop Navigation Links */}
-            <div className="hidden lg:flex items-center space-x-7">
-              {navLinks.map(link => {
-                const isActive = location.pathname === link.path;
-                return (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className={`text-xs uppercase tracking-wider font-bold transition-all relative py-1 ${
-                      isActive ? 'text-[#D9542F]' : 'text-[#5A4F46] hover:text-[#D9542F]'
-                    }`}
-                  >
-                    {link.name}
-                    {isActive && (
-                      <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#D9542F] rounded-full" />
-                    )}
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* Desktop Actions */}
-            <div className="hidden lg:flex items-center space-x-4">
+            {/* Horizontal Nav Links */}
+            <div className="hidden lg:flex items-center space-x-6 text-sm font-medium text-[#222222]">
+              <Link
+                to="/"
+                className={`transition-colors ${location.pathname === '/' ? 'text-[#D9542F] font-semibold' : 'hover:text-[#D9542F]'}`}
+              >
+                Home
+              </Link>
               <Link
                 to="/shop"
-                className="px-5 py-2.5 bg-[#D9542F] hover:bg-[#c24623] text-white text-xs uppercase tracking-wider font-bold rounded-lg transition-colors shadow-sm"
+                className={`transition-colors ${location.pathname === '/shop' ? 'text-[#D9542F] font-semibold' : 'hover:text-[#D9542F]'}`}
               >
-                Shop Now
+                Shop
               </Link>
+              <a href="#categories" className="hover:text-[#D9542F] transition-colors">
+                Categories
+              </a>
+              <button onClick={onOpenCertModal} className="hover:text-[#D9542F] transition-colors cursor-pointer">
+                Certifications
+              </button>
+              <button onClick={onOpenContactModal} className="hover:text-[#D9542F] transition-colors cursor-pointer">
+                Contact
+              </button>
+            </div>
 
-              {/* Cart Trigger Button */}
+            {/* Search Bar */}
+            <div className="hidden md:flex items-center flex-1 max-w-xs relative">
+              <input
+                type="text"
+                placeholder="Search spices..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-[#F7F5F2] border border-[#E5E0D8] rounded-md pl-9 pr-3 py-1.5 text-xs text-[#222222] focus:outline-none focus:border-[#D9542F]"
+              />
+              <Search className="w-3.5 h-3.5 text-[#666666] absolute left-3 top-1/2 -translate-y-1/2" />
+            </div>
+
+            {/* Right Actions (Account & Cart) */}
+            <div className="flex items-center space-x-3">
+              <button onClick={onOpenContactModal} className="p-2 text-[#222222] hover:text-[#D9542F] transition-colors hidden sm:block">
+                <User className="w-5 h-5" />
+              </button>
+
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="relative p-2.5 bg-white border border-[#E5D7C5] rounded-full text-[#2A2420] hover:text-[#D9542F] hover:border-[#D9542F] transition-colors shadow-xs group cursor-pointer"
+                className="relative p-2 text-[#222222] hover:text-[#D9542F] transition-colors flex items-center gap-1.5"
                 aria-label="View Cart"
               >
-                <ShoppingBag className="w-4 h-4" />
+                <ShoppingBag className="w-5 h-5" />
+                <span className="hidden sm:inline text-xs font-semibold">Cart</span>
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#D9542F] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center animate-pulse">
+                  <span className="bg-[#D9542F] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
                     {totalItems}
                   </span>
                 )}
+              </button>
+
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="p-2 text-[#222222] lg:hidden"
+              >
+                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
 
-            {/* Mobile Actions */}
-            <div className="flex lg:hidden items-center gap-3">
-              <button
-                onClick={() => setIsCartOpen(true)}
-                className="relative p-2 bg-white border border-[#E5D7C5] rounded-full text-[#2A2420]"
-                aria-label="Open Cart"
-              >
-                <ShoppingBag className="w-4 h-4" />
-                {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#D9542F] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
-                    {totalItems}
-                  </span>
-                )}
-              </button>
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="p-2 text-[#2A2420] bg-white border border-[#E5D7C5] rounded-md"
-                aria-label="Toggle navigation menu"
-              >
-                {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
           </div>
         </div>
 
-        {/* Mobile Menu Dropdown */}
+        {/* Mobile Dropdown */}
         {isOpen && (
-          <div className="lg:hidden bg-[#FFFBF5] border-b border-[#F0E6D8] px-4 pt-3 pb-6 mt-3 space-y-2 shadow-lg">
-            {navLinks.map(link => {
-              const isActive = location.pathname === link.path;
-              return (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className={`block px-3 py-2.5 rounded-md text-xs uppercase tracking-wider font-bold ${
-                    isActive ? 'bg-[#F8F2E8] text-[#D9542F]' : 'text-[#5A4F46] hover:bg-[#F8F2E8]'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
-            <div className="pt-2">
-              <Link
-                to="/shop"
-                onClick={() => setIsOpen(false)}
-                className="block w-full py-3 text-center bg-[#D9542F] text-white text-xs uppercase font-bold tracking-wider rounded-lg"
-              >
-                Shop Now
-              </Link>
-            </div>
+          <div className="lg:hidden bg-white border-t border-[#E5E0D8] px-4 pt-2 pb-4 space-y-2 text-sm">
+            <Link
+              to="/"
+              onClick={() => setIsOpen(false)}
+              className="block py-2 text-[#222222] hover:text-[#D9542F]"
+            >
+              Home
+            </Link>
+            <Link
+              to="/shop"
+              onClick={() => setIsOpen(false)}
+              className="block py-2 text-[#222222] hover:text-[#D9542F]"
+            >
+              Shop All Spices
+            </Link>
+            <button
+              onClick={() => { setIsOpen(false); onOpenCertModal?.(); }}
+              className="w-full text-left py-2 text-[#222222] hover:text-[#D9542F]"
+            >
+              Certifications (Halal & ISO)
+            </button>
+            <button
+              onClick={() => { setIsOpen(false); onOpenContactModal?.(); }}
+              className="w-full text-left py-2 text-[#222222] hover:text-[#D9542F]"
+            >
+              Contact & Wholesale
+            </button>
           </div>
         )}
       </nav>

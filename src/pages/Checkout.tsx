@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { officialInfo } from '../data/products';
-import { Trash2, Plus, Minus, CheckCircle2, MessageCircle, ArrowRight, ShoppingBag, Loader2 } from 'lucide-react';
+import { Trash2, Plus, Minus, Check, MessageCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import IllustratedStepTracker from '../components/IllustratedStepTracker';
 
 export default function Checkout() {
   const { items, updateQuantity, removeFromCart, subtotal, clearCart } = useCart();
-  const [activeStep, setActiveStep] = useState<number>(1); // 1: Order Confirmation, 2: Freshly Packed, 3: En Route, 4: Delivered
   const [orderComplete, setOrderComplete] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'COD' | 'IBFT'>('COD');
@@ -16,7 +13,6 @@ export default function Checkout() {
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerCity, setCustomerCity] = useState('Lahore');
   const [customerAddress, setCustomerAddress] = useState('');
-  const [deliveryNotes, setDeliveryNotes] = useState('');
 
   const freeShippingThreshold = 2500;
   const standardShipping = 250;
@@ -30,280 +26,239 @@ export default function Checkout() {
     setTimeout(() => {
       setIsSubmitting(false);
       setOrderComplete(true);
-      setActiveStep(4); // Trigger fully delivered celebration state
       clearCart();
-    }, 1400);
+    }, 1000);
   };
 
   const generateWhatsAppOrderText = () => {
-    const itemsList = items.map(i => `• ${i.product.name} (${i.selectedSize || i.product.weight}) x${i.quantity} = Rs. ${(i.product.price * i.quantity).toLocaleString()}`).join('%0A');
-    const msg = `*Order Confirmation - Organic Flavouring*%0A%0A*Items:*%0A${itemsList}%0A%0A*Subtotal:* Rs. ${subtotal.toLocaleString()}%0A*Delivery:* ${isFreeShipping ? 'FREE' : 'Rs. ' + standardShipping}%0A*Total:* Rs. ${finalTotal.toLocaleString()}%0A%0A*Customer Info:*%0AName: ${customerName || 'Customer'}%0APhone: ${customerPhone}%0ACity: ${customerCity}%0AAddress: ${customerAddress}%0APayment: ${paymentMethod === 'COD' ? 'Cash on Delivery' : 'Bank Transfer'}${deliveryNotes ? '%0ANotes: ' + deliveryNotes : ''}`;
+    const itemsList = items.map(i => `• ${i.product.name} (${i.selectedSize || 'Standard'}) x${i.quantity} = Rs. ${(i.product.price * i.quantity).toLocaleString()}`).join('%0A');
+    const msg = `*Order Confirmation - Organic Flavouring*%0A%0A*Items:*%0A${itemsList}%0A%0A*Subtotal:* Rs. ${subtotal.toLocaleString()}%0A*Delivery:* ${isFreeShipping ? 'FREE' : 'Rs. ' + standardShipping}%0A*Total:* Rs. ${finalTotal.toLocaleString()}%0A%0A*Customer Details:*%0AName: ${customerName || 'Customer'}%0APhone: ${customerPhone}%0ACity: ${customerCity}%0AAddress: ${customerAddress}%0APayment: ${paymentMethod === 'COD' ? 'Cash on Delivery' : 'Bank Transfer'}`;
     return `https://wa.me/${officialInfo.whatsapp}?text=${msg}`;
   };
 
   return (
-    <div className="bg-[#FBF3E7] min-h-screen text-[#2A211B] pb-24 pt-8">
+    <div className="bg-[#FFFFFF] min-h-screen text-[#222222] pb-16 pt-6">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Top Header */}
-        <div className="text-center mb-4 space-y-2">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#B33A2E]">
-            Direct Farm-to-Kitchen Supply
-          </span>
-          <h1 className="font-serif text-3xl sm:text-5xl font-normal text-[#2A211B]">
-            {orderComplete ? "Order Placed Successfully!" : "Checkout & Spice Journey"}
+        {/* Header Title */}
+        <div className="mb-6 pb-3 border-b border-[#E5E0D8]">
+          <h1 className="text-2xl font-bold text-[#222222]">
+            {orderComplete ? "Order Confirmation" : "Checkout"}
           </h1>
         </div>
 
-        {/* 🌟 ILLUSTRATED STEP TRACKER (Interactive & Guided) */}
-        <IllustratedStepTracker 
-          currentStep={activeStep} 
-          onStepClick={(step) => !orderComplete && setActiveStep(step)}
-        />
-
         {orderComplete ? (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-2xl border border-[#EBDAC4] p-10 md:p-16 text-center max-w-2xl mx-auto space-y-6 shadow-sm mt-8"
-          >
-            <div className="w-20 h-20 bg-[#EAF2ED] text-[#1F4B33] rounded-full flex items-center justify-center mx-auto animate-bounce">
-              <CheckCircle2 className="w-10 h-10" />
+          <div className="bg-white rounded-lg border border-[#E5E0D8] p-8 text-center max-w-lg mx-auto space-y-4 shadow-sm">
+            <div className="w-12 h-12 bg-[#6FAE3E]/20 text-[#6FAE3E] rounded-full flex items-center justify-center mx-auto">
+              <Check className="w-6 h-6" />
             </div>
-            <h2 className="font-serif text-3xl font-bold text-[#2A211B]">Shukriya for Your Order!</h2>
-            <p className="text-sm text-[#5E4D40] leading-relaxed">
-              Your order has been received. Our certified Lahore facility will prepare your fresh spice package and dispatch it with sealed freshness guarantee.
+            <h2 className="text-xl font-bold text-[#222222]">Order Placed Successfully</h2>
+            <p className="text-xs text-[#666666] leading-relaxed">
+              Thank you for shopping with Organic Flavouring. Your fresh spice order has been recorded and will be shipped shortly.
             </p>
-            <div className="pt-4 flex flex-col sm:flex-row justify-center gap-4">
+            <div className="pt-2 flex flex-col gap-2">
               <a
                 href={generateWhatsAppOrderText()}
                 target="_blank"
                 rel="noreferrer"
-                className="px-8 py-3.5 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs uppercase tracking-widest font-bold rounded-xs transition-colors flex items-center justify-center gap-2 shadow-xs"
+                className="btn-primary text-xs py-2.5"
               >
-                <MessageCircle className="w-4 h-4" /> Send Confirmation on WhatsApp
+                <MessageCircle className="w-4 h-4" /> Confirm Order via WhatsApp
               </a>
-              <Link
-                to="/shop"
-                className="px-8 py-3.5 bg-[#2A211B] hover:bg-[#B33A2E] text-white text-xs uppercase tracking-widest font-bold rounded-xs transition-colors"
-              >
-                Continue Shopping
+              <Link to="/shop" className="text-xs font-semibold text-[#D9542F] hover:underline pt-2">
+                Continue Shopping →
               </Link>
             </div>
-          </motion.div>
+          </div>
         ) : items.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-[#EBDAC4] p-12 text-center max-w-lg mx-auto space-y-4 mt-8">
-            <ShoppingBag className="w-16 h-16 text-[#DFCBB2] mx-auto" />
-            <h2 className="font-serif text-2xl font-bold text-[#2A211B]">Your cart is currently empty</h2>
-            <p className="text-xs text-[#826E5F]">
-              Explore our 7 certified spice varieties and discover pure Pakistani flavor.
+          <div className="bg-white rounded-lg border border-[#E5E0D8] p-10 text-center max-w-md mx-auto space-y-3">
+            <h2 className="text-lg font-bold text-[#222222]">Your Cart is Empty</h2>
+            <p className="text-xs text-[#666666]">
+              Browse our single-origin sun-dried Pakistani spices.
             </p>
-            <div className="pt-4">
-              <Link
-                to="/shop"
-                className="inline-block px-8 py-3 bg-[#B33A2E] text-white text-xs uppercase tracking-widest font-bold rounded-xs hover:bg-[#972E24] transition-colors shadow-md"
-              >
-                Discover Spices
+            <div className="pt-3">
+              <Link to="/shop" className="btn-primary text-xs">
+                Shop Spices
               </Link>
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mt-6">
+          /* Standard Checkout Two-Column Flow */
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            {/* Step 1: Cart Summary */}
-            <div className="lg:col-span-6 space-y-6">
-              <div className="bg-white p-6 sm:p-8 rounded-2xl border border-[#EBDAC4] shadow-xs space-y-6">
-                <h2 className="font-serif text-xl font-bold text-[#2A211B] pb-4 border-b border-[#F4EAD9]">
-                  1. Order Summary ({items.reduce((s, i) => s + i.quantity, 0)} items)
+            {/* Delivery Details Form Left */}
+            <div className="lg:col-span-7 space-y-6">
+              <form onSubmit={handleOrderSubmit} className="bg-white p-6 rounded-lg border border-[#E5E0D8] shadow-xs space-y-4">
+                <h2 className="text-base font-bold text-[#222222] pb-2 border-b border-[#E5E0D8]">
+                  1. Delivery Details
                 </h2>
 
-                <div className="space-y-4 max-h-[380px] overflow-y-auto pr-2">
+                <div className="space-y-3 text-xs">
+                  <div>
+                    <label className="block text-[#222222] font-semibold mb-1">Full Name *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Tariq Mahmood"
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                      className="w-full bg-[#F7F5F2] border border-[#E5E0D8] rounded-md px-3 py-2 text-xs text-[#222222] focus:outline-none focus:border-[#D9542F]"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[#222222] font-semibold mb-1">Mobile / WhatsApp *</label>
+                      <input
+                        type="tel"
+                        required
+                        placeholder="0300 1234567"
+                        value={customerPhone}
+                        onChange={(e) => setCustomerPhone(e.target.value)}
+                        className="w-full bg-[#F7F5F2] border border-[#E5E0D8] rounded-md px-3 py-2 text-xs text-[#222222] focus:outline-none focus:border-[#D9542F]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[#222222] font-semibold mb-1">City *</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Lahore, Karachi, Islamabad..."
+                        value={customerCity}
+                        onChange={(e) => setCustomerCity(e.target.value)}
+                        className="w-full bg-[#F7F5F2] border border-[#E5E0D8] rounded-md px-3 py-2 text-xs text-[#222222] focus:outline-none focus:border-[#D9542F]"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[#222222] font-semibold mb-1">Shipping Address *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="House / Street / Area"
+                      value={customerAddress}
+                      onChange={(e) => setCustomerAddress(e.target.value)}
+                      className="w-full bg-[#F7F5F2] border border-[#E5E0D8] rounded-md px-3 py-2 text-xs text-[#222222] focus:outline-none focus:border-[#D9542F]"
+                    />
+                  </div>
+                </div>
+
+                {/* Payment Selection */}
+                <div className="pt-3 border-t border-[#E5E0D8]">
+                  <h2 className="text-base font-bold text-[#222222] mb-3">
+                    2. Payment Method
+                  </h2>
+
+                  <div className="space-y-2 text-xs">
+                    <label className={`flex items-center justify-between p-3 rounded-md border cursor-pointer ${
+                      paymentMethod === 'COD' ? 'border-[#D9542F] bg-[#F7F5F2]' : 'border-[#E5E0D8]'
+                    }`}>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="radio"
+                          name="payment"
+                          checked={paymentMethod === 'COD'}
+                          onChange={() => setPaymentMethod('COD')}
+                        />
+                        <span className="font-semibold text-[#222222]">Cash on Delivery (COD)</span>
+                      </div>
+                      <span className="text-[11px] text-[#666666]">Pay courier on arrival</span>
+                    </label>
+
+                    <label className={`flex items-center justify-between p-3 rounded-md border cursor-pointer ${
+                      paymentMethod === 'IBFT' ? 'border-[#D9542F] bg-[#F7F5F2]' : 'border-[#E5E0D8]'
+                    }`}>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="radio"
+                          name="payment"
+                          checked={paymentMethod === 'IBFT'}
+                          onChange={() => setPaymentMethod('IBFT')}
+                        />
+                        <span className="font-semibold text-[#222222]">Bank Transfer / Raast</span>
+                      </div>
+                      <span className="text-[11px] text-[#666666]">Online bank transfer</span>
+                    </label>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn-primary w-full text-xs py-3 mt-4"
+                >
+                  {isSubmitting ? "Processing..." : `Place Order (Rs. ${finalTotal.toLocaleString()})`}
+                </button>
+              </form>
+            </div>
+
+            {/* Order Summary Sidebar Right */}
+            <div className="lg:col-span-5 space-y-4">
+              <div className="bg-white p-6 rounded-lg border border-[#E5E0D8] shadow-xs space-y-4">
+                <h2 className="text-base font-bold text-[#222222] pb-2 border-b border-[#E5E0D8]">
+                  Order Summary
+                </h2>
+
+                <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1">
                   {items.map(item => (
-                    <motion.div
-                      layout
+                    <div
                       key={`${item.product.id}-${item.selectedSize}`}
-                      className="flex gap-4 p-3 bg-[#FBF3E7] rounded-xl border border-[#EBDAC4] items-center"
+                      className="flex gap-3 pb-3 border-b border-[#E5E0D8] items-center justify-between"
                     >
                       <img
                         src={item.product.image}
                         alt={item.product.name}
-                        className="w-16 h-16 object-contain bg-white p-1 rounded-lg border border-[#DFCBB2]"
+                        className="w-10 h-10 object-contain bg-[#F7F5F2] p-1 rounded border border-[#E5E0D8]"
                       />
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-xs font-bold text-[#2A211B] truncate">{item.product.name}</h4>
-                        <p className="text-[11px] text-[#826E5F]">{item.selectedSize || item.product.weight}</p>
-                        <p className="text-xs font-bold text-[#B33A2E] mt-0.5">Rs. {(item.product.price * item.quantity).toLocaleString()}</p>
+                        <h4 className="font-semibold text-xs text-[#222222] truncate">{item.product.name}</h4>
+                        <p className="text-[11px] text-[#666666]">{item.selectedSize}</p>
+                        <p className="text-xs font-bold text-[#D9542F]">Rs. {(item.product.price * item.quantity).toLocaleString()}</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="flex items-center border border-[#DFCBB2] rounded-xs bg-white">
+                        <div className="flex items-center border border-[#E5E0D8] rounded bg-[#F7F5F2]">
                           <button
                             onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                            className="p-1 text-[#5E4D40]"
+                            className="p-1 text-[#222222]"
                           >
                             <Minus className="w-3 h-3" />
                           </button>
-                          <span className="px-2 text-xs font-bold">{item.quantity}</span>
+                          <span className="px-2 text-xs font-semibold">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                            className="p-1 text-[#5E4D40]"
+                            className="p-1 text-[#222222]"
                           >
                             <Plus className="w-3 h-3" />
                           </button>
                         </div>
                         <button
                           onClick={() => removeFromCart(item.product.id)}
-                          className="p-1 text-[#826E5F] hover:text-[#B33A2E]"
+                          className="p-1 text-[#666666] hover:text-[#D9542F]"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
 
-                {/* Subtotal Calculation */}
-                <div className="pt-4 border-t border-[#F4EAD9] space-y-2 text-xs text-[#5E4D40]">
+                {/* Subtotal Totals */}
+                <div className="pt-2 space-y-2 text-xs text-[#666666]">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span className="font-bold text-[#2A211B]">Rs. {subtotal.toLocaleString()}</span>
+                    <span className="font-semibold text-[#222222]">Rs. {subtotal.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Nationwide Delivery</span>
-                    <span>{isFreeShipping ? <strong className="text-[#1F4B33]">FREE</strong> : `Rs. ${standardShipping}`}</span>
+                    <span>{isFreeShipping ? <strong className="text-[#6FAE3E]">FREE</strong> : `Rs. ${standardShipping}`}</span>
                   </div>
-                  <div className="flex justify-between text-base font-serif font-bold text-[#2A211B] pt-2 border-t border-[#F4EAD9]">
+                  <div className="flex justify-between text-base font-bold text-[#222222] pt-3 border-t border-[#E5E0D8]">
                     <span>Total Amount</span>
-                    <span className="text-[#B33A2E]">Rs. {finalTotal.toLocaleString()}</span>
+                    <span className="text-[#D9542F]">Rs. {finalTotal.toLocaleString()}</span>
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Step 2 & 3: Delivery Form & Payment with Floating Labels */}
-            <div className="lg:col-span-6 space-y-6">
-              <form onSubmit={handleOrderSubmit} className="bg-white p-6 sm:p-8 rounded-2xl border border-[#EBDAC4] shadow-xs space-y-6">
-                <h2 className="font-serif text-xl font-bold text-[#2A211B] pb-4 border-b border-[#F4EAD9]">
-                  2. Delivery Details (Pakistan)
-                </h2>
-
-                <div className="space-y-4 text-xs">
-                  <div>
-                    <label className="block text-[#6B5A4E] uppercase tracking-wider mb-1 font-bold">Full Name *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Asad Mahmood"
-                      value={customerName}
-                      onFocus={() => setActiveStep(2)}
-                      onChange={(e) => setCustomerName(e.target.value)}
-                      className="w-full bg-[#FBF3E7] border border-[#DFCBB2] rounded-xs px-3.5 py-2.5 text-xs text-[#2A211B] focus:outline-none focus:border-[#B33A2E] focus:bg-white transition-colors"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[#6B5A4E] uppercase tracking-wider mb-1 font-bold">Mobile / WhatsApp *</label>
-                      <input
-                        type="tel"
-                        required
-                        placeholder="0300 1234567"
-                        value={customerPhone}
-                        onFocus={() => setActiveStep(2)}
-                        onChange={(e) => setCustomerPhone(e.target.value)}
-                        className="w-full bg-[#FBF3E7] border border-[#DFCBB2] rounded-xs px-3.5 py-2.5 text-xs text-[#2A211B] focus:outline-none focus:border-[#B33A2E] focus:bg-white transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[#6B5A4E] uppercase tracking-wider mb-1 font-bold">City / Area *</label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Lahore, Karachi, Islamabad..."
-                        value={customerCity}
-                        onFocus={() => setActiveStep(2)}
-                        onChange={(e) => setCustomerCity(e.target.value)}
-                        className="w-full bg-[#FBF3E7] border border-[#DFCBB2] rounded-xs px-3.5 py-2.5 text-xs text-[#2A211B] focus:outline-none focus:border-[#B33A2E] focus:bg-white transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[#6B5A4E] uppercase tracking-wider mb-1 font-bold">Delivery Address *</label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="House/Building, Street, Area"
-                      value={customerAddress}
-                      onFocus={() => setActiveStep(2)}
-                      onChange={(e) => setCustomerAddress(e.target.value)}
-                      className="w-full bg-[#FBF3E7] border border-[#DFCBB2] rounded-xs px-3.5 py-2.5 text-xs text-[#2A211B] focus:outline-none focus:border-[#B33A2E] focus:bg-white transition-colors"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[#6B5A4E] uppercase tracking-wider mb-1 font-bold">Delivery Notes (Optional)</label>
-                    <input
-                      type="text"
-                      placeholder="Any specific delivery instructions"
-                      value={deliveryNotes}
-                      onChange={(e) => setDeliveryNotes(e.target.value)}
-                      className="w-full bg-[#FBF3E7] border border-[#DFCBB2] rounded-xs px-3.5 py-2.5 text-xs text-[#2A211B] focus:outline-none focus:border-[#B33A2E] focus:bg-white transition-colors"
-                    />
-                  </div>
-                </div>
-
-                {/* Step 3: Payment Method */}
-                <div className="pt-4 border-t border-[#F4EAD9]">
-                  <label className="block text-xs uppercase tracking-wider font-bold text-[#6B5A4E] mb-3">
-                    3. Select Payment Method
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setPaymentMethod('COD');
-                        setActiveStep(3);
-                      }}
-                      className={`p-3 rounded-xs border text-left transition-all ${
-                        paymentMethod === 'COD' ? 'border-[#B33A2E] bg-[#F5E8D3] text-[#2A211B] shadow-xs' : 'border-[#DFCBB2] bg-[#FBF3E7] text-[#5E4D40]'
-                      }`}
-                    >
-                      <p className="font-bold text-xs">Cash on Delivery (COD)</p>
-                      <p className="text-[10px] text-[#826E5F]">Pay cash upon delivery</p>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setPaymentMethod('IBFT');
-                        setActiveStep(3);
-                      }}
-                      className={`p-3 rounded-xs border text-left transition-all ${
-                        paymentMethod === 'IBFT' ? 'border-[#B33A2E] bg-[#F5E8D3] text-[#2A211B] shadow-xs' : 'border-[#DFCBB2] bg-[#FBF3E7] text-[#5E4D40]'
-                      }`}
-                    >
-                      <p className="font-bold text-xs">Bank Transfer / Raast</p>
-                      <p className="text-[10px] text-[#826E5F]">Direct account payment</p>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Step 4: Submit Button */}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-4 bg-[#B33A2E] hover:bg-[#972E24] text-white text-xs uppercase tracking-widest font-bold rounded-xs transition-colors flex items-center justify-center gap-2 shadow-md disabled:opacity-75"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" /> Processing Order...
-                    </>
-                  ) : (
-                    <>
-                      Place Order Now (Rs. {finalTotal.toLocaleString()}) <ArrowRight className="w-4 h-4" />
-                    </>
-                  )}
-                </button>
-              </form>
             </div>
 
           </div>

@@ -1,123 +1,174 @@
 import React from 'react';
 
-// 1. Illustrated Farmer / Sorter Character (Hands sorting vibrant red pods & sacks)
-export const SorterIllustration = ({ className = "w-16 h-16" }: { className?: string }) => (
-  <svg viewBox="0 0 120 120" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="60" cy="60" r="54" fill="#FDF6E8" stroke="#EBDAC4" strokeWidth="2.5" />
-    {/* Sorter Hat / Head */}
-    <ellipse cx="60" cy="38" rx="22" ry="7" fill="#D8A72E" />
-    <path d="M48 38C48 30 53 24 60 24C67 24 72 30 72 38" fill="#C8763E" />
-    <circle cx="60" cy="45" r="9" fill="#F3D1AE" />
-    {/* Torso / Kurta */}
-    <path d="M46 54C46 54 54 52 60 52C66 52 74 54 74 54L78 80H42L46 54Z" fill="#1F4B33" />
-    {/* Sorting Hands & Jute Sack */}
-    <path d="M35 72C35 66 42 62 60 62C78 62 85 66 85 72L88 98C88 101 84 104 60 104C36 104 32 101 32 98L35 72Z" fill="#C49B71" stroke="#8C673E" strokeWidth="2" />
-    {/* Chillies in basket */}
-    <path d="M50 68C46 64 45 58 48 57C51 56 55 60 53 66" stroke="#B33A2E" strokeWidth="4" strokeLinecap="round" />
-    <path d="M60 66C63 60 69 61 68 65C67 69 62 70 60 66" stroke="#B33A2E" strokeWidth="4" strokeLinecap="round" />
-    <path d="M68 70C73 66 77 70 74 74C71 78 66 75 68 70" stroke="#D8A72E" strokeWidth="3.5" strokeLinecap="round" />
-    {/* Steam / Aroma Lines */}
-    <path d="M40 26C38 22 42 18 40 14" stroke="#D8A72E" strokeWidth="2" strokeLinecap="round" strokeDasharray="3 3" />
-    <path d="M80 26C82 22 78 18 80 14" stroke="#D8A72E" strokeWidth="2" strokeLinecap="round" strokeDasharray="3 3" />
+// Brand Palette Tokens for SVG rendering
+const BRAND = {
+  orange: "#D9542F",
+  green: "#6FAE3E",
+  deepGreen: "#2F4F24",
+  charcoal: "#211D18",
+  gold: "#C79A46",
+  offWhite: "#FBF8F2"
+};
+
+/* -------------------------------------------------------------------------- */
+/* 1. TRUST BADGES & CREDIBILITY ICONS                                        */
+/* -------------------------------------------------------------------------- */
+
+export const HalalIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 2L3 7V16C3 23.5 8.5 29 16 30C23.5 29 29 23.5 29 16V7L16 2Z" fill="#2F4F24" fillOpacity="0.1" stroke={BRAND.deepGreen} strokeWidth="2" strokeLinejoin="round" />
+    <path d="M12 16.5L14.5 19L20 13.5" stroke={BRAND.green} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="16" cy="9" r="1.5" fill={BRAND.gold} />
   </svg>
 );
 
-// 2. Packing Scene (Pouch/Jar being sealed with rising aroma lines)
-export const PackingIllustration = ({ className = "w-16 h-16" }: { className?: string }) => (
-  <svg viewBox="0 0 120 120" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="60" cy="60" r="54" fill="#FDF6E8" stroke="#EBDAC4" strokeWidth="2.5" />
-    {/* Jar / Pouch Body */}
-    <path d="M44 48H76L80 94C80 97 76 100 60 100C44 100 40 97 40 94L44 48Z" fill="#FBF3E7" stroke="#2A211B" strokeWidth="2.5" />
-    {/* Spice Powder Fill */}
-    <path d="M42 66C48 64 56 68 64 65C72 62 76 66 78 67L80 94C80 97 76 100 60 100C44 100 40 97 40 94L42 66Z" fill="#B33A2E" />
-    {/* Gold Brand Label on Jar */}
-    <rect x="48" y="70" width="24" height="18" rx="3" fill="#D8A72E" stroke="#2A211B" strokeWidth="1.5" />
-    <circle cx="60" cy="79" r="4" fill="#FBF3E7" />
-    {/* Jar Lid / Seal Mechanism */}
-    <rect x="42" y="42" width="36" height="8" rx="2" fill="#1F4B33" stroke="#2A211B" strokeWidth="2" />
-    {/* Hands sealing from sides */}
-    <path d="M26 44C32 44 38 46 44 47" stroke="#F3D1AE" strokeWidth="6" strokeLinecap="round" />
-    <path d="M94 44C88 44 82 46 76 47" stroke="#F3D1AE" strokeWidth="6" strokeLinecap="round" />
-    {/* Aroma Swirls */}
-    <path d="M52 34C50 28 55 24 53 18" stroke="#D8A72E" strokeWidth="2.5" strokeLinecap="round" />
-    <path d="M60 32C62 26 58 22 61 16" stroke="#B33A2E" strokeWidth="2.5" strokeLinecap="round" />
-    <path d="M68 34C70 28 65 24 67 18" stroke="#D8A72E" strokeWidth="2.5" strokeLinecap="round" />
-    {/* Sparkles */}
-    <path d="M84 32L86 36L90 38L86 40L84 44L82 40L78 38L82 36L84 32Z" fill="#D8A72E" />
+export const IsoIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="16" cy="16" r="13" stroke={BRAND.deepGreen} strokeWidth="2" fill="#2F4F24" fillOpacity="0.08" />
+    <path d="M16 7V11M16 21V25M7 16H11M21 16H25" stroke={BRAND.gold} strokeWidth="1.5" strokeLinecap="round" />
+    <circle cx="16" cy="16" r="6" stroke={BRAND.orange} strokeWidth="2" />
+    <path d="M14 16L15.5 17.5L18 15" stroke={BRAND.orange} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
-// 3. Pakistani Motorcycle Delivery Rider with Spice Box
-export const RiderIllustration = ({ className = "w-16 h-16" }: { className?: string }) => (
-  <svg viewBox="0 0 120 120" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="60" cy="60" r="54" fill="#FDF6E8" stroke="#EBDAC4" strokeWidth="2.5" />
-    {/* Motorcycle Wheels */}
-    <circle cx="34" cy="86" r="14" fill="#2A211B" stroke="#DFCBB2" strokeWidth="3" />
-    <circle cx="34" cy="86" r="6" fill="#FBF3E7" />
-    <circle cx="86" cy="86" r="14" fill="#2A211B" stroke="#DFCBB2" strokeWidth="3" />
-    <circle cx="86" cy="86" r="6" fill="#FBF3E7" />
-    {/* Bike Chassis */}
-    <path d="M34 86L54 74L72 74L86 86" stroke="#B33A2E" strokeWidth="4" strokeLinecap="round" />
-    <path d="M54 74L60 58L76 58" stroke="#2A211B" strokeWidth="3" strokeLinecap="round" />
-    {/* Spice Delivery Box with Gold Logo */}
-    <rect x="22" y="52" width="24" height="24" rx="3" fill="#1F4B33" stroke="#2A211B" strokeWidth="2" />
-    <circle cx="34" cy="64" r="5" fill="#D8A72E" />
-    {/* Rider Torso & Helmet */}
-    <circle cx="64" cy="38" r="9" fill="#D8A72E" stroke="#2A211B" strokeWidth="2" />
-    <path d="M58 48C58 48 64 46 70 48L74 68H56L58 48Z" fill="#B33A2E" />
-    <path d="M68 52L78 58" stroke="#F3D1AE" strokeWidth="4" strokeLinecap="round" />
-    {/* Motion wind lines */}
-    <path d="M12 48H20" stroke="#D8A72E" strokeWidth="2.5" strokeLinecap="round" />
-    <path d="M8 60H16" stroke="#D8A72E" strokeWidth="2" strokeLinecap="round" />
-    <path d="M14 72H20" stroke="#D8A72E" strokeWidth="2" strokeLinecap="round" />
+export const FamilyOwnedIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke={BRAND.orange} strokeWidth="2" fill="#D9542F" fillOpacity="0.08" />
+    <path d="M10 20C10 20 13 14 16 14C19 14 22 20 22 20" stroke={BRAND.charcoal} strokeWidth="2" strokeLinecap="round" />
+    <path d="M16 14V8" stroke={BRAND.green} strokeWidth="2" strokeLinecap="round" />
+    <path d="M16 8C13 6 11 8 11 8" stroke={BRAND.green} strokeWidth="2" strokeLinecap="round" />
+    <path d="M16 8C19 6 21 8 21 8" stroke={BRAND.green} strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 
-// 4. Customer Smiling & Receiving Spice Box at Doorstep
-export const CustomerIllustration = ({ className = "w-16 h-16" }: { className?: string }) => (
-  <svg viewBox="0 0 120 120" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="60" cy="60" r="54" fill="#FDF6E8" stroke="#EBDAC4" strokeWidth="2.5" />
-    {/* Door Frame Arch */}
-    <path d="M38 100V36C38 26 48 20 60 20C72 20 82 26 82 36V100" stroke="#C8763E" strokeWidth="3" fill="#FAF0E1" />
-    {/* Happy Customer Head & Smile */}
-    <circle cx="60" cy="42" r="10" fill="#F3D1AE" />
-    <path d="M54 36C56 30 64 30 66 36" stroke="#2A211B" strokeWidth="3" strokeLinecap="round" />
-    <path d="M57 44C58 47 62 47 63 44" stroke="#B33A2E" strokeWidth="2" strokeLinecap="round" />
-    {/* Kurta / Body */}
-    <path d="M48 54C48 54 54 52 60 52C66 52 72 54 72 54L76 86H44L48 54Z" fill="#1F4B33" />
-    {/* Holding Organic Flavouring Spice Package */}
-    <rect x="50" y="62" width="20" height="22" rx="3" fill="#B33A2E" stroke="#2A211B" strokeWidth="2" />
-    <rect x="55" y="68" width="10" height="10" rx="2" fill="#D8A72E" />
-    {/* Hands Wrapping Package */}
-    <path d="M44 68C48 68 50 72 53 72" stroke="#F3D1AE" strokeWidth="4" strokeLinecap="round" />
-    <path d="M76 68C72 68 70 72 67 72" stroke="#F3D1AE" strokeWidth="4" strokeLinecap="round" />
-    {/* Celebration Hearts / Stars */}
-    <path d="M32 38L34 41L37 42L34 43L32 46L31 43L28 42L31 41L32 38Z" fill="#D8A72E" />
-    <path d="M88 34L90 37L93 38L90 39L88 42L87 39L84 38L87 37L88 34Z" fill="#B33A2E" />
+export const DeliveryTruckIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 7H19V22H2V7Z" stroke={BRAND.deepGreen} strokeWidth="2" strokeLinejoin="round" fill="#2F4F24" fillOpacity="0.08" />
+    <path d="M19 12H24.5L28 16.5V22H19V12Z" stroke={BRAND.deepGreen} strokeWidth="2" strokeLinejoin="round" fill="#2F4F24" fillOpacity="0.08" />
+    <circle cx="7" cy="24" r="3" stroke={BRAND.orange} strokeWidth="2" fill={BRAND.offWhite} />
+    <circle cx="23" cy="24" r="3" stroke={BRAND.orange} strokeWidth="2" fill={BRAND.offWhite} />
+    <path d="M10 24H20" stroke={BRAND.deepGreen} strokeWidth="2" />
   </svg>
 );
 
-// 5. Signature Brand Mascot — Illustrated Chilli Pod with playful loop
-export const ChilliMascot = ({ className = "w-10 h-10" }: { className?: string }) => (
+export const PureBotanicalIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 4C16 4 7 13 7 19C7 23.9706 11.0294 28 16 28C20.9706 28 25 23.9706 25 19C25 13 16 4 16 4Z" stroke={BRAND.green} strokeWidth="2" strokeLinejoin="round" fill="#6FAE3E" fillOpacity="0.1" />
+    <path d="M16 28V16" stroke={BRAND.green} strokeWidth="2" strokeLinecap="round" />
+    <path d="M16 20C12 18 11 16 11 16" stroke={BRAND.green} strokeWidth="2" strokeLinecap="round" />
+    <path d="M16 17C19 15 20 13 20 13" stroke={BRAND.green} strokeWidth="2" strokeLinecap="round" />
+  </svg>
+);
+
+/* -------------------------------------------------------------------------- */
+/* 2. CATEGORY ICONS                                                         */
+/* -------------------------------------------------------------------------- */
+
+export const ChilliCategoryIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 4C18 4 16 6 15 8" stroke={BRAND.green} strokeWidth="2" strokeLinecap="round" />
+    <path d="M15 8C19 9 24 13 24 20C24 25.5228 19.5228 29 14 28C10 27 7 24 8 19C9 14 13 10 15 8Z" stroke={BRAND.orange} strokeWidth="2" fill="#D9542F" fillOpacity="0.15" strokeLinejoin="round" />
+    <path d="M13 13C16 15 18 19 18 23" stroke={BRAND.orange} strokeWidth="1.5" strokeLinecap="round" opacity="0.6" />
+  </svg>
+);
+
+export const PowdersCategoryIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5 16C5 21.5228 9.92487 26 16 26C22.0751 26 27 21.5228 27 16H5Z" stroke={BRAND.deepGreen} strokeWidth="2" fill="#2F4F24" fillOpacity="0.1" strokeLinejoin="round" />
+    <path d="M10 16C10 12 12 9 16 9C20 9 22 12 22 16" stroke={BRAND.gold} strokeWidth="2" strokeDasharray="2 2" />
+    <path d="M22 6L17 12" stroke={BRAND.gold} strokeWidth="2" strokeLinecap="round" />
+    <circle cx="23" cy="5" r="2" stroke={BRAND.gold} strokeWidth="1.5" />
+  </svg>
+);
+
+export const WholeSpicesCategoryIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="10" cy="12" r="5" stroke={BRAND.charcoal} strokeWidth="2" fill="#211D18" fillOpacity="0.1" />
+    <circle cx="22" cy="10" r="4" stroke={BRAND.charcoal} strokeWidth="2" fill="#211D18" fillOpacity="0.1" />
+    <circle cx="16" cy="22" r="6" stroke={BRAND.orange} strokeWidth="2" fill="#D9542F" fillOpacity="0.1" />
+    <path d="M10 10L10.01 10.01" stroke={BRAND.gold} strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M22 8.5L22.01 8.51" stroke={BRAND.gold} strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M16 20L16.01 20.01" stroke={BRAND.gold} strokeWidth="2.5" strokeLinecap="round" />
+  </svg>
+);
+
+export const FlourCategoryIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 12L9 26H23L25 12H7Z" stroke={BRAND.gold} strokeWidth="2" fill={BRAND.gold} fillOpacity="0.1" strokeLinejoin="round" />
+    <path d="M6 12C6 12 11 10 16 10C21 10 26 12 26 12" stroke={BRAND.gold} strokeWidth="2" strokeLinecap="round" />
+    <path d="M12 18H20" stroke={BRAND.deepGreen} strokeWidth="2" strokeLinecap="round" />
+    <path d="M14 22H18" stroke={BRAND.deepGreen} strokeWidth="2" strokeLinecap="round" />
+  </svg>
+);
+
+/* -------------------------------------------------------------------------- */
+/* 3. PROCESS TRACKER STEP ICONS (FOR CHECKOUT & ORDERS)                    */
+/* -------------------------------------------------------------------------- */
+
+export const OrderConfirmedIcon = ({ className = "w-6 h-6", active = false }: { className?: string; active?: boolean }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="7" y="5" width="18" height="22" rx="3" stroke={active ? BRAND.orange : BRAND.charcoal} strokeWidth="2" fill={active ? "#D9542F15" : "none"} />
+    <path d="M11 11H21" stroke={active ? BRAND.orange : BRAND.charcoal} strokeWidth="2" strokeLinecap="round" />
+    <path d="M11 15H17" stroke={active ? BRAND.orange : BRAND.charcoal} strokeWidth="2" strokeLinecap="round" />
+    <circle cx="20" cy="20" r="4" fill={active ? BRAND.green : "#A0958B"} />
+    <path d="M18.5 20L19.5 21L21.5 19" stroke="#FFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+export const FreshlyPackedIcon = ({ className = "w-6 h-6", active = false }: { className?: string; active?: boolean }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="9" y="10" width="14" height="17" rx="2" stroke={active ? BRAND.orange : BRAND.charcoal} strokeWidth="2" fill={active ? "#D9542F15" : "none"} />
+    <path d="M12 10V6C12 4.89543 12.8954 4 14 4H18C19.1046 4 20 4.89543 20 6V10" stroke={active ? BRAND.orange : BRAND.charcoal} strokeWidth="2" />
+    <circle cx="16" cy="18.5" r="3.5" fill={active ? BRAND.gold : "#A0958B"} />
+  </svg>
+);
+
+export const EnRouteIcon = ({ className = "w-6 h-6", active = false }: { className?: string; active?: boolean }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 10H18V22H3V10Z" stroke={active ? BRAND.orange : BRAND.charcoal} strokeWidth="2" fill={active ? "#D9542F15" : "none"} />
+    <path d="M18 14H24L28 18V22H18V14Z" stroke={active ? BRAND.orange : BRAND.charcoal} strokeWidth="2" />
+    <circle cx="8" cy="24" r="2.5" fill={active ? BRAND.green : "#A0958B"} />
+    <circle cx="22" cy="24" r="2.5" fill={active ? BRAND.green : "#A0958B"} />
+  </svg>
+);
+
+export const DeliveredIcon = ({ className = "w-6 h-6", active = false }: { className?: string; active?: boolean }) => (
+  <svg viewBox="0 0 32 32" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 3L27 9V23L16 29L5 23V9L16 3Z" stroke={active ? BRAND.green : BRAND.charcoal} strokeWidth="2" fill={active ? "#6FAE3E15" : "none"} />
+    <path d="M16 3V15M27 9L16 15M5 9L16 15" stroke={active ? BRAND.green : BRAND.charcoal} strokeWidth="1.5" />
+    <circle cx="16" cy="21" r="3" fill={active ? BRAND.gold : "#A0958B"} />
+  </svg>
+);
+
+/* -------------------------------------------------------------------------- */
+/* 4. EMPTY STATES & EDITORIAL ILLUSTRATIONS                                  */
+/* -------------------------------------------------------------------------- */
+
+export const EmptyCartIllustration = ({ className = "w-32 h-32" }: { className?: string }) => (
+  <svg viewBox="0 0 120 120" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="60" r="52" fill={BRAND.offWhite} stroke="#E5D7C5" strokeWidth="2" />
+    {/* Spice Jar outline */}
+    <rect x="42" y="38" width="36" height="48" rx="6" stroke={BRAND.charcoal} strokeWidth="2.5" fill="#FFFFFF" />
+    <rect x="46" y="32" width="28" height="6" rx="2" fill={BRAND.deepGreen} />
+    <path d="M50 54H70" stroke="#E5D7C5" strokeWidth="2" strokeLinecap="round" />
+    <path d="M50 62H64" stroke="#E5D7C5" strokeWidth="2" strokeLinecap="round" />
+    {/* Floating leaf */}
+    <path d="M78 28C78 28 84 34 84 40C84 46 78 48 78 48C78 48 72 42 72 36C72 30 78 28 78 28Z" fill={BRAND.green} fillOpacity="0.2" stroke={BRAND.green} strokeWidth="1.5" />
+    <circle cx="34" cy="74" r="3" fill={BRAND.orange} opacity="0.4" />
+  </svg>
+);
+
+export const NoResultsIllustration = ({ className = "w-32 h-32" }: { className?: string }) => (
+  <svg viewBox="0 0 120 120" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="60" r="52" fill={BRAND.offWhite} stroke="#E5D7C5" strokeWidth="2" />
+    <circle cx="54" cy="54" r="22" stroke={BRAND.deepGreen} strokeWidth="3" fill="#FFFFFF" />
+    <path d="M70 70L86 86" stroke={BRAND.deepGreen} strokeWidth="4" strokeLinecap="round" />
+    <path d="M46 54H62" stroke={BRAND.orange} strokeWidth="2" strokeLinecap="round" />
+  </svg>
+);
+
+export const HandDrawnCircleAccent = ({ className = "w-16 h-16" }: { className?: string }) => (
   <svg viewBox="0 0 80 80" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Green Stem */}
-    <path d="M40 18C40 12 36 8 32 6C34 10 37 14 36 18" stroke="#1F4B33" strokeWidth="4" strokeLinecap="round" />
-    <path d="M34 18H46C46 18 44 24 40 24C36 24 34 18 34 18Z" fill="#1F4B33" />
-    {/* Chilli Pod Curve */}
-    <path d="M36 22C46 26 56 40 50 56C46 66 38 72 32 74C34 68 36 60 34 52C32 44 28 32 36 22Z" fill="#B33A2E" stroke="#8C271E" strokeWidth="2" />
-    {/* Highlight shine */}
-    <path d="M38 28C44 34 46 44 42 54" stroke="#F4A299" strokeWidth="2.5" strokeLinecap="round" opacity="0.7" />
-    {/* Golden Sparkle */}
-    <circle cx="56" cy="30" r="2.5" fill="#D8A72E" />
-  </svg>
-);
-
-// 6. Signature Brand Mascot — Illustrated Spice Jar
-export const JarMascot = ({ className = "w-10 h-10" }: { className?: string }) => (
-  <svg viewBox="0 0 80 80" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="28" y="16" width="24" height="6" rx="2" fill="#1F4B33" stroke="#2A211B" strokeWidth="1.5" />
-    <path d="M26 22H54L58 64C58 66 55 68 40 68C25 68 22 66 22 64L26 22Z" fill="#FDF6E8" stroke="#2A211B" strokeWidth="2" />
-    <path d="M25 40C30 38 36 42 42 39C48 36 52 40 55 41L58 64C58 66 55 68 40 68C25 68 22 66 22 64L25 40Z" fill="#D8A72E" />
-    <circle cx="40" cy="52" r="5" fill="#B33A2E" />
+    <path d="M40 8C20 8 8 22 8 42C8 60 22 72 42 72C60 72 72 58 72 38C72 20 56 10 36 12" stroke={BRAND.gold} strokeWidth="2.5" strokeLinecap="round" strokeDasharray="120 10" />
   </svg>
 );

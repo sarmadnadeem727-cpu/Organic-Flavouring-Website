@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, CheckCircle2, MessageCircle, FileCheck } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, MessageCircle } from 'lucide-react';
 import { brandLogo, officialInfo } from '../data/products';
-import { motion } from 'motion/react';
+import { PureBotanicalIcon, HalalIcon, IsoIcon } from '../components/Illustrations';
 
 export default function Contact() {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -18,37 +18,23 @@ export default function Contact() {
   };
 
   return (
-    <div className="bg-[#FBF3E7] min-h-screen text-[#2A211B] pb-24">
+    <div className="bg-[#FBF8F2] min-h-screen text-[#211D18] bg-grain pb-24">
       
-      {/* Header */}
-      <section className="relative bg-[#F5E8D3] border-b border-[#EBDAC4] py-20 md:py-24">
+      {/* Header Banner */}
+      <section className="relative bg-[#EFE7DA] border-b border-[#E5D7C5] py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#EFE0CB] text-[#6B4F3B] text-xs font-semibold uppercase tracking-widest"
-          >
-            <Mail className="w-3.5 h-3.5 text-[#B33A2E]" />
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#2F4F24]/10 text-[#2F4F24] text-xs font-bold uppercase tracking-widest border border-[#2F4F24]/20">
+            <Mail className="w-4 h-4 text-[#D9542F]" />
             <span>Customer Desk & Wholesale Supply</span>
-          </motion.div>
+          </div>
 
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="font-serif text-4xl sm:text-6xl font-normal text-[#2A211B] tracking-tight"
-          >
+          <h1 className="font-serif-heading text-4xl sm:text-6xl font-bold text-[#211D18] tracking-tight">
             Get in Touch
-          </motion.h1>
+          </h1>
 
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-base sm:text-lg text-[#5E4D40] font-light leading-relaxed max-w-2xl mx-auto"
-          >
-            Have questions about our spices, retail deliveries, or 20kg/40kg bulk wholesale orders? We'd love to hear from you.
-          </motion.p>
+          <p className="text-base sm:text-lg text-[#5A4F46] max-w-2xl mx-auto leading-relaxed">
+            Have questions about our single-origin spices, retail delivery, or 20kg/40kg wholesale consignments? Reach out anytime.
+          </p>
         </div>
       </section>
 
@@ -56,85 +42,84 @@ export default function Contact() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           
-          {/* Left Contact Info */}
+          {/* Left Block: Contact Details */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-white p-8 rounded-2xl border border-[#EBDAC4] shadow-xs space-y-6">
-              <div className="flex items-center gap-4 pb-6 border-b border-[#F4EAD9]">
-                <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#DFCBB2] p-0.5 bg-white shrink-0">
+            <div className="bg-white p-8 rounded-2xl border-2 border-[#211D18] shadow-lg space-y-6">
+              <div className="flex items-center gap-4 pb-6 border-b border-[#E5D7C5]">
+                <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#6FAE3E] p-0.5 bg-white shrink-0">
                   <img src={brandLogo} alt="Seal" className="w-full h-full object-cover rounded-full" />
                 </div>
                 <div>
-                  <h3 className="font-serif text-xl font-bold text-[#2A211B]">{officialInfo.name}</h3>
-                  <p className="text-xs text-[#1F4B33] font-semibold uppercase tracking-wider">Serving You the Natural Twist! • Est. 1994</p>
+                  <h3 className="font-serif-heading text-xl font-bold text-[#211D18]">{officialInfo.name}</h3>
+                  <p className="text-[10px] text-[#D9542F] font-bold uppercase tracking-widest mt-0.5">Serving You the Natural Twist • Est. 1994</p>
                 </div>
               </div>
 
-              <div className="space-y-4 text-xs text-[#5E4D40]">
+              <div className="space-y-4 text-xs text-[#5A4F46]">
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#F5E8D3] flex items-center justify-center text-[#B33A2E] shrink-0 mt-0.5">
+                  <div className="w-8 h-8 rounded-full bg-[#EFE7DA] flex items-center justify-center text-[#D9542F] shrink-0 mt-0.5">
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="font-bold text-[#2A211B]">General Location</p>
+                    <p className="font-serif-heading font-bold text-[#211D18]">Location</p>
                     <p>{officialInfo.city}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#F5E8D3] flex items-center justify-center text-[#B33A2E] shrink-0 mt-0.5">
+                  <div className="w-8 h-8 rounded-full bg-[#EFE7DA] flex items-center justify-center text-[#6FAE3E] shrink-0 mt-0.5">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="font-bold text-[#2A211B]">Direct Phone / WhatsApp</p>
+                    <p className="font-serif-heading font-bold text-[#211D18]">Direct Phone / WhatsApp</p>
                     <p>{officialInfo.phone}</p>
-                    <p className="text-[#826E5F]">Monday – Saturday, 9:00 AM – 7:00 PM PKT</p>
+                    <p className="text-[10px] text-[#5A4F46]">Monday – Saturday, 9:00 AM – 7:00 PM PKT</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#F5E8D3] flex items-center justify-center text-[#B33A2E] shrink-0 mt-0.5">
+                  <div className="w-8 h-8 rounded-full bg-[#EFE7DA] flex items-center justify-center text-[#D9542F] shrink-0 mt-0.5">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="font-bold text-[#2A211B]">Official Email</p>
+                    <p className="font-serif-heading font-bold text-[#211D18]">Email</p>
                     <p>{officialInfo.email}</p>
                   </div>
                 </div>
               </div>
 
-              {/* Direct WhatsApp Button */}
               <div className="pt-2">
                 <a
                   href={`https://wa.me/${officialInfo.whatsapp}?text=Hi%20Organic%20Flavouring,%20I%20have%20an%20inquiry`}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full py-3 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold uppercase tracking-wider rounded-xs transition-colors flex items-center justify-center gap-2 shadow-xs"
+                  className="w-full py-3.5 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-colors flex items-center justify-center gap-2 shadow-xs cursor-pointer"
                 >
                   <MessageCircle className="w-4 h-4" /> Chat on WhatsApp
                 </a>
               </div>
             </div>
 
-            {/* Wholesale Callout */}
-            <div className="p-6 bg-[#F5E8D3] rounded-2xl border border-[#EBDAC4] text-xs text-[#5E4D40] space-y-3">
-              <div className="flex items-center gap-2 font-bold text-[#2A211B] uppercase tracking-wider">
-                <FileCheck className="w-4 h-4 text-[#1F4B33]" /> Wholesale & 20kg/40kg Bulk Supply
+            {/* Wholesale Info Block */}
+            <div className="p-6 bg-[#EFE7DA] rounded-2xl border border-[#E5D7C5] text-xs text-[#5A4F46] space-y-3">
+              <div className="flex items-center gap-2 font-serif-heading font-bold text-[#211D18] uppercase tracking-wider">
+                <PureBotanicalIcon className="w-4 h-4 text-[#2F4F24]" /> Wholesale & 20kg/40kg Bulk Supply
               </div>
-              <p>
-                We supply whole and ground spices in 20kg & 40kg sacks to restaurants, caterers, spice retailers, and food manufacturers across Pakistan at direct wholesale rates.
+              <p className="leading-relaxed">
+                We supply whole and ground spices in 20kg & 40kg sacks to restaurants, caterers, spice retailers, and food manufacturers across Pakistan at direct mandi wholesale rates.
               </p>
             </div>
           </div>
 
-          {/* Right Contact Form */}
-          <div className="lg:col-span-7 bg-white p-8 md:p-12 rounded-2xl border border-[#EBDAC4] shadow-xs">
+          {/* Right Block: Minimal Form */}
+          <div className="lg:col-span-7 bg-white p-8 md:p-12 rounded-2xl border-2 border-[#211D18] shadow-lg">
             {formSubmitted ? (
               <div className="text-center py-16 space-y-4">
-                <div className="w-16 h-16 bg-[#EAF2ED] text-[#1F4B33] rounded-full flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-8 h-8" />
+                <div className="w-16 h-16 bg-[#2F4F24] text-white rounded-full flex items-center justify-center mx-auto">
+                  <PureBotanicalIcon className="w-8 h-8 text-[#C79A46]" />
                 </div>
-                <h3 className="font-serif text-3xl text-[#2A211B]">Message Sent Successfully!</h3>
-                <p className="text-sm text-[#5E4D40] max-w-md mx-auto">
+                <h3 className="font-serif-heading text-3xl text-[#211D18]">Message Sent Successfully</h3>
+                <p className="text-xs sm:text-sm text-[#5A4F46] max-w-md mx-auto">
                   Shukriya for contacting Organic Flavouring. Our team will review your message and reply via phone/WhatsApp within 24 hours.
                 </p>
                 <button
@@ -142,7 +127,7 @@ export default function Contact() {
                     setFormSubmitted(false);
                     setFormData({ name: '', emailOrPhone: '', subject: '', message: '' });
                   }}
-                  className="mt-4 px-6 py-2.5 bg-[#2A211B] hover:bg-[#B33A2E] text-white text-xs uppercase tracking-widest font-bold rounded-xs transition-colors"
+                  className="btn-primary-custom text-xs py-3 px-6 mt-4"
                 >
                   Send Another Message
                 </button>
@@ -150,12 +135,12 @@ export default function Contact() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <h3 className="font-serif text-2xl font-bold text-[#2A211B] mb-1">Send a Message</h3>
-                  <p className="text-xs text-[#826E5F]">Please fill out the form below and we will get back to you promptly.</p>
+                  <h3 className="font-serif-heading text-2xl font-bold text-[#211D18] mb-1">Send Us a Message</h3>
+                  <p className="text-xs text-[#5A4F46]">Please fill out the form below and we will respond promptly.</p>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#6B5A4E] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-widest text-[#5A4F46] mb-1">
                     Your Name *
                   </label>
                   <input
@@ -164,27 +149,27 @@ export default function Contact() {
                     placeholder="e.g. Tariq Mahmood"
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full bg-[#FBF3E7] border border-[#DFCBB2] rounded-xs px-3.5 py-2.5 text-xs text-[#2A211B] focus:outline-none focus:border-[#B33A2E]"
+                    className="w-full bg-transparent border-b-2 border-[#211D18] py-2 text-sm text-[#211D18] focus:outline-none focus:border-[#D9542F]"
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#6B5A4E] mb-1.5">
+                    <label className="block text-xs font-bold uppercase tracking-widest text-[#5A4F46] mb-1">
                       Email or WhatsApp Number *
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="e.g. 0300 1234567 or email@domain.com"
+                      placeholder="0300 1234567 or email@domain.com"
                       value={formData.emailOrPhone}
                       onChange={(e) => setFormData({...formData, emailOrPhone: e.target.value})}
-                      className="w-full bg-[#FBF3E7] border border-[#DFCBB2] rounded-xs px-3.5 py-2.5 text-xs text-[#2A211B] focus:outline-none focus:border-[#B33A2E]"
+                      className="w-full bg-transparent border-b-2 border-[#211D18] py-2 text-sm text-[#211D18] focus:outline-none focus:border-[#D9542F]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-[#6B5A4E] mb-1.5">
+                    <label className="block text-xs font-bold uppercase tracking-widest text-[#5A4F46] mb-1">
                       Subject *
                     </label>
                     <input
@@ -193,28 +178,28 @@ export default function Contact() {
                       placeholder="Retail Order / Bulk 20kg Supply / General"
                       value={formData.subject}
                       onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                      className="w-full bg-[#FBF3E7] border border-[#DFCBB2] rounded-xs px-3.5 py-2.5 text-xs text-[#2A211B] focus:outline-none focus:border-[#B33A2E]"
+                      className="w-full bg-transparent border-b-2 border-[#211D18] py-2 text-sm text-[#211D18] focus:outline-none focus:border-[#D9542F]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#6B5A4E] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-widest text-[#5A4F46] mb-1">
                     Message *
                   </label>
                   <textarea
-                    rows={5}
+                    rows={4}
                     required
                     placeholder="Type your message here..."
                     value={formData.message}
                     onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    className="w-full bg-[#FBF3E7] border border-[#DFCBB2] rounded-xs px-3.5 py-2.5 text-xs text-[#2A211B] focus:outline-none focus:border-[#B33A2E] resize-none"
+                    className="w-full bg-transparent border-b-2 border-[#211D18] py-2 text-sm text-[#211D18] focus:outline-none focus:border-[#D9542F] resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-4 bg-[#B33A2E] hover:bg-[#972E24] text-white text-xs uppercase tracking-widest font-bold rounded-xs transition-colors flex items-center justify-center gap-2 shadow-md"
+                  className="btn-primary-custom w-full text-xs py-4"
                 >
                   <Send className="w-4 h-4" /> Send Message
                 </button>
@@ -222,6 +207,21 @@ export default function Contact() {
             )}
           </div>
 
+        </div>
+      </section>
+
+      {/* Mandatory Dark Deep-Green Contrast Section (#2F4F24) */}
+      <section className="mt-20 py-16 bg-[#2F4F24] text-[#FBF8F2] bg-grain-dark border-t-2 border-[#C79A46]/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="space-y-2 text-center md:text-left">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#C79A46]">Wholesale Sacks Desk</span>
+            <h3 className="font-serif-heading text-2xl font-bold text-[#FBF8F2]">Direct Commercial Inquiries</h3>
+            <p className="text-xs text-[#FBF8F2]/80 max-w-xl">Inquire about 20kg & 40kg master sacks with custom grinding specifications for hotels, restaurants, and retailers.</p>
+          </div>
+          <div className="flex gap-4">
+            <HalalIcon className="w-10 h-10" />
+            <IsoIcon className="w-10 h-10" />
+          </div>
         </div>
       </section>
 

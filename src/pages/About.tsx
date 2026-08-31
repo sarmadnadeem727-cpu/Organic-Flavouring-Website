@@ -1,121 +1,118 @@
-import { motion } from 'motion/react';
-import { assets, brandLogo, terroirRegions } from '../data/products';
-import { Check, ArrowRight } from 'lucide-react';
+import React from 'react';
+import { brandLogo } from '../data/products';
 import { Link } from 'react-router-dom';
+import { PureBotanicalIcon, HalalIcon, IsoIcon, FamilyOwnedIcon } from '../components/Illustrations';
 
 export default function About() {
   return (
-    <div className="bg-[#FBF3E7] min-h-screen text-[#2A211B] pb-24">
+    <div className="bg-[#FBF8F2] min-h-screen text-[#211D18] bg-grain pb-24">
       
-      {/* 1. Header Banner */}
-      <section className="relative bg-[#F5E8D3] border-b border-[#EBDAC4] py-20 md:py-28">
+      {/* 1. Hero Section */}
+      <section className="relative bg-[#EFE7DA] border-b border-[#E5D7C5] py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#EFE0CB] text-[#6B4F3B] text-xs font-semibold uppercase tracking-widest">
-            <img src={brandLogo} alt="Logo" className="w-4 h-4 rounded-full object-cover" />
-            <span>Serving You the Natural Twist • Since 1994</span>
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#2F4F24]/10 text-[#2F4F24] text-xs font-bold uppercase tracking-widest border border-[#2F4F24]/20">
+            <PureBotanicalIcon className="w-4 h-4" />
+            <span>Serving You the Natural Twist • Est. 1994</span>
           </div>
 
-          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal text-[#2A211B] tracking-tight leading-tight">
-            Our Heritage
+          <h1 className="font-serif-heading text-4xl sm:text-6xl font-bold text-[#211D18] tracking-tight leading-tight">
+            Our Heritage & Story
           </h1>
 
-          <p className="text-base sm:text-lg text-[#5E4D40] font-light leading-relaxed max-w-2xl mx-auto">
-            Premium Spices Since 1994 — Built on honesty, consistency, and community trust.
+          <p className="text-base sm:text-lg text-[#5A4F46] max-w-2xl mx-auto leading-relaxed">
+            Over three decades of Pakistani spice mastery — built on honesty, consistency, and unyielding botanical purity.
           </p>
         </div>
       </section>
 
-      {/* 2. The Full Story Section */}
-      <section className="py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-[#5E4D40] leading-relaxed text-sm sm:text-base">
+      {/* 2. Editorial Story Section */}
+      <section className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-[#5A4F46] leading-relaxed text-sm sm:text-base">
+        <div className="flex items-baseline gap-4">
+          <span className="font-serif-heading text-6xl font-black text-[#D9542F] leading-none shrink-0">1994</span>
+          <p className="font-serif-heading text-xl text-[#211D18]">
+            Organic Flavouring is built on a family legacy established in 1994.
+          </p>
+        </div>
+
         <p>
-          Organic Flavouring is built on a family legacy that began in 1994. What started as a small spice trading business grew steadily through honesty, consistency, and strong relationships within the community. For decades, our family supplied premium spices in bulk quantities to wholesalers, retailers, food manufacturers, and traders across Pakistan. We never relied on large advertising campaigns. Instead, our reputation was built through word of mouth, trust, and long-term customer relationships.
+          What began as a small spice trading business in 1994 grew steadily through honesty, consistency, and strong relationships within the community. For decades, our family supplied premium spices in bulk quantities to wholesalers, retailers, food manufacturers, and culinary artisans across Pakistan. We never relied on loud marketing campaigns; our reputation was earned through word of mouth, unadulterated flavor, and long-term customer trust.
         </p>
         <p>
-          As generations passed, our business expanded, serving customers who valued quality, authenticity, and reliable sourcing. Through years of experience, we developed deep knowledge of spice varieties, sourcing regions, quality selection, and market dynamics.
+          As generations passed, our business expanded while serving customers who valued genuine quality and reliable sourcing. Through years of hands-on experience, we developed deep mastery of regional Pakistani spice varieties, harvest selections, stone-milling techniques, and quality preservation.
         </p>
         <p>
-          Today, while the world has become increasingly digital, our core values remain unchanged. To continue our family's tradition and make our products accessible to a wider audience, we launched Organic Flavouring, a modern online brand dedicated to bringing premium spices directly to homes, restaurants, and food enthusiasts across Pakistan.
-        </p>
-        <p>
-          At Organic Flavouring, we believe great food begins with genuine ingredients. Our mission is to combine over three decades of family expertise with modern convenience, ensuring customers receive premium-quality spices they can trust.
-        </p>
-        <p>
-          From our family's spice business established in 1994 to a growing digital brand, Organic Flavouring continues to serve the same promise: quality, authenticity, and a natural twist in every pack.
+          To make our products directly accessible nationwide, we launched Organic Flavouring — an online store dedicated to bringing pure, hygienically packed single-origin spices straight from prime harvest belts to your home.
         </p>
       </section>
 
-      {/* 3. Animated Heritage Timeline (1994 -> Today) */}
-      <section className="py-24 bg-[#F5E8D3] border-y border-[#EBDAC4]">
+      {/* 3. Mandatory Dark Deep-Green Contrast Section (#2F4F24) */}
+      <section className="py-20 bg-[#2F4F24] text-[#FBF8F2] bg-grain-dark border-y-2 border-[#C79A46]/30">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 space-y-2">
-            <span className="text-xs uppercase tracking-widest font-bold text-[#B33A2E]">Generational Journey</span>
-            <h2 className="font-serif text-3xl sm:text-4xl text-[#2A211B]">1994 → Today</h2>
+          <div className="text-center mb-14 space-y-2">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-[#C79A46]">Our Generational Timeline</span>
+            <h2 className="font-serif-heading text-3xl sm:text-4xl text-[#FBF8F2]">From 1994 to Today</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="bg-white p-6 rounded-xl border border-[#EBDAC4] shadow-xs space-y-3 relative">
-              <span className="text-2xl font-serif font-bold text-[#B33A2E]">1994</span>
-              <h3 className="font-bold text-sm text-[#2A211B]">Foundation</h3>
-              <p className="text-xs text-[#6B5A4E] leading-relaxed">
-                Family spice trading business founded on honesty, consistency, and community trust.
-              </p>
+            <div className="bg-[#24401c]/80 p-6 rounded-xl border border-[#C79A46]/20 space-y-3">
+              <span className="font-serif-heading text-3xl font-black text-[#C79A46]">1994</span>
+              <h3 className="font-serif-heading font-bold text-sm text-[#FBF8F2]">Foundation</h3>
+              <p className="text-xs text-[#FBF8F2]/75 leading-relaxed">Family spice trading business founded on honesty, consistency, and community trust.</p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl border border-[#EBDAC4] shadow-xs space-y-3 relative">
-              <span className="text-2xl font-serif font-bold text-[#D8A72E]">Growth Years</span>
-              <h3 className="font-bold text-sm text-[#2A211B]">Bulk Supply Expansion</h3>
-              <p className="text-xs text-[#6B5A4E] leading-relaxed">
-                Expanded bulk supply (20kg/40kg) to wholesalers, retailers, and food manufacturers across Pakistan.
-              </p>
+            <div className="bg-[#24401c]/80 p-6 rounded-xl border border-[#C79A46]/20 space-y-3">
+              <span className="font-serif-heading text-3xl font-black text-[#6FAE3E]">Growth</span>
+              <h3 className="font-serif-heading font-bold text-sm text-[#FBF8F2]">Bulk Sacks Expansion</h3>
+              <p className="text-xs text-[#FBF8F2]/75 leading-relaxed">Expanded bulk supply (20kg/40kg) to wholesalers and retailers across Pakistan.</p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl border border-[#EBDAC4] shadow-xs space-y-3 relative">
-              <span className="text-2xl font-serif font-bold text-[#1F4B33]">Reputation Built</span>
-              <h3 className="font-bold text-sm text-[#2A211B]">Word of Mouth</h3>
-              <p className="text-xs text-[#6B5A4E] leading-relaxed">
-                Built enduring market reputation through authentic sourcing and zero adulteration.
-              </p>
+            <div className="bg-[#24401c]/80 p-6 rounded-xl border border-[#C79A46]/20 space-y-3">
+              <span className="font-serif-heading text-3xl font-black text-[#D9542F]">Mastery</span>
+              <h3 className="font-serif-heading font-bold text-sm text-[#FBF8F2]">Purity Standards</h3>
+              <p className="text-xs text-[#FBF8F2]/75 leading-relaxed">Built an enduring market reputation through authentic sourcing and zero adulteration.</p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl border border-[#EBDAC4] shadow-xs space-y-3 relative">
-              <span className="text-2xl font-serif font-bold text-[#B33A2E]">Today</span>
-              <h3 className="font-bold text-sm text-[#2A211B]">Digital Brand Launch</h3>
-              <p className="text-xs text-[#6B5A4E] leading-relaxed">
-                Launch of Organic Flavouring online store serving households, chefs, and restaurants nationwide.
-              </p>
+            <div className="bg-[#24401c]/80 p-6 rounded-xl border border-[#C79A46]/20 space-y-3">
+              <span className="font-serif-heading text-3xl font-black text-[#C79A46]">Today</span>
+              <h3 className="font-serif-heading font-bold text-sm text-[#FBF8F2]">Online Store Launch</h3>
+              <p className="text-xs text-[#FBF8F2]/75 leading-relaxed">Direct nationwide consumer delivery of certified pure spices in sealed retail packs.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. Mission Statement Block */}
-      <section className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <blockquote className="font-serif text-3xl sm:text-4xl text-[#B33A2E] italic leading-snug">
-          "Great food begins with genuine ingredients."
+      {/* 4. Full Width Editorial Pull-Quote */}
+      <section className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+        <blockquote className="font-serif-heading text-3xl sm:text-4xl text-[#D9542F] leading-snug">
+          “Great food begins with genuine ingredients.”
         </blockquote>
-        <p className="text-xs font-bold uppercase tracking-widest text-[#826E5F] mt-4">
+        <p className="text-xs font-bold uppercase tracking-widest text-[#5A4F46]">
           — The Organic Flavouring Family Mission
         </p>
       </section>
 
-      {/* 5. Values Grid */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      {/* 5. Core Values */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white p-6 rounded-xl border border-[#EBDAC4] shadow-xs space-y-2 text-center">
-            <h3 className="font-serif text-xl font-bold text-[#2A211B]">Quality</h3>
-            <p className="text-xs text-[#6B5A4E]">Careful grading and zero artificial additives in every pack.</p>
+          <div className="bg-white p-6 rounded-xl border border-[#E5D7C5] space-y-2 text-center">
+            <HalalIcon className="w-8 h-8 mx-auto" />
+            <h3 className="font-serif-heading text-lg font-bold text-[#211D18]">Purity</h3>
+            <p className="text-xs text-[#5A4F46]">Careful grading and zero artificial additives in every pack.</p>
           </div>
-          <div className="bg-white p-6 rounded-xl border border-[#EBDAC4] shadow-xs space-y-2 text-center">
-            <h3 className="font-serif text-xl font-bold text-[#2A211B]">Authenticity</h3>
-            <p className="text-xs text-[#6B5A4E]">Single-origin regional varieties preserved with natural aroma.</p>
+          <div className="bg-white p-6 rounded-xl border border-[#E5D7C5] space-y-2 text-center">
+            <PureBotanicalIcon className="w-8 h-8 mx-auto text-[#6FAE3E]" />
+            <h3 className="font-serif-heading text-lg font-bold text-[#211D18]">Authenticity</h3>
+            <p className="text-xs text-[#5A4F46]">Single-origin regional varieties preserved with natural aroma.</p>
           </div>
-          <div className="bg-white p-6 rounded-xl border border-[#EBDAC4] shadow-xs space-y-2 text-center">
-            <h3 className="font-serif text-xl font-bold text-[#2A211B]">Trust</h3>
-            <p className="text-xs text-[#6B5A4E]">Over 30 years of honest customer and community relationships.</p>
+          <div className="bg-white p-6 rounded-xl border border-[#E5D7C5] space-y-2 text-center">
+            <FamilyOwnedIcon className="w-8 h-8 mx-auto" />
+            <h3 className="font-serif-heading text-lg font-bold text-[#211D18]">Trust</h3>
+            <p className="text-xs text-[#5A4F46]">Over 30 years of honest customer and community relationships.</p>
           </div>
-          <div className="bg-white p-6 rounded-xl border border-[#EBDAC4] shadow-xs space-y-2 text-center">
-            <h3 className="font-serif text-xl font-bold text-[#2A211B]">Natural Twist</h3>
-            <p className="text-xs text-[#6B5A4E]">Hygienic modern packaging bringing purity to every kitchen.</p>
+          <div className="bg-white p-6 rounded-xl border border-[#E5D7C5] space-y-2 text-center">
+            <IsoIcon className="w-8 h-8 mx-auto" />
+            <h3 className="font-serif-heading text-lg font-bold text-[#211D18]">Natural Twist</h3>
+            <p className="text-xs text-[#5A4F46]">Hygienic modern packaging bringing purity to every kitchen.</p>
           </div>
         </div>
       </section>

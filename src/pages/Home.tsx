@@ -1,48 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  assets, 
-  brandLogo, 
-  products, 
-  terroirRegions, 
-  officialCertificates,
-  Product 
-} from '../data/products';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { products, Product, assets } from '../data/products';
 import { useCart } from '../context/CartContext';
-import { 
-  ShieldCheck, 
-  Sun, 
-  ArrowRight, 
-  Check, 
-  ShoppingBag, 
-  Award, 
-  Clock, 
-  MapPin, 
-  ChevronDown, 
-  PackageCheck,
-  Sparkles,
-  Truck,
-  Flame,
-  Star,
-  Layers,
-  Leaf
-} from 'lucide-react';
+import MasalaSmashEngine from '../components/MasalaSmashEngine';
+import { ShoppingBag, Check } from 'lucide-react';
+import { HalalIcon, IsoIcon, FamilyOwnedIcon, DeliveryTruckIcon } from '../components/Illustrations';
 
-export default function Home() {
+gsap.registerPlugin(ScrollTrigger);
+
+interface HomeProps {
+  onOpenCertModal?: () => void;
+  onOpenContactModal?: () => void;
+}
+
+export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps) {
   const { addToCart } = useCart();
   const [addedToast, setAddedToast] = useState<string | null>(null);
-  const [activeCategory, setActiveCategory] = useState<string>('All');
 
-  const categories = [
-    { id: 'All', name: 'All Spices', icon: Sparkles },
-    { id: 'Chilli', name: 'Chilli & Flakes', icon: Flame },
-    { id: 'Powders', name: 'Everyday Powders', icon: Layers },
-    { id: 'Whole Spices', name: 'Whole Spices', icon: Sun },
-    { id: 'Flour', name: 'Gram Flour (Besan)', icon: Leaf }
+  const heroHeadlineRef = useRef<HTMLDivElement>(null);
+  const quoteRef = useRef<HTMLDivElement>(null);
+  const trustRowRef = useRef<HTMLDivElement>(null);
+
+  const crateRotations = [-3.5, 4.2, -2.8, 3.8, -4.5, 2.5, -3.0];
+
+  const categoryTiles = [
+    { id: 'Chilli', name: 'Chilli & Flakes', image: assets.powderMain, count: 'Pure Pod Harvest' },
+    { id: 'Powders', name: 'Everyday Powders', image: assets.qualitySeal, count: 'Stone Ground Daily' },
+    { id: 'Whole Spices', name: 'Whole Spices', image: assets.macroTexture, count: 'Single Origin Belts' },
+    { id: 'Flour', name: 'Gram Flour (Besan)', image: assets.packagingRange, count: 'Double Sifted' }
   ];
-
-  const filteredProducts = products.filter(p => activeCategory === 'All' || p.category === activeCategory);
 
   const handleQuickAdd = (product: Product, e: React.MouseEvent) => {
     e.preventDefault();
@@ -50,416 +39,343 @@ export default function Home() {
     if (defaultPack.isBulk) return;
     addToCart({ ...product, price: defaultPack.price }, 1, defaultPack.size);
     setAddedToast(product.name);
-    setTimeout(() => setAddedToast(null), 2500);
+    setTimeout(() => setAddedToast(null), 2200);
   };
 
+  const getSpiceShadowClass = (category: string) => {
+    switch (category) {
+      case 'Chilli': return 'shadow-clay-tint';
+      case 'Powders': return 'shadow-saffron-tint';
+      case 'Whole Spices': return 'shadow-leaf-tint';
+      case 'Flour': return 'shadow-saffron-tint';
+      default: return 'shadow-clay-tint';
+    }
+  };
+
+  // GSAP Animations: Headline reveal, Word-by-Word quote scroll scrub, Trust icon materialize
+  useEffect(() => {
+    // 1. Headline Mask Reveal
+    if (heroHeadlineRef.current) {
+      const lines = heroHeadlineRef.current.querySelectorAll('.headline-line-inner');
+      gsap.fromTo(
+        lines,
+        { y: '105%', opacity: 0 },
+        {
+          y: '0%',
+          opacity: 1,
+          duration: 0.85,
+          ease: 'power4.out',
+          stagger: 0.1,
+          delay: 0.2
+        }
+      );
+    }
+
+    // 2. Word-by-Word Scroll Scrubbed Quote Reveal in Dark Section
+    if (quoteRef.current) {
+      const words = quoteRef.current.querySelectorAll('.quote-word');
+      gsap.fromTo(
+        words,
+        { opacity: 0.2, y: 4 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.08,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: quoteRef.current,
+            start: 'top 80%',
+            end: 'bottom 50%',
+            scrub: 0.5
+          }
+        }
+      );
+    }
+
+    // 3. Materializing Trust Row Icons (scale 0.8 + blur to sharp)
+    if (trustRowRef.current) {
+      const icons = trustRowRef.current.querySelectorAll('.trust-icon-box');
+      gsap.fromTo(
+        icons,
+        { scale: 0.8, filter: 'blur(4px)', opacity: 0 },
+        {
+          scale: 1,
+          filter: 'blur(0px)',
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: trustRowRef.current,
+            start: 'top 85%'
+          }
+        }
+      );
+    }
+  }, []);
+
+  const quoteText = "What started as a spice trading business in 1994 grew through nothing but trust — delivering unadulterated flavor from Pakistan’s fertile soils directly to family kitchens.";
+
   return (
-    <div className="bg-[#FFFBF5] text-[#2A2420] overflow-hidden">
+    <div className="min-h-screen text-[#2A1F16] relative bg-texture-grain">
       
       {/* Toast Notification */}
       <AnimatePresence>
         {addedToast && (
           <motion.div 
-            initial={{ opacity: 0, y: -20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-24 right-6 z-50 bg-[#3D6B2C] text-white px-5 py-3 rounded-lg shadow-2xl flex items-center gap-2.5 text-xs font-bold border border-[#528f3a]"
+            className="fixed top-24 right-6 z-50 bg-[#241A10] text-[#FFF6E8] px-5 py-3 rounded-lg shadow-2xl flex items-center gap-3 text-xs font-bold border border-[#D89A2E]"
           >
-            <Check className="w-4 h-4 text-[#E8A63C]" /> Added {addedToast} to Cart!
+            <Check className="w-4 h-4 text-[#D89A2E]" /> Added {addedToast} to Cart!
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* 🌟 1. STORE HERO SECTION (Shopping-First Split Showcase) */}
-      <section className="relative min-h-[90vh] flex items-center bg-[#FFFBF5] border-b border-[#F0E6D8] overflow-hidden pt-6 pb-12">
+      {/* -------------------------------------------------------------------------- */}
+      {/* 1. HERO — "MASALA SMASH" ENGINE & FROSTED GLASS SCRIM                      */}
+      {/* -------------------------------------------------------------------------- */}
+      <section className="relative min-h-[92vh] flex flex-col justify-between pt-10 pb-24 overflow-hidden gpu-accelerate" style={{ contain: 'layout style paint' }}>
         
-        {/* Background Soft Glow & Rotating Watermark */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#E8A63C]/15 blur-3xl animate-radial-glow" />
-          <div className="absolute top-1/4 left-1/3 w-80 h-80 rounded-full bg-[#6FAE3E]/10 blur-3xl" />
-          {/* Faint Logo Watermark */}
-          <div className="absolute -top-16 -right-16 opacity-5 animate-watermark">
-            <img src={brandLogo} alt="Watermark" className="w-[500px] h-[500px]" />
+        {/* Full-Viewport 180-Particle Masala Smash Engine */}
+        <MasalaSmashEngine />
+
+        {/* Eyebrow & Huge 3-Line Fraunces Headline inside Frosted Glass Scrim */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full pt-4">
+          
+          <div className="frosted-glass-scrim max-w-4xl p-6 sm:p-10 rounded-3xl space-y-4 shadow-xl">
+            {/* Eyebrow in Clay #B0472B */}
+            <div className="flex items-center gap-3">
+              <span className="h-[1.5px] w-7 bg-[#B0472B]" />
+              <span className="text-[11px] font-bold tracking-widest uppercase text-[#B0472B]">
+                EST. 1994 — LAHORE, PAKISTAN
+              </span>
+            </div>
+
+            {/* Huge 3-Line Headline (fraunces, clamp(3.4rem, 9.6vw, 9rem)) */}
+            <div ref={heroHeadlineRef} className="space-y-1 overflow-hidden">
+              <div className="overflow-hidden">
+                <h1 className="headline-line-inner font-display font-normal text-[clamp(3.2rem,8.5vw,8rem)] leading-[0.92] tracking-[-0.015em] text-[#241A10]">
+                  Ground close
+                </h1>
+              </div>
+              <div className="overflow-hidden">
+                <h1 className="headline-line-inner font-display italic font-light text-[clamp(3.2rem,8.5vw,8rem)] leading-[0.92] tracking-[-0.015em] text-[#B0472B]">
+                  to the heat
+                </h1>
+              </div>
+              <div className="overflow-hidden">
+                <h1 className="headline-line-inner font-display font-normal text-[clamp(3.2rem,8.5vw,8rem)] leading-[0.92] tracking-[-0.015em] text-[#241A10]">
+                  it came from.
+                </h1>
+              </div>
+            </div>
           </div>
+
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        {/* Bottom-Anchored Horizontal Content Row */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full mt-10 mb-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
             
-            {/* Left Content (Shopping-outcome & Store CTAs) */}
-            <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7 }}
-              className="lg:col-span-6 space-y-6 text-left"
-            >
-              {/* Freshness Pill Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#6FAE3E]/15 border border-[#6FAE3E]/30 text-xs font-bold tracking-wide text-[#3D6B2C]">
-                <span className="w-2 h-2 rounded-full bg-[#6FAE3E] animate-stock-pulse" />
-                <span>🌿 Fresh Stock • Packed This Week</span>
+            {/* Left: 1-Sentence Short Description */}
+            <p className="text-xs sm:text-sm text-[#2A1F16]/75 max-w-xs leading-relaxed font-semibold">
+              Freshly ground single-origin Pakistani spices stone-milled and packed to preserve natural volatile oils.
+            </p>
+
+            {/* Center: Wax Seal CTA with Impact Pulse at 1.5s */}
+            <div className="flex items-center gap-6">
+              <motion.a 
+                href="#crate-section"
+                whileHover={{ scale: 1.05, rotate: -4 }}
+                transition={{ type: "spring", stiffness: 350, damping: 20 }}
+                className="wax-seal-btn animate-seal-impact group"
+              >
+                <span className="wax-seal-dashed-ring" />
+                <span className="block leading-tight">Shop</span>
+                <span className="block leading-tight opacity-90 text-[10px]">the harvest</span>
+              </motion.a>
+
+              <button onClick={onOpenCertModal} className="btn-link-custom text-xs">
+                Read our sourcing notes
+              </button>
+            </div>
+
+            {/* Far Right (Desktop): Vertical SCROLL hint with dripping dot */}
+            <div className="hidden lg:flex flex-col items-center gap-3 text-[10px] font-bold tracking-widest text-[#2A1F16]/40">
+              <span>SCROLL</span>
+              <div className="relative w-[1.5px] h-12 bg-[#2A1F16]/20 overflow-hidden">
+                <div className="absolute left-0 w-full h-3 rounded-full bg-[#D89A2E] animate-drip-dot" />
               </div>
-
-              {/* Shopping-outcome Headline */}
-              <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#2A2420] tracking-tight leading-[1.1]">
-                Pakistan’s <span className="text-[#D9542F]">Freshest Spices</span>, Delivered to Your Door.
-              </h1>
-
-              {/* Sub-line (Tagline supporting, not leading) */}
-              <p className="text-sm sm:text-base text-[#6B5A4E] max-w-lg leading-relaxed">
-                Serving You the Natural Twist! — Freshly procured from prime Pakistani harvest belts, stone-ground, and packed for peak aroma.
-              </p>
-
-              {/* CTAs */}
-              <div className="pt-2 flex flex-wrap items-center gap-4">
-                <Link
-                  to="/shop"
-                  className="px-8 py-4 bg-[#D9542F] hover:bg-[#c24623] text-white text-xs uppercase tracking-wider font-bold rounded-lg transition-all duration-200 flex items-center gap-2.5 shadow-lg shadow-[#D9542F]/25 animate-pulse-glow"
-                >
-                  <ShoppingBag className="w-4 h-4" /> Shop Now
-                </Link>
-
-                <a
-                  href="#bestsellers"
-                  className="px-7 py-4 bg-white hover:bg-[#6FAE3E]/10 text-[#3D6B2C] border-2 border-[#6FAE3E] text-xs uppercase tracking-wider font-bold rounded-lg transition-all duration-200"
-                >
-                  View Bestsellers
-                </a>
-              </div>
-
-              {/* Trust Badge Row Directly Under CTAs */}
-              <div className="pt-6 border-t border-[#F0E6D8] grid grid-cols-2 sm:grid-cols-4 gap-3 text-[11px] font-bold text-[#5A4F46]">
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-[#6FAE3E]" /> Halal Certified
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Award className="w-4 h-4 text-[#6FAE3E]" /> ISO 9001:2015
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Truck className="w-4 h-4 text-[#D9542F]" /> Cash on Delivery
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Clock className="w-4 h-4 text-[#D9542F]" /> Fast Nationwide
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Right: Dynamic Layered Product Showcase (Real Product Clusters) */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="lg:col-span-6 relative flex items-center justify-center min-h-[380px] sm:min-h-[460px]"
-            >
-              {/* Product 1: Background Left (Turmeric) */}
-              <div className="absolute left-2 sm:left-6 top-8 w-44 sm:w-56 bg-white p-3 rounded-2xl border border-[#F0E6D8] shadow-md transform -rotate-6 animate-float-b z-10">
-                <div className="aspect-square bg-[#FFFBF5] rounded-xl p-2 flex items-center justify-center">
-                  <img src={assets.qualitySeal} alt="Turmeric" className="w-full h-full object-contain" />
-                </div>
-                <div className="mt-2 text-center">
-                  <p className="text-[11px] font-bold text-[#2A2420]">Pure Haldi</p>
-                  <p className="text-[10px] font-extrabold text-[#D9542F]">Rs. 320</p>
-                </div>
-              </div>
-
-              {/* Product 2: Background Right (Dhania / Range) */}
-              <div className="absolute right-2 sm:right-6 top-12 w-44 sm:w-56 bg-white p-3 rounded-2xl border border-[#F0E6D8] shadow-md transform rotate-6 animate-float-c z-10">
-                <div className="aspect-square bg-[#FFFBF5] rounded-xl p-2 flex items-center justify-center">
-                  <img src={assets.packagingRange} alt="Coriander" className="w-full h-full object-contain" />
-                </div>
-                <div className="mt-2 text-center">
-                  <p className="text-[11px] font-bold text-[#2A2420]">Coriander Powder</p>
-                  <p className="text-[10px] font-extrabold text-[#D9542F]">Rs. 280</p>
-                </div>
-              </div>
-
-              {/* Product 3: FRONT HERO PRODUCT (Red Chilli Master Pack) */}
-              <div className="relative w-56 sm:w-72 bg-white p-4 rounded-2xl border-2 border-[#E8A63C]/40 shadow-2xl animate-float-a z-20">
-                {/* Bestseller Badge */}
-                <div className="absolute -top-3 -right-3 bg-[#D9542F] text-white text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-md animate-bounce flex items-center gap-1">
-                  <Flame className="w-3 h-3 text-[#E8A63C]" /> Best Seller
-                </div>
-
-                <div className="aspect-square bg-[#FFFBF5] rounded-xl p-4 flex items-center justify-center overflow-hidden">
-                  <img src={assets.powderMain} alt="Red Chilli Powder" className="w-full h-full object-contain hover:scale-110 transition-transform duration-500" />
-                </div>
-
-                <div className="mt-3 flex items-center justify-between">
-                  <div>
-                    <h3 className="font-heading text-sm font-bold text-[#2A2420]">Red Chilli Powder</h3>
-                    <p className="text-[10px] text-[#6FAE3E] font-bold">Sindh Sun-Dried</p>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs font-black text-[#D9542F]">Rs. 380</span>
-                  </div>
-                </div>
-
-                <Link
-                  to="/product/red-chilli-powder-flakes"
-                  className="mt-3 w-full py-2 bg-[#6FAE3E] hover:bg-[#5da02e] text-white text-xs font-bold uppercase rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-sm"
-                >
-                  <ShoppingBag className="w-3.5 h-3.5" /> Quick View & Buy
-                </Link>
-              </div>
-
-            </motion.div>
+            </div>
 
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1 text-[11px] font-bold text-[#8C7E72] animate-bounce">
-          <ChevronDown className="w-4 h-4 text-[#D9542F]" /> Explore Products
-        </div>
       </section>
 
-      {/* 🌟 2. SHOP BY CATEGORY STRIP (Quick Tap Chips) */}
-      <section className="py-8 bg-[#F8F2E8] border-b border-[#EDE2D4]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none justify-start sm:justify-center">
-            {categories.map(cat => {
-              const Icon = cat.icon;
-              const isActive = activeCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold tracking-wide transition-all shrink-0 cursor-pointer ${
-                    isActive 
-                      ? 'bg-[#D9542F] text-white shadow-md scale-105' 
-                      : 'bg-white text-[#5A4F46] border border-[#E5D7C5] hover:border-[#D9542F]'
-                  }`}
-                >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-[#6FAE3E]'}`} />
-                  <span>{cat.name}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 🌟 3. BESTSELLERS / FEATURED PRODUCTS (Direct E-Commerce Cards) */}
-      <section id="bestsellers" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4 pb-4 border-b border-[#F0E6D8]">
-          <div>
-            <span className="text-xs uppercase font-extrabold tracking-widest text-[#D9542F]">Top Picks For Daily Cooking</span>
-            <h2 className="font-heading text-2xl sm:text-4xl font-extrabold text-[#2A2420]">
-              Featured Spice Collection
-            </h2>
-          </div>
-          <Link
-            to="/shop"
-            className="inline-flex items-center gap-1.5 text-xs uppercase font-extrabold tracking-wider text-[#6FAE3E] hover:text-[#3D6B2C] transition-colors"
-          >
-            View All 7 Products <ArrowRight className="w-4 h-4" />
-          </Link>
+      {/* -------------------------------------------------------------------------- */}
+      {/* 2. SHOP BY CATEGORY — 3D PERSPECTIVE FLIP & KEN-BURNS HOVER ZOOM          */}
+      {/* -------------------------------------------------------------------------- */}
+      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 pb-4 border-b border-[#E5D7C5]">
+          <span className="text-[11px] font-bold uppercase tracking-widest text-[#B0472B]">Curated Spice Lines</span>
+          <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#241A10]">
+            Explore Categories
+          </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredProducts.map((product, idx) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" style={{ perspective: '1000px' }}>
+          {categoryTiles.map((cat, idx) => (
             <motion.div
-              layout
-              key={product.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              key={cat.id}
+              initial={{ opacity: 0, rotateY: 15, y: 20 }}
+              whileInView={{ opacity: 1, rotateY: 0, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.08 }}
-              className="bg-white rounded-2xl overflow-hidden border border-[#EFE5D8] hover:border-[#D9542F] transition-all duration-300 flex flex-col group shadow-xs hover:shadow-xl relative"
+              transition={{ duration: 0.6, delay: idx * 0.1 }}
+              className="relative h-64 rounded-2xl overflow-hidden border-2 border-[#241A10] cursor-pointer group shadow-lg bg-[#241A10]"
             >
-              {/* Stock status & Image */}
-              <div className="relative bg-[#FFFBF5] aspect-square p-5 flex items-center justify-center overflow-hidden">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-contain group-hover:scale-108 transition-transform duration-500"
-                />
-
-                <span className="absolute top-3 left-3 bg-[#6FAE3E]/20 text-[#3D6B2C] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full">
-                  In Stock
-                </span>
-
-                {/* Quick Add Slide-Up */}
-                <div className="absolute inset-x-3 bottom-3 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                  <button
-                    onClick={(e) => handleQuickAdd(product, e)}
-                    className="w-full py-2.5 bg-[#D9542F] hover:bg-[#c24623] text-white text-xs uppercase font-bold rounded-lg shadow-md flex items-center justify-center gap-2 transition-colors cursor-pointer"
-                  >
-                    <ShoppingBag className="w-3.5 h-3.5" /> Quick Add (Rs. {product.startingPrice})
-                  </button>
-                </div>
-              </div>
-
-              {/* Card Meta */}
-              <div className="p-4 flex flex-col flex-1">
-                <span className="text-[10px] font-bold text-[#E8A63C] uppercase tracking-wider mb-1">
-                  {product.category}
-                </span>
-
-                <h3 className="font-heading text-base font-bold text-[#2A2420] mb-1">
-                  <Link to={`/product/${product.id}`} className="hover:text-[#D9542F] transition-colors">
-                    {product.name}
-                  </Link>
-                </h3>
-
-                <p className="text-xs text-[#6B5A4E] line-clamp-2 mb-3">
-                  {product.shortDescription}
-                </p>
-
-                <div className="mt-auto pt-3 border-t border-[#F5EDE2] flex items-center justify-between">
-                  <div>
-                    <span className="text-[10px] text-[#8C7E72] block">Price from</span>
-                    <span className="text-base font-heading font-extrabold text-[#D9542F]">Rs. {product.startingPrice}</span>
-                  </div>
-                  <Link
-                    to={`/product/${product.id}`}
-                    className="px-3.5 py-1.5 bg-[#FFFBF5] hover:bg-[#6FAE3E] text-[#3D6B2C] hover:text-white border border-[#6FAE3E] text-[11px] font-bold rounded-lg transition-all"
-                  >
-                    View Sizes
-                  </Link>
-                </div>
+              {/* Image with Slow Ken-Burns Zoom on Hover */}
+              <img 
+                src={cat.image} 
+                alt={cat.name} 
+                className="w-full h-full object-cover group-hover:scale-115 transition-transform duration-1000 ease-out"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1B140F] via-[#1B140F]/40 to-transparent" />
+              
+              <div className="absolute bottom-4 left-4 right-4 text-white space-y-1 z-10">
+                <span className="text-[10px] uppercase font-bold tracking-widest text-[#F0C36B]">{cat.count}</span>
+                <h3 className="font-display text-xl font-bold text-[#FFF6E8]">{cat.name}</h3>
+                <Link to="/shop" className="text-[10px] font-bold uppercase tracking-wider text-[#D9683F] group-hover:underline block pt-1">
+                  Browse Category →
+                </Link>
               </div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* 🌟 4. WHY ORGANIC FLAVOURING STRIP (Hand + Leaf Motif Style) */}
-      <section className="py-12 bg-[#F8F2E8] border-y border-[#EDE2D4]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center sm:text-left">
-            <div className="flex items-center gap-3 justify-center sm:justify-start">
-              <div className="w-12 h-12 rounded-full bg-[#6FAE3E]/20 text-[#3D6B2C] flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-xs uppercase font-extrabold text-[#2A2420]">Halal Certified</p>
-                <p className="text-[11px] text-[#6B5A4E]">PS:3733-2022 Verified</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 justify-center sm:justify-start">
-              <div className="w-12 h-12 rounded-full bg-[#6FAE3E]/20 text-[#3D6B2C] flex items-center justify-center shrink-0">
-                <Award className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-xs uppercase font-extrabold text-[#2A2420]">ISO 9001:2015</p>
-                <p className="text-[11px] text-[#6B5A4E]">Hygienic Management</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 justify-center sm:justify-start">
-              <div className="w-12 h-12 rounded-full bg-[#D9542F]/20 text-[#D9542F] flex items-center justify-center shrink-0">
-                <Clock className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-xs uppercase font-extrabold text-[#2A2420]">Since 1994</p>
-                <p className="text-[11px] text-[#6B5A4E]">30+ Years Mastery</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 justify-center sm:justify-start">
-              <div className="w-12 h-12 rounded-full bg-[#D9542F]/20 text-[#D9542F] flex items-center justify-center shrink-0">
-                <Truck className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="text-xs uppercase font-extrabold text-[#2A2420]">Fast Delivery</p>
-                <p className="text-[11px] text-[#6B5A4E]">Nationwide COD Service</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 🌟 5. DEALS / BUNDLE PROMO BANNER */}
-      <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-[#D9542F] via-[#c94a26] to-[#3D6B2C] text-white rounded-3xl p-8 sm:p-12 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="space-y-2 text-center md:text-left">
-            <span className="text-xs font-black uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full">
-              Commercial & Wholesale Supplies
+      {/* -------------------------------------------------------------------------- */}
+      {/* 3. SECOND SECTION — "THIS WEEK'S CRATE" (Single Dark Anchor #241A10)       */}
+      {/* -------------------------------------------------------------------------- */}
+      <section id="crate-section" className="bg-[#241A10] text-[#FFF6E8] py-24 border-t-2 border-[#1B140F] relative bg-texture-grain gpu-accelerate" style={{ contain: 'layout style paint' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          
+          <div className="mb-12 space-y-2">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-[#D89A2E]">
+              THIS WEEK'S CRATE
             </span>
-            <h3 className="font-heading text-2xl sm:text-4xl font-black">
-              Need Bulk 20kg or 40kg Sacks?
-            </h3>
-            <p className="text-xs sm:text-sm text-white/90 max-w-lg">
-              We supply restaurants, hotels, caterers, and retailers across Pakistan with direct wholesale mandi pricing.
-            </p>
-          </div>
-          <Link
-            to="/contact"
-            className="px-8 py-4 bg-white text-[#D9542F] hover:bg-[#FFFBF5] text-xs uppercase font-black tracking-wider rounded-xl transition-all shadow-lg shrink-0"
-          >
-            Inquire Bulk Rates
-          </Link>
-        </div>
-      </section>
-
-      {/* 🌟 6. ORIGIN & TERROIR (Shortened Swipeable Sourcing Quality) */}
-      <section className="py-16 bg-[#FFFBF5]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#6FAE3E]">Single-Origin Quality</span>
-            <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#2A2420]">
-              Sourced From Pakistan’s Renowned Spice Belts
+            <h2 className="font-display text-3xl sm:text-5xl font-normal text-[#FFF6E8]">
+              Laid out the way it'd sit on our own counter.
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {terroirRegions.map(r => (
-              <div key={r.id} className="bg-white p-4 rounded-xl border border-[#F0E6D8] flex flex-col justify-between shadow-xs">
-                <div className="space-y-1.5">
-                  <span className="text-xs font-extrabold text-[#D9542F] flex items-center gap-1">
-                    <MapPin className="w-3.5 h-3.5" /> {r.name}
-                  </span>
-                  <p className="text-xs text-[#6B5A4E] leading-relaxed">{r.description}</p>
-                </div>
-                <div className="pt-2 mt-2 border-t border-[#F8F2E8] text-[10px] font-bold text-[#3D6B2C]">
-                  {r.heat}
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+            {products.map((product, idx) => {
+              const rotation = crateRotations[idx % crateRotations.length];
+              const shadowClass = getSpiceShadowClass(product.category);
+
+              return (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: idx * 0.06 }}
+                  whileHover={{ 
+                    y: -8, 
+                    rotate: 0, 
+                    scale: 1.02,
+                    transition: { type: "spring", stiffness: 350, damping: 22 }
+                  }}
+                  style={{ rotate: `${rotation}deg` }}
+                  className={`bg-[#1B140F] rounded-2xl border-2 border-[#4A1C10]/60 p-5 flex flex-col justify-between transition-colors duration-300 hover:border-[#B0472B] group cursor-pointer ${shadowClass}`}
+                >
+                  <div className="aspect-square bg-[#241A10] rounded-xl p-4 flex items-center justify-center relative overflow-hidden mb-4 border border-[#4A1C10]/40">
+                    <div className="absolute inset-0 radial-glow-masala opacity-35 pointer-events-none" />
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 relative z-10"
+                    />
+                    <span className="absolute top-2.5 left-2.5 text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#241A10] text-[#FFF6E8] border border-[#4A1C10]/60">
+                      {product.category}
+                    </span>
+                  </div>
+
+                  <div className="space-y-1.5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="font-display text-base font-bold text-[#FFF6E8] group-hover:text-[#D9683F] transition-colors">
+                        <Link to={`/product/${product.id}`}>
+                          {product.name}
+                        </Link>
+                      </h3>
+                      <p className="text-[11px] text-[#FFF6E8]/65 line-clamp-2 mt-1">
+                        {product.shortDescription}
+                      </p>
+                    </div>
+
+                    <div className="pt-3 mt-3 border-t border-[#4A1C10]/40 flex items-center justify-between">
+                      <div>
+                        <span className="text-[9px] uppercase tracking-wider text-[#FFF6E8]/50 block">From</span>
+                        <span className="font-display font-black text-sm text-[#D9683F]">Rs. {product.startingPrice}</span>
+                      </div>
+
+                      <button
+                        onClick={(e) => handleQuickAdd(product, e)}
+                        className="px-3.5 py-1.5 bg-gradient-to-r from-[#B0472B] to-[#7E2F1C] hover:from-[#D9683F] hover:to-[#B0472B] text-white text-[10px] uppercase font-bold tracking-widest rounded transition-all shadow-md cursor-pointer"
+                      >
+                        <ShoppingBag className="w-3 h-3 inline mr-1" /> Add
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
+
         </div>
       </section>
 
-      {/* 🌟 7. OUR STORY (Moved Down as Supporting Trust Content) */}
-      <section className="py-16 bg-[#F8F2E8] border-t border-[#EDE2D4]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-          <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#D9542F] p-0.5 bg-white mx-auto">
-            <img src={brandLogo} alt="Logo" className="w-full h-full object-cover" />
-          </div>
-          <span className="text-xs font-extrabold uppercase tracking-widest text-[#D9542F]">Family Heritage</span>
-          <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#2A2420]">
-            Over 30 Years of Spice Mastery (Since 1994)
-          </h2>
-          <p className="text-xs sm:text-sm text-[#6B5A4E] max-w-2xl mx-auto leading-relaxed">
-            What began in 1994 as a trusted bulk spice business has grown into an online direct-to-consumer store. We never cut corners with fillers or artificial dyes—delivering authentic Pakistani taste to every kitchen.
-          </p>
-          <div className="pt-2">
-            <Link to="/about" className="text-xs font-bold text-[#3D6B2C] hover:underline">
-              Read Our Full Story →
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* -------------------------------------------------------------------------- */}
+      {/* 4. DARK SECTION WITH WORD-BY-WORD SCROLL SCRUBBED QUOTE REVEAL             */}
+      {/* -------------------------------------------------------------------------- */}
+      <section className="py-24 bg-[#1B140F] text-[#FFF6E8] bg-texture-grain border-t border-[#241A10]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-10">
+          
+          <span className="text-[11px] font-bold uppercase tracking-widest text-[#D89A2E]">
+            OUR FOUNDING PHILOSOPHY
+          </span>
 
-      {/* 🌟 8. CERTIFICATIONS STRIP */}
-      <section className="py-12 bg-[#FFFBF5]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <h3 className="font-heading text-lg font-bold text-[#2A2420]">Certified by Accredited Quality Bodies</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {officialCertificates.map(c => (
-              <div key={c.id} className="bg-white p-5 rounded-xl border border-[#F0E6D8] shadow-xs text-left space-y-1 animate-shine">
-                <span className="text-[10px] font-bold uppercase text-[#6FAE3E]">{c.badgeLabel}</span>
-                <p className="font-heading font-bold text-sm text-[#2A2420]">{c.title}</p>
-                <p className="text-xs text-[#6B5A4E]">{c.standard}</p>
-              </div>
+          {/* Word-by-Word Scroll Scrubbed Text Reveal */}
+          <div ref={quoteRef} className="font-display text-2xl sm:text-4xl leading-relaxed text-[#FFF6E8]">
+            {quoteText.split(' ').map((word, i) => (
+              <span key={i} className="quote-word inline-block mr-2.5 transition-opacity">
+                {word}
+              </span>
             ))}
           </div>
-          <div>
-            <Link to="/certifications" className="text-xs font-bold text-[#D9542F] hover:underline">
-              View Full Certifications & Standards →
-            </Link>
+
+          {/* Materializing Trust Row Icons */}
+          <div ref={trustRowRef} className="pt-8 border-t border-[#4A1C10]/50 grid grid-cols-2 sm:grid-cols-4 gap-6 text-xs text-[#FFF6E8]/80 font-bold">
+            <div className="trust-icon-box flex items-center justify-center gap-2 p-3 bg-[#241A10] rounded-xl border border-[#4A1C10]/40">
+              <HalalIcon className="w-5 h-5 shrink-0" />
+              <span>Halal Certified</span>
+            </div>
+            <div className="trust-icon-box flex items-center justify-center gap-2 p-3 bg-[#241A10] rounded-xl border border-[#4A1C10]/40">
+              <IsoIcon className="w-5 h-5 shrink-0" />
+              <span>ISO 9001:2015</span>
+            </div>
+            <div className="trust-icon-box flex items-center justify-center gap-2 p-3 bg-[#241A10] rounded-xl border border-[#4A1C10]/40">
+              <FamilyOwnedIcon className="w-5 h-5 shrink-0" />
+              <span>Est. 1994</span>
+            </div>
+            <div className="trust-icon-box flex items-center justify-center gap-2 p-3 bg-[#241A10] rounded-xl border border-[#4A1C10]/40">
+              <DeliveryTruckIcon className="w-5 h-5 shrink-0" />
+              <span>Nationwide COD</span>
+            </div>
           </div>
+
         </div>
       </section>
 
