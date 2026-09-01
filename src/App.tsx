@@ -11,6 +11,12 @@ import Home from './pages/Home';
 import Shop from './pages/Shop';
 import ProductDetail from './pages/ProductDetail';
 import Checkout from './pages/Checkout';
+import About from './pages/About';
+import Origin from './pages/Origin';
+import Certifications from './pages/Certifications';
+import Recipes from './pages/Recipes';
+import Transparency from './pages/Transparency';
+import Contact from './pages/Contact';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -67,6 +73,12 @@ export default function App() {
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<Checkout />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/origin" element={<Origin />} />
+              <Route path="/certifications" element={<Certifications />} />
+              <Route path="/recipes" element={<Recipes />} />
+              <Route path="/transparency" element={<Transparency />} />
+              <Route path="/contact" element={<Contact />} />
             </Routes>
           </main>
 

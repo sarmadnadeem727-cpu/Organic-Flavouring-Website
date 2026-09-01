@@ -5,7 +5,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { products, Product, assets } from '../data/products';
 import { useCart } from '../context/CartContext';
-import MasalaSmashEngine from '../components/MasalaSmashEngine';
+import CinematicHero from '../components/CinematicHero';
 import { ShoppingBag, Check } from 'lucide-react';
 import { HalalIcon, IsoIcon, FamilyOwnedIcon, DeliveryTruckIcon } from '../components/Illustrations';
 
@@ -20,7 +20,6 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
   const { addToCart } = useCart();
   const [addedToast, setAddedToast] = useState<string | null>(null);
 
-  const heroHeadlineRef = useRef<HTMLDivElement>(null);
   const quoteRef = useRef<HTMLDivElement>(null);
   const trustRowRef = useRef<HTMLDivElement>(null);
 
@@ -52,26 +51,9 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
     }
   };
 
-  // GSAP Animations: Headline reveal, Word-by-Word quote scroll scrub, Trust icon materialize
+  // GSAP Animations: Word-by-Word quote scroll scrub, Trust icon materialize
   useEffect(() => {
-    // 1. Headline Mask Reveal
-    if (heroHeadlineRef.current) {
-      const lines = heroHeadlineRef.current.querySelectorAll('.headline-line-inner');
-      gsap.fromTo(
-        lines,
-        { y: '105%', opacity: 0 },
-        {
-          y: '0%',
-          opacity: 1,
-          duration: 0.85,
-          ease: 'power4.out',
-          stagger: 0.1,
-          delay: 0.2
-        }
-      );
-    }
-
-    // 2. Word-by-Word Scroll Scrubbed Quote Reveal in Dark Section
+    // 1. Word-by-Word Scroll Scrubbed Quote Reveal in Dark Section
     if (quoteRef.current) {
       const words = quoteRef.current.querySelectorAll('.quote-word');
       gsap.fromTo(
@@ -133,86 +115,12 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
       </AnimatePresence>
 
       {/* -------------------------------------------------------------------------- */}
-      {/* 1. HERO — "MASALA SMASH" ENGINE & FROSTED GLASS SCRIM                      */}
+      {/* 1. CINEMATIC HERO (Full Viewport, Letterbox Bars, Focus Pull Reveal)        */}
       {/* -------------------------------------------------------------------------- */}
-      <section className="relative min-h-[92vh] flex flex-col justify-between pt-10 pb-24 overflow-hidden gpu-accelerate" style={{ contain: 'layout style paint' }}>
-        
-        {/* Full-Viewport 180-Particle Masala Smash Engine */}
-        <MasalaSmashEngine />
-
-        {/* Eyebrow & Huge 3-Line Fraunces Headline inside Frosted Glass Scrim */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full pt-4">
-          
-          <div className="frosted-glass-scrim max-w-4xl p-6 sm:p-10 rounded-3xl space-y-4 shadow-xl">
-            {/* Eyebrow in Clay #B0472B */}
-            <div className="flex items-center gap-3">
-              <span className="h-[1.5px] w-7 bg-[#B0472B]" />
-              <span className="text-[11px] font-bold tracking-widest uppercase text-[#B0472B]">
-                EST. 1994 — LAHORE, PAKISTAN
-              </span>
-            </div>
-
-            {/* Huge 3-Line Headline (fraunces, clamp(3.4rem, 9.6vw, 9rem)) */}
-            <div ref={heroHeadlineRef} className="space-y-1 overflow-hidden">
-              <div className="overflow-hidden">
-                <h1 className="headline-line-inner font-display font-normal text-[clamp(3.2rem,8.5vw,8rem)] leading-[0.92] tracking-[-0.015em] text-[#241A10]">
-                  Ground close
-                </h1>
-              </div>
-              <div className="overflow-hidden">
-                <h1 className="headline-line-inner font-display italic font-light text-[clamp(3.2rem,8.5vw,8rem)] leading-[0.92] tracking-[-0.015em] text-[#B0472B]">
-                  to the heat
-                </h1>
-              </div>
-              <div className="overflow-hidden">
-                <h1 className="headline-line-inner font-display font-normal text-[clamp(3.2rem,8.5vw,8rem)] leading-[0.92] tracking-[-0.015em] text-[#241A10]">
-                  it came from.
-                </h1>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Bottom-Anchored Horizontal Content Row */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full mt-10 mb-4">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-            
-            {/* Left: 1-Sentence Short Description */}
-            <p className="text-xs sm:text-sm text-[#2A1F16]/75 max-w-xs leading-relaxed font-semibold">
-              Freshly ground single-origin Pakistani spices stone-milled and packed to preserve natural volatile oils.
-            </p>
-
-            {/* Center: Wax Seal CTA with Impact Pulse at 1.5s */}
-            <div className="flex items-center gap-6">
-              <motion.a 
-                href="#crate-section"
-                whileHover={{ scale: 1.05, rotate: -4 }}
-                transition={{ type: "spring", stiffness: 350, damping: 20 }}
-                className="wax-seal-btn animate-seal-impact group"
-              >
-                <span className="wax-seal-dashed-ring" />
-                <span className="block leading-tight">Shop</span>
-                <span className="block leading-tight opacity-90 text-[10px]">the harvest</span>
-              </motion.a>
-
-              <button onClick={onOpenCertModal} className="btn-link-custom text-xs">
-                Read our sourcing notes
-              </button>
-            </div>
-
-            {/* Far Right (Desktop): Vertical SCROLL hint with dripping dot */}
-            <div className="hidden lg:flex flex-col items-center gap-3 text-[10px] font-bold tracking-widest text-[#2A1F16]/40">
-              <span>SCROLL</span>
-              <div className="relative w-[1.5px] h-12 bg-[#2A1F16]/20 overflow-hidden">
-                <div className="absolute left-0 w-full h-3 rounded-full bg-[#D89A2E] animate-drip-dot" />
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-      </section>
+      <CinematicHero 
+        onOpenCertModal={onOpenCertModal} 
+        onOpenContactModal={onOpenContactModal} 
+      />
 
       {/* -------------------------------------------------------------------------- */}
       {/* 2. SHOP BY CATEGORY — 3D PERSPECTIVE FLIP & KEN-BURNS HOVER ZOOM          */}
@@ -227,13 +135,10 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" style={{ perspective: '1000px' }}>
           {categoryTiles.map((cat, idx) => (
-            <motion.div
+            <Link
               key={cat.id}
-              initial={{ opacity: 0, rotateY: 15, y: 20 }}
-              whileInView={{ opacity: 1, rotateY: 0, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
-              className="relative h-64 rounded-2xl overflow-hidden border-2 border-[#241A10] cursor-pointer group shadow-lg bg-[#241A10]"
+              to={`/shop?category=${encodeURIComponent(cat.id)}`}
+              className="relative h-64 rounded-2xl overflow-hidden border-2 border-[#241A10] cursor-pointer group shadow-lg bg-[#241A10] block"
             >
               {/* Image with Slow Ken-Burns Zoom on Hover */}
               <img 
@@ -246,11 +151,11 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
               <div className="absolute bottom-4 left-4 right-4 text-white space-y-1 z-10">
                 <span className="text-[10px] uppercase font-bold tracking-widest text-[#F0C36B]">{cat.count}</span>
                 <h3 className="font-display text-xl font-bold text-[#FFF6E8]">{cat.name}</h3>
-                <Link to="/shop" className="text-[10px] font-bold uppercase tracking-wider text-[#D9683F] group-hover:underline block pt-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#D9683F] group-hover:underline block pt-1">
                   Browse Category →
-                </Link>
+                </span>
               </div>
-            </motion.div>
+            </Link>
           ))}
         </div>
       </section>

@@ -33,20 +33,22 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
           <div className="space-y-2">
             <h4 className="font-bold text-[#222222] uppercase tracking-wider text-[11px] mb-3">Shop Spices</h4>
             <ul className="space-y-2 text-[#666666]">
-              <li><Link to="/shop" className="hover:text-[#D9542F]">Red Chilli & Flakes</Link></li>
-              <li><Link to="/shop" className="hover:text-[#D9542F]">Everyday Powders</Link></li>
-              <li><Link to="/shop" className="hover:text-[#D9542F]">Whole Spices</Link></li>
-              <li><Link to="/shop" className="hover:text-[#D9542F]">Gram Flour (Besan)</Link></li>
+              <li><Link to="/shop?category=Chilli" className="hover:text-[#D9542F]">Red Chilli & Flakes</Link></li>
+              <li><Link to="/shop?category=Powders" className="hover:text-[#D9542F]">Everyday Powders</Link></li>
+              <li><Link to="/shop?category=Whole+Spices" className="hover:text-[#D9542F]">Whole Spices</Link></li>
+              <li><Link to="/shop?category=Flour" className="hover:text-[#D9542F]">Gram Flour (Besan)</Link></li>
             </ul>
           </div>
 
-          {/* Col 3: Customer Service */}
+          {/* Col 3: Company & Discovery */}
           <div className="space-y-2">
-            <h4 className="font-bold text-[#222222] uppercase tracking-wider text-[11px] mb-3">Customer Service</h4>
+            <h4 className="font-bold text-[#222222] uppercase tracking-wider text-[11px] mb-3">Discovery</h4>
             <ul className="space-y-2 text-[#666666]">
-              <li><button onClick={onOpenContactModal} className="hover:text-[#D9542F] cursor-pointer">Contact & Support</button></li>
-              <li><button onClick={onOpenCertModal} className="hover:text-[#D9542F] cursor-pointer">Quality Verification</button></li>
-              <li><button onClick={onOpenContactModal} className="hover:text-[#D9542F] cursor-pointer">Wholesale Orders</button></li>
+              <li><Link to="/about" className="hover:text-[#D9542F]">Our Story (Est. 1994)</Link></li>
+              <li><Link to="/origin" className="hover:text-[#D9542F]">Origin & Terroirs</Link></li>
+              <li><Link to="/recipes" className="hover:text-[#D9542F]">Recipes & Pairings</Link></li>
+              <li><Link to="/transparency" className="hover:text-[#D9542F]">Batch Transparency</Link></li>
+              <li><Link to="/contact" className="hover:text-[#D9542F]">Contact & Wholesale</Link></li>
               <li className="pt-1"><span className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-[#D9542F]" /> {officialInfo.phone}</span></li>
             </ul>
           </div>
@@ -55,25 +57,25 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
           <div className="space-y-3">
             <h4 className="font-bold text-[#222222] uppercase tracking-wider text-[11px] mb-3">Accreditations</h4>
             <div className="flex items-center gap-3">
-              <button 
-                onClick={onOpenCertModal}
+              <Link 
+                to="/certifications"
                 className="flex-1 p-2 bg-white rounded border border-[#E5E0D8] flex items-center gap-2 hover:border-[#D9542F] cursor-pointer"
               >
                 <HalalIcon className="w-5 h-5 shrink-0 text-[#6FAE3E]" />
                 <div className="text-left">
                   <p className="font-semibold text-[10px]">Halal PS:3733</p>
                 </div>
-              </button>
+              </Link>
 
-              <button 
-                onClick={onOpenCertModal}
+              <Link 
+                to="/certifications"
                 className="flex-1 p-2 bg-white rounded border border-[#E5E0D8] flex items-center gap-2 hover:border-[#D9542F] cursor-pointer"
               >
                 <IsoIcon className="w-5 h-5 shrink-0 text-[#D9542F]" />
                 <div className="text-left">
                   <p className="font-semibold text-[10px]">ISO 9001:2015</p>
                 </div>
-              </button>
+              </Link>
             </div>
 
             <a
@@ -92,8 +94,8 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[#666666] text-[11px] gap-2">
           <p>© 1994 – {new Date().getFullYear()} Organic Flavouring. All Rights Reserved. Lahore, Pakistan.</p>
           <div className="flex space-x-4">
-            <button onClick={onOpenCertModal} className="hover:text-[#D9542F]">Certifications</button>
-            <button onClick={onOpenContactModal} className="hover:text-[#D9542F]">Contact</button>
+            <Link to="/certifications" className="hover:text-[#D9542F]">Certifications</Link>
+            <Link to="/contact" className="hover:text-[#D9542F]">Contact</Link>
           </div>
         </div>
 

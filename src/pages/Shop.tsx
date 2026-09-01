@@ -1,17 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useSearchParams, Link } from 'react-router-dom';
 import { products, Product } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { ShoppingBag, Search, Check } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { PureBotanicalIcon, NoResultsIllustration } from '../components/Illustrations';
 
 export default function Shop() {
   const { addToCart } = useCart();
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const catParam = searchParams.get('category');
+  const queryParam = searchParams.get('search');
+
+  const [selectedCategory, setSelectedCategory] = useState<string>(catParam || 'All');
+  const [searchQuery, setSearchQuery] = useState<string>(queryParam || '');
   const [sortBy, setSortBy] = useState<string>('featured');
   const [addedToast, setAddedToast] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (catParam) {
+      setSelectedCategory(catParam);
+    }
+  }, [catParam]);
+
+  useEffect(() => {
+    if (queryParam !== null) {
+      setSearchQuery(queryParam);
+    }
+  }, [queryParam]);
 
   const categories = ['All', 'Chilli', 'Powders', 'Whole Spices', 'Flour'];
 
