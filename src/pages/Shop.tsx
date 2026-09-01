@@ -154,15 +154,22 @@ export default function Shop() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, delay: idx * 0.05 }}
-                className={`rounded-2xl border-2 border-[#241D17] overflow-hidden flex flex-col hover:border-[#D9542F] transition-all duration-300 group shadow-md ${getCardTintClass(product.category)}`}
+                className={`rounded-2xl border-2 border-[#241D17] overflow-hidden flex flex-col hover:border-[#D9542F] transition-all duration-300 group shadow-md relative cursor-pointer ${getCardTintClass(product.category)}`}
               >
+                {/* Full Card Link Layer */}
+                <Link 
+                  to={`/product/${product.id}`} 
+                  className="absolute inset-0 z-10" 
+                  aria-label={`View ${product.name}`} 
+                />
+
                 {/* Image Box */}
                 <div className="relative aspect-square p-6 flex items-center justify-center overflow-hidden">
-                  <div className="absolute inset-0 radial-glow-turmeric opacity-50" />
+                  <div className="absolute inset-0 radial-glow-turmeric opacity-50 pointer-events-none" />
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-contain group-hover:scale-108 transition-transform duration-500 relative z-10"
+                    className="w-full h-full object-contain group-hover:scale-108 transition-transform duration-500 relative z-0 pointer-events-none"
                   />
                   <span className="absolute top-3 left-3 bg-[#3E2A1C] text-[#E0A020] text-[10px] font-bold px-2.5 py-0.5 rounded uppercase tracking-widest z-20">
                     {product.category}
@@ -170,11 +177,9 @@ export default function Shop() {
                 </div>
 
                 {/* Details & Direct Quick Add */}
-                <div className="p-5 bg-white border-t border-[#E5D7C5] flex flex-col flex-1">
-                  <h3 className="font-serif-heading text-lg font-bold text-[#241D17] mb-1">
-                    <Link to={`/product/${product.id}`} className="hover:text-[#D9542F] transition-colors">
-                      {product.name}
-                    </Link>
+                <div className="p-5 bg-white border-t border-[#E5D7C5] flex flex-col flex-1 relative z-20">
+                  <h3 className="font-serif-heading text-lg font-bold text-[#241D17] mb-1 group-hover:text-[#D9542F] transition-colors">
+                    {product.name}
                   </h3>
 
                   <p className="text-xs text-[#5A4F46] line-clamp-2 mb-4">
@@ -188,8 +193,11 @@ export default function Shop() {
                     </div>
 
                     <button
-                      onClick={(e) => handleQuickAdd(product, e)}
-                      className="btn-primary-custom py-2 px-3.5 text-[10px]"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleQuickAdd(product, e);
+                      }}
+                      className="btn-primary-custom py-2 px-3.5 text-[10px] relative z-30 cursor-pointer"
                     >
                       <ShoppingBag className="w-3.5 h-3.5" /> Quick Add
                     </button>

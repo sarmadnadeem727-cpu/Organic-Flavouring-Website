@@ -194,16 +194,23 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
                     transition: { type: "spring", stiffness: 350, damping: 22 }
                   }}
                   style={{ rotate: `${rotation}deg` }}
-                  className={`bg-[#1B140F] rounded-2xl border-2 border-[#4A1C10]/60 p-5 flex flex-col justify-between transition-colors duration-300 hover:border-[#B0472B] group cursor-pointer ${shadowClass}`}
+                  className={`bg-[#1B140F] rounded-2xl border-2 border-[#4A1C10]/60 p-5 flex flex-col justify-between transition-colors duration-300 hover:border-[#B0472B] group cursor-pointer relative ${shadowClass}`}
                 >
+                  {/* Full Card Link Layer */}
+                  <Link 
+                    to={`/product/${product.id}`} 
+                    className="absolute inset-0 z-10" 
+                    aria-label={`View ${product.name}`} 
+                  />
+
                   <div className="aspect-square bg-[#241A10] rounded-xl p-4 flex items-center justify-center relative overflow-hidden mb-4 border border-[#4A1C10]/40">
                     <div className="absolute inset-0 radial-glow-masala opacity-35 pointer-events-none" />
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 relative z-10"
+                      className="w-full h-full object-contain group-hover:scale-108 transition-transform duration-500 relative z-0 pointer-events-none"
                     />
-                    <span className="absolute top-2.5 left-2.5 text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#241A10] text-[#FFF6E8] border border-[#4A1C10]/60">
+                    <span className="absolute top-2.5 left-2.5 text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#241A10] text-[#FFF6E8] border border-[#4A1C10]/60 z-20">
                       {product.category}
                     </span>
                   </div>
@@ -211,24 +218,25 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
                   <div className="space-y-1.5 flex-1 flex flex-col justify-between">
                     <div>
                       <h3 className="font-display text-base font-bold text-[#FFF6E8] group-hover:text-[#D9683F] transition-colors">
-                        <Link to={`/product/${product.id}`}>
-                          {product.name}
-                        </Link>
+                        {product.name}
                       </h3>
                       <p className="text-[11px] text-[#FFF6E8]/65 line-clamp-2 mt-1">
                         {product.shortDescription}
                       </p>
                     </div>
 
-                    <div className="pt-3 mt-3 border-t border-[#4A1C10]/40 flex items-center justify-between">
+                    <div className="pt-3 mt-3 border-t border-[#4A1C10]/40 flex items-center justify-between relative z-20">
                       <div>
                         <span className="text-[9px] uppercase tracking-wider text-[#FFF6E8]/50 block">From</span>
                         <span className="font-display font-black text-sm text-[#D9683F]">Rs. {product.startingPrice}</span>
                       </div>
 
                       <button
-                        onClick={(e) => handleQuickAdd(product, e)}
-                        className="px-3.5 py-1.5 bg-gradient-to-r from-[#B0472B] to-[#7E2F1C] hover:from-[#D9683F] hover:to-[#B0472B] text-white text-[10px] uppercase font-bold tracking-widest rounded transition-all shadow-md cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleQuickAdd(product, e);
+                        }}
+                        className="px-3.5 py-1.5 bg-gradient-to-r from-[#B0472B] to-[#7E2F1C] hover:from-[#D9683F] hover:to-[#B0472B] text-white text-[10px] uppercase font-bold tracking-widest rounded transition-all shadow-md cursor-pointer relative z-30"
                       >
                         <ShoppingBag className="w-3 h-3 inline mr-1" /> Add
                       </button>
