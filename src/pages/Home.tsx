@@ -116,6 +116,24 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
 
 
       {/* -------------------------------------------------------------------------- */}
+      {/* 0. INTRO VIDEO BANNER (Top Section below Navbar)                          */}
+      {/* -------------------------------------------------------------------------- */}
+      <section className="relative w-full h-[40vh] min-h-[300px] bg-[#0E0904] overflow-hidden">
+        <video
+          src="/IMG_0199.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className="w-full h-full object-cover bg-[#0E0904]"
+          style={{ fetchPriority: 'high' } as any}
+        />
+        {/* Subtle gradient overlay to blend perfectly with the dark CinematicHero below */}
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0E0904] to-transparent z-10" />
+      </section>
+
+      {/* -------------------------------------------------------------------------- */}
       {/* 1. CINEMATIC HERO (Full Viewport, Letterbox Bars, Focus Pull Reveal)        */}
       {/* -------------------------------------------------------------------------- */}
       <CinematicHero 
@@ -159,24 +177,6 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
             </Link>
           ))}
         </div>
-      </section>
-
-      {/* -------------------------------------------------------------------------- */}
-      {/* INTRO VIDEO BANNER (Placed right above the dark brown part)               */}
-      {/* -------------------------------------------------------------------------- */}
-      <section className="relative w-full h-[40vh] min-h-[300px] bg-[#F7F5F2] overflow-hidden">
-        <video
-          src="/videos/hero_video.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="w-full h-full object-cover bg-[#241A10]"
-          style={{ fetchPriority: 'high' } as any}
-        />
-        {/* Subtle gradient overlay to blend with the dark section below */}
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#241A10] to-transparent z-10" />
       </section>
 
       {/* -------------------------------------------------------------------------- */}
