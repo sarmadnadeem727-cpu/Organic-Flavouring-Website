@@ -115,6 +115,22 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
       </AnimatePresence>
 
       {/* -------------------------------------------------------------------------- */}
+      {/* 0. INTRO VIDEO BANNER (Top Section below Navbar)                          */}
+      {/* -------------------------------------------------------------------------- */}
+      <section className="relative w-full h-[40vh] min-h-[300px] bg-[#F7F5F2] overflow-hidden">
+        <video
+          src="/videos/hero_video.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
+        />
+        {/* Subtle gradient overlay to blend with the dark section below */}
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#120D08] to-transparent z-10" />
+      </section>
+
+      {/* -------------------------------------------------------------------------- */}
       {/* 1. CINEMATIC HERO (Full Viewport, Letterbox Bars, Focus Pull Reveal)        */}
       {/* -------------------------------------------------------------------------- */}
       <CinematicHero 

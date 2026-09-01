@@ -314,7 +314,7 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
   return (
     <section 
       key={keyReset}
-      className="relative w-full h-[100vh] min-h-[720px] max-h-[1080px] bg-[#0E0904] flex items-center justify-center overflow-hidden select-none"
+      className="relative w-full h-[60vh] min-h-[500px] max-h-[800px] bg-[#0E0904] flex items-center justify-center overflow-hidden select-none"
       style={{ contain: 'paint layout' }}
     >
       {/* -------------------------------------------------------------------------- */}
