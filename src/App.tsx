@@ -17,6 +17,7 @@ import Certifications from './pages/Certifications';
 import Recipes from './pages/Recipes';
 import Transparency from './pages/Transparency';
 import Contact from './pages/Contact';
+import Reviews from './pages/Reviews';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -79,6 +80,7 @@ export default function App() {
               <Route path="/recipes" element={<Recipes />} />
               <Route path="/transparency" element={<Transparency />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/reviews" element={<Reviews />} />
             </Routes>
           </main>
 

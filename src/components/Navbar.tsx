@@ -113,6 +113,12 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
               >
                 Contact
               </Link>
+              <Link
+                to="/reviews"
+                className={`transition-colors ${location.pathname === '/reviews' ? 'text-[#D9542F] font-semibold' : 'hover:text-[#D9542F]'}`}
+              >
+                Reviews
+              </Link>
             </div>
 
             {/* Search Bar */}
@@ -230,6 +236,13 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
               className="block py-2 text-[#222222] hover:text-[#D9542F] font-medium"
             >
               Contact & Wholesale Desk
+            </Link>
+            <Link
+              to="/reviews"
+              onClick={() => setIsOpen(false)}
+              className="block py-2 text-[#222222] hover:text-[#D9542F] font-medium"
+            >
+              Customer Reviews
             </Link>
           </div>
         )}

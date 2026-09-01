@@ -48,6 +48,7 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
               <li><Link to="/origin" className="hover:text-[#D9542F]">Origin & Terroirs</Link></li>
               <li><Link to="/recipes" className="hover:text-[#D9542F]">Recipes & Pairings</Link></li>
               <li><Link to="/transparency" className="hover:text-[#D9542F]">Batch Transparency</Link></li>
+              <li><Link to="/reviews" className="hover:text-[#D9542F]">Customer Reviews</Link></li>
               <li><Link to="/contact" className="hover:text-[#D9542F]">Contact & Wholesale</Link></li>
               <li className="pt-1"><span className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-[#D9542F]" /> {officialInfo.phone}</span></li>
             </ul>
@@ -94,6 +95,7 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[#666666] text-[11px] gap-2">
           <p>© 1994 – {new Date().getFullYear()} Organic Flavouring. All Rights Reserved. Lahore, Pakistan.</p>
           <div className="flex space-x-4">
+            <Link to="/reviews" className="hover:text-[#D9542F]">Reviews</Link>
             <Link to="/certifications" className="hover:text-[#D9542F]">Certifications</Link>
             <Link to="/contact" className="hover:text-[#D9542F]">Contact</Link>
           </div>
