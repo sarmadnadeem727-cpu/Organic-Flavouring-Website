@@ -318,15 +318,37 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
       style={{ contain: 'paint layout' }}
     >
       {/* -------------------------------------------------------------------------- */}
+      {/* LAYER 0: Background Video                                                   */}
+      {/* -------------------------------------------------------------------------- */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center bg-[#0E0904] pointer-events-none">
+        {/* Fallback text if video fails to render or is transparent */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-[#E8A33D] z-0 opacity-40 text-center px-4">
+          <span className="text-sm tracking-widest uppercase">Video Loading...</span>
+          <span className="text-xs mt-2 opacity-70">If it stays blank, please ensure IMG_0199.mp4 is encoded in H.264 (not HEVC)</span>
+        </div>
+        <video
+          src="/IMG_0199.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className="w-full h-full object-cover relative z-10 opacity-40 mix-blend-screen"
+          style={{ fetchPriority: 'high' } as any}
+        />
+        {/* Dark gradient overlay to blend perfectly and not wash out the text */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0E0904]/70 via-transparent to-[#0E0904]/90 z-20 pointer-events-none" />
+      </div>
+
+      {/* -------------------------------------------------------------------------- */}
       {/* LAYER 1: Ken Burns Glow + Dark Layered Backdrop                            */}
       {/* -------------------------------------------------------------------------- */}
       <div 
         className="absolute -inset-12 pointer-events-none animate-ken-burns z-0"
         style={{
           background: `
-            radial-gradient(ellipse 55% 55% at 78% 22%, rgba(232, 163, 61, 0.18) 0%, rgba(232, 163, 61, 0.03) 50%, transparent 75%),
-            radial-gradient(ellipse 60% 60% at 20% 82%, rgba(176, 71, 43, 0.22) 0%, rgba(176, 71, 43, 0.05) 50%, transparent 75%),
-            linear-gradient(145deg, #181008 0%, #0E0904 55%, #080502 100%)
+            radial-gradient(ellipse 55% 55% at 78% 22%, rgba(232, 163, 61, 0.22) 0%, rgba(232, 163, 61, 0.05) 50%, transparent 75%),
+            radial-gradient(ellipse 60% 60% at 20% 82%, rgba(176, 71, 43, 0.28) 0%, rgba(176, 71, 43, 0.08) 50%, transparent 75%)
           `
         }}
       />

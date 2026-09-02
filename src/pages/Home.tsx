@@ -117,31 +117,6 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
 
 
       {/* -------------------------------------------------------------------------- */}
-      {/* 0. INTRO VIDEO CARD (Separated from Hero)                                 */}
-      {/* -------------------------------------------------------------------------- */}
-      <section className="bg-[#FBF3E7] pt-8 pb-4 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-[#241A10]/10 bg-[#0E0904] relative">
-          
-          {/* Fallback text if video fails to render */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-[#E8A33D] z-0 opacity-50 text-center px-4 bg-[#0E0904]">
-            <span className="text-sm tracking-widest uppercase font-bold">Video Loading...</span>
-            <span className="text-xs mt-2 opacity-70">If it stays blank, please ensure IMG_0199.mp4 is encoded in H.264 (not HEVC)</span>
-          </div>
-
-          <video
-            src="/IMG_0199.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            className="w-full h-auto aspect-video sm:aspect-auto object-contain sm:max-h-[70vh] relative z-10"
-            style={{ fetchPriority: 'high' } as any}
-          />
-        </div>
-      </section>
-
-      {/* -------------------------------------------------------------------------- */}
       {/* 1. CINEMATIC HERO (Full Viewport, Letterbox Bars, Focus Pull Reveal)        */}
       {/* -------------------------------------------------------------------------- */}
       <CinematicHero 
