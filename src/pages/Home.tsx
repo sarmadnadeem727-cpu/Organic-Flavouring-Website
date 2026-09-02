@@ -73,26 +73,7 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
         }
       );
     }
-
-    // 3. Materializing Trust Row Icons (scale 0.8 + blur to sharp)
-    if (trustRowRef.current) {
-      const icons = trustRowRef.current.querySelectorAll('.trust-icon-box');
-      gsap.fromTo(
-        icons,
-        { scale: 0.8, filter: 'blur(4px)', opacity: 0 },
-        {
-          scale: 1,
-          filter: 'blur(0px)',
-          opacity: 1,
-          duration: 0.6,
-          stagger: 0.12,
-          scrollTrigger: {
-            trigger: trustRowRef.current,
-            start: 'top 85%'
-          }
-        }
-      );
-    }
+    // Removed trustRowRef materializing GSAP animation as it is now a CSS marquee
   }, []);
 
   const quoteText = "What started as a spice trading business in 1994 grew through nothing but trust — delivering unadulterated flavor from Pakistan’s fertile soils directly to family kitchens.";
@@ -271,23 +252,53 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
             ))}
           </div>
 
-          {/* Materializing Trust Row Icons */}
-          <div ref={trustRowRef} className="pt-8 border-t border-[#4A1C10]/50 grid grid-cols-2 sm:grid-cols-4 gap-6 text-xs text-[#FFF6E8]/80 font-bold">
-            <div className="trust-icon-box flex items-center justify-center gap-2 p-3 bg-[#241A10] rounded-xl border border-[#4A1C10]/40">
-              <HalalIcon className="w-5 h-5 shrink-0" />
-              <span>Halal Certified</span>
+          {/* Continuous Ticker Tape Trust Row */}
+          <div className="pt-8 border-t border-[#4A1C10]/50 overflow-hidden relative flex w-full max-w-full mx-auto" style={{ maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}>
+            
+            <div className="flex animate-marquee shrink-0 items-center justify-around gap-6 pr-6 w-max">
+              {[...Array(2)].map((_, i) => (
+                <React.Fragment key={i}>
+                  <div className="flex items-center justify-center gap-2 p-3 px-6 bg-[#241A10] rounded-xl border border-[#4A1C10]/40 text-xs text-[#FFF6E8]/80 font-bold shrink-0">
+                    <HalalIcon className="w-5 h-5 shrink-0" />
+                    <span>Halal Certified</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 p-3 px-6 bg-[#241A10] rounded-xl border border-[#4A1C10]/40 text-xs text-[#FFF6E8]/80 font-bold shrink-0">
+                    <IsoIcon className="w-5 h-5 shrink-0" />
+                    <span>ISO 9001:2015</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 p-3 px-6 bg-[#241A10] rounded-xl border border-[#4A1C10]/40 text-xs text-[#FFF6E8]/80 font-bold shrink-0">
+                    <FamilyOwnedIcon className="w-5 h-5 shrink-0" />
+                    <span>Est. 1994</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 p-3 px-6 bg-[#241A10] rounded-xl border border-[#4A1C10]/40 text-xs text-[#FFF6E8]/80 font-bold shrink-0">
+                    <DeliveryTruckIcon className="w-5 h-5 shrink-0" />
+                    <span>Nationwide COD</span>
+                  </div>
+                </React.Fragment>
+              ))}
             </div>
-            <div className="trust-icon-box flex items-center justify-center gap-2 p-3 bg-[#241A10] rounded-xl border border-[#4A1C10]/40">
-              <IsoIcon className="w-5 h-5 shrink-0" />
-              <span>ISO 9001:2015</span>
-            </div>
-            <div className="trust-icon-box flex items-center justify-center gap-2 p-3 bg-[#241A10] rounded-xl border border-[#4A1C10]/40">
-              <FamilyOwnedIcon className="w-5 h-5 shrink-0" />
-              <span>Est. 1994</span>
-            </div>
-            <div className="trust-icon-box flex items-center justify-center gap-2 p-3 bg-[#241A10] rounded-xl border border-[#4A1C10]/40">
-              <DeliveryTruckIcon className="w-5 h-5 shrink-0" />
-              <span>Nationwide COD</span>
+
+            <div className="flex animate-marquee shrink-0 items-center justify-around gap-6 pr-6 w-max" aria-hidden="true">
+              {[...Array(2)].map((_, i) => (
+                <React.Fragment key={i}>
+                  <div className="flex items-center justify-center gap-2 p-3 px-6 bg-[#241A10] rounded-xl border border-[#4A1C10]/40 text-xs text-[#FFF6E8]/80 font-bold shrink-0">
+                    <HalalIcon className="w-5 h-5 shrink-0" />
+                    <span>Halal Certified</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 p-3 px-6 bg-[#241A10] rounded-xl border border-[#4A1C10]/40 text-xs text-[#FFF6E8]/80 font-bold shrink-0">
+                    <IsoIcon className="w-5 h-5 shrink-0" />
+                    <span>ISO 9001:2015</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 p-3 px-6 bg-[#241A10] rounded-xl border border-[#4A1C10]/40 text-xs text-[#FFF6E8]/80 font-bold shrink-0">
+                    <FamilyOwnedIcon className="w-5 h-5 shrink-0" />
+                    <span>Est. 1994</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 p-3 px-6 bg-[#241A10] rounded-xl border border-[#4A1C10]/40 text-xs text-[#FFF6E8]/80 font-bold shrink-0">
+                    <DeliveryTruckIcon className="w-5 h-5 shrink-0" />
+                    <span>Nationwide COD</span>
+                  </div>
+                </React.Fragment>
+              ))}
             </div>
           </div>
 
