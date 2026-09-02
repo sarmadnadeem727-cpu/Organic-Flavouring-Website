@@ -62,7 +62,7 @@ export default function App() {
             onOpenContactModal={() => setIsContactModalOpen(true)}
           />
           
-          <main className="flex-grow pt-16">
+          <main className="flex-grow">
             <Routes>
               <Route path="/" element={
                 <Home 

@@ -320,7 +320,7 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
       {/* -------------------------------------------------------------------------- */}
       {/* LAYER 0: Background Video                                                   */}
       {/* -------------------------------------------------------------------------- */}
-      <div className="absolute inset-0 z-0 flex items-center justify-center bg-[#0E0904]">
+      <div className="absolute inset-0 z-0 flex items-center justify-center bg-[#0E0904] pointer-events-none">
         {/* Fallback text if video fails to render or is transparent */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-[#E8A33D] z-0 opacity-40 text-center px-4">
           <span className="text-sm tracking-widest uppercase">Video Loading...</span>
@@ -402,7 +402,7 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
       {/* -------------------------------------------------------------------------- */}
       {/* LAYER 6: Centered Hero Copy + Actual Logo Reveal (In Front after Impact)    */}
       {/* -------------------------------------------------------------------------- */}
-      <div className="relative z-20 max-w-4xl mx-auto px-6 sm:px-8 text-center flex flex-col items-center justify-center my-auto">
+      <div className="relative z-20 max-w-4xl mx-auto px-6 sm:px-8 text-center flex flex-col items-center justify-center my-auto pointer-events-auto">
         
         {/* ACTUAL LOGO REVEAL: Positioned in front at impact point */}
         <div className={`mb-4 transition-all duration-300 ${impactHappened ? 'opacity-100' : 'opacity-0'}`}>
