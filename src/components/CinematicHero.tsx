@@ -433,15 +433,7 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
           </h1>
         </div>
 
-        {/* Subtitle description */}
-        <p 
-          className={`text-sm sm:text-base text-[#FBF3E7]/75 max-w-lg mx-auto leading-relaxed mb-6 sm:mb-8 transition-all duration-500 ${
-            impactHappened ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
-          }`}
-          style={{ transitionDelay: '0.45s' }}
-        >
-          Whole pods, hand-cracked and milled fresh — not sitting in a warehouse for months. 100% pure botanical flavor with zero additives.
-        </p>
+
 
         {/* CTA Actions */}
         <div 
