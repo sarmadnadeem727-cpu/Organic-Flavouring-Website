@@ -252,27 +252,60 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
             ))}
           </div>
 
-          {/* Vertical Trust Card */}
-          <div className="pt-12 border-t border-[#4A1C10]/50 flex justify-center">
-            <div className="bg-[#241A10] rounded-2xl border border-[#4A1C10]/40 p-5 flex flex-col gap-3 shadow-xl max-w-xs w-full">
-              {[
-                { Icon: HalalIcon, text: 'Halal Certified', delay: 0 },
-                { Icon: IsoIcon, text: 'ISO 9001:2015', delay: 0.1 },
-                { Icon: FamilyOwnedIcon, text: 'Est. 1994', delay: 0.2 },
-                { Icon: DeliveryTruckIcon, text: 'Nationwide COD', delay: 0.3 }
-              ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.5, delay: item.delay, type: 'spring', stiffness: 100 }}
-                  className="flex items-center gap-4 p-3 bg-[#1B140F] rounded-xl border border-[#4A1C10]/30 hover:border-[#D89A2E] hover:bg-[#1f1711] transition-all cursor-default"
-                >
-                  <item.Icon className="w-5 h-5 shrink-0 text-[#D89A2E]" />
-                  <span className="text-xs text-[#FFF6E8] font-bold tracking-wide uppercase">{item.text}</span>
-                </motion.div>
-              ))}
+          {/* Horizontal Light Trust Card with Continuous Marquee */}
+          <div className="pt-12 border-t border-[#4A1C10]/50 flex justify-center px-4">
+            <div className="bg-[#FBF3E7] rounded-2xl border-2 border-[#E0A020]/30 p-4 shadow-2xl w-full max-w-4xl relative overflow-hidden flex items-center">
+              
+              {/* Gradient Mask for smooth fade on edges of the light card */}
+              <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#FBF3E7] to-transparent z-10 pointer-events-none rounded-l-2xl" />
+              <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#FBF3E7] to-transparent z-10 pointer-events-none rounded-r-2xl" />
+
+              <div className="flex animate-marquee shrink-0 items-center gap-10 pr-10 w-max">
+                {[...Array(3)].map((_, i) => (
+                  <React.Fragment key={i}>
+                    <div className="flex items-center justify-center gap-3 py-2 px-4 bg-white rounded-xl border border-[#E5D7C5] shadow-sm text-xs text-[#241D17] font-bold shrink-0">
+                      <HalalIcon className="w-5 h-5 shrink-0 text-[#6E8A4E]" />
+                      <span className="uppercase tracking-widest">Halal Certified</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-3 py-2 px-4 bg-white rounded-xl border border-[#E5D7C5] shadow-sm text-xs text-[#241D17] font-bold shrink-0">
+                      <IsoIcon className="w-5 h-5 shrink-0 text-[#D9542F]" />
+                      <span className="uppercase tracking-widest">ISO 9001:2015</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-3 py-2 px-4 bg-white rounded-xl border border-[#E5D7C5] shadow-sm text-xs text-[#241D17] font-bold shrink-0">
+                      <FamilyOwnedIcon className="w-5 h-5 shrink-0 text-[#D89A2E]" />
+                      <span className="uppercase tracking-widest">Est. 1994</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-3 py-2 px-4 bg-white rounded-xl border border-[#E5D7C5] shadow-sm text-xs text-[#241D17] font-bold shrink-0">
+                      <DeliveryTruckIcon className="w-5 h-5 shrink-0 text-[#241D17]" />
+                      <span className="uppercase tracking-widest">Nationwide COD</span>
+                    </div>
+                  </React.Fragment>
+                ))}
+              </div>
+
+              <div className="flex animate-marquee shrink-0 items-center gap-10 pr-10 w-max" aria-hidden="true">
+                {[...Array(3)].map((_, i) => (
+                  <React.Fragment key={i}>
+                    <div className="flex items-center justify-center gap-3 py-2 px-4 bg-white rounded-xl border border-[#E5D7C5] shadow-sm text-xs text-[#241D17] font-bold shrink-0">
+                      <HalalIcon className="w-5 h-5 shrink-0 text-[#6E8A4E]" />
+                      <span className="uppercase tracking-widest">Halal Certified</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-3 py-2 px-4 bg-white rounded-xl border border-[#E5D7C5] shadow-sm text-xs text-[#241D17] font-bold shrink-0">
+                      <IsoIcon className="w-5 h-5 shrink-0 text-[#D9542F]" />
+                      <span className="uppercase tracking-widest">ISO 9001:2015</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-3 py-2 px-4 bg-white rounded-xl border border-[#E5D7C5] shadow-sm text-xs text-[#241D17] font-bold shrink-0">
+                      <FamilyOwnedIcon className="w-5 h-5 shrink-0 text-[#D89A2E]" />
+                      <span className="uppercase tracking-widest">Est. 1994</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-3 py-2 px-4 bg-white rounded-xl border border-[#E5D7C5] shadow-sm text-xs text-[#241D17] font-bold shrink-0">
+                      <DeliveryTruckIcon className="w-5 h-5 shrink-0 text-[#241D17]" />
+                      <span className="uppercase tracking-widest">Nationwide COD</span>
+                    </div>
+                  </React.Fragment>
+                ))}
+              </div>
+
             </div>
           </div>
 
