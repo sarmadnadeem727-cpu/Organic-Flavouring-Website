@@ -164,16 +164,29 @@ export default function Shop() {
                 />
 
                 {/* Image Box */}
-                <div className="relative aspect-square p-6 flex items-center justify-center overflow-hidden">
+                <div className="relative aspect-square p-6 flex items-center justify-center overflow-hidden group/image">
                   <div className="absolute inset-0 radial-glow-turmeric opacity-50 pointer-events-none" />
                   <img
                     src={product.image}
                     alt={product.name}
                     className="w-full h-full object-contain group-hover:scale-108 transition-transform duration-500 relative z-0 pointer-events-none"
                   />
-                  <span className="absolute top-3 left-3 bg-[#3E2A1C] text-[#E0A020] text-[10px] font-bold px-2.5 py-0.5 rounded uppercase tracking-widest z-20">
+                  <span className="absolute top-3 left-3 bg-[#3E2A1C] text-[#E0A020] text-[10px] font-bold px-2.5 py-0.5 rounded uppercase tracking-widest z-20 shadow-sm">
                     {product.category}
                   </span>
+
+                  {/* Hover Details Overlay */}
+                  <div className="absolute inset-0 bg-[#0E0904]/95 backdrop-blur-sm p-6 flex flex-col justify-center translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-30">
+                    <h4 className="font-serif-heading text-[#F0C36B] text-sm font-bold mb-3 border-b border-[#F0C36B]/30 pb-2">Inside the Pack</h4>
+                    <ul className="space-y-2">
+                      {product.freshnessHighlights.slice(0, 3).map((highlight, i) => (
+                        <li key={i} className="flex items-start gap-2 text-[11px] text-[#FBF3E7]/90 leading-tight">
+                          <span className="text-[#D9542F] mt-0.5">•</span>
+                          <span>{highlight}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
 
                 {/* Details & Direct Quick Add */}
