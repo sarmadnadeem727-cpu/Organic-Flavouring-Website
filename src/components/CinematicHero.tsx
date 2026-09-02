@@ -321,11 +321,6 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
       {/* LAYER 0: Background Video                                                   */}
       {/* -------------------------------------------------------------------------- */}
       <div className="absolute inset-0 z-0 flex items-center justify-center bg-[#0E0904] pointer-events-none">
-        {/* Fallback text if video fails to render or is transparent */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-[#E8A33D] z-0 opacity-40 text-center px-4">
-          <span className="text-sm tracking-widest uppercase">Video Loading...</span>
-          <span className="text-xs mt-2 opacity-70">If it stays blank, please ensure IMG_0199.mp4 is encoded in H.264 (not HEVC)</span>
-        </div>
         <video
           src="/IMG_0199.mp4"
           autoPlay
