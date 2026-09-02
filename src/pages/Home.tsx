@@ -115,29 +115,6 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
       </AnimatePresence>
 
 
-      {/* -------------------------------------------------------------------------- */}
-      {/* 0. INTRO VIDEO BANNER (Top Section below Navbar)                          */}
-      {/* -------------------------------------------------------------------------- */}
-      <section className="relative w-full h-[40vh] min-h-[300px] bg-[#0E0904] overflow-hidden flex items-center justify-center">
-        {/* Fallback text if video fails to render or is transparent */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-[#E8A33D] z-0 opacity-50 text-center px-4">
-          <span className="text-sm tracking-widest uppercase">Video Loading...</span>
-          <span className="text-xs mt-2 opacity-70">If it stays blank, please ensure IMG_0199.mp4 is encoded in H.264 (not HEVC)</span>
-        </div>
-
-        <video
-          src="/IMG_0199.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="w-full h-full object-cover relative z-10"
-          style={{ fetchPriority: 'high' } as any}
-        />
-        {/* Subtle gradient overlay to blend perfectly with the dark CinematicHero below */}
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0E0904] to-transparent z-20 pointer-events-none" />
-      </section>
 
       {/* -------------------------------------------------------------------------- */}
       {/* 1. CINEMATIC HERO (Full Viewport, Letterbox Bars, Focus Pull Reveal)        */}
