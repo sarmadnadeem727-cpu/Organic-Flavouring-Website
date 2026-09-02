@@ -314,7 +314,7 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
   return (
     <section 
       key={keyReset}
-      className="relative w-full h-[60vh] min-h-[500px] max-h-[800px] bg-[#0E0904] flex items-center justify-center overflow-hidden select-none"
+      className="relative w-full min-h-[85vh] md:min-h-screen py-24 bg-[#0E0904] flex items-center justify-center overflow-hidden select-none"
       style={{ contain: 'paint layout' }}
     >
       {/* -------------------------------------------------------------------------- */}
@@ -452,7 +452,7 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
         >
           <a
             href="#crate-section"
-            className="px-8 py-3.5 bg-gradient-to-r from-[#E8663D] via-[#B0472B] to-[#7E2F1C] hover:from-[#B0472B] hover:to-[#4A1C10] text-white text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] rounded-md transition-all shadow-xl hover:-translate-y-0.5 cursor-pointer"
+            className="relative z-50 pointer-events-auto px-8 py-3.5 bg-gradient-to-r from-[#E8663D] via-[#B0472B] to-[#7E2F1C] hover:from-[#B0472B] hover:to-[#4A1C10] text-white text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] rounded-md transition-all shadow-xl hover:-translate-y-0.5 cursor-pointer"
             style={{ boxShadow: '0 16px 34px -14px rgba(176, 71, 43, 0.65)' }}
           >
             Shop the Harvest
@@ -461,7 +461,7 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
           {onOpenCertModal && (
             <button 
               onClick={onOpenCertModal}
-              className="text-[12px] uppercase tracking-[0.18em] text-[#FBF3E7]/75 hover:text-[#F0C36B] transition-colors py-2 px-3 cursor-pointer border-b border-[#FBF3E7]/30 hover:border-[#F0C36B]"
+              className="relative z-50 pointer-events-auto text-[12px] uppercase tracking-[0.18em] text-[#FBF3E7]/75 hover:text-[#F0C36B] transition-colors py-2 px-3 cursor-pointer border-b border-[#FBF3E7]/30 hover:border-[#F0C36B]"
             >
               Watch it happen ↻
             </button>

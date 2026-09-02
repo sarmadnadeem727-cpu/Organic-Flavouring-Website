@@ -37,10 +37,10 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
   return (
     <>
       {/* Top Notification Bar */}
-      <div className="bg-[#F7F5F2] text-[#222222] text-xs py-2 px-4 text-center border-b border-[#E5E0D8] font-medium flex items-center justify-center gap-4">
+      <div className="bg-[#415C29] text-[#FBF3E7] text-xs py-2 px-4 text-center border-b border-[#2E451C] font-medium flex items-center justify-center gap-4">
         <span>Free Nationwide Delivery on Orders over Rs. 2,500</span>
-        <span className="hidden sm:inline text-[#666666]">|</span>
-        <Link to="/certifications" className="hidden sm:inline text-[#D9542F] hover:underline font-semibold cursor-pointer">
+        <span className="hidden sm:inline text-[#FBF3E7]/50">|</span>
+        <Link to="/certifications" className="hidden sm:inline text-[#F0C36B] hover:text-[#FFF6E8] hover:underline font-semibold cursor-pointer transition-colors">
           Halal & ISO Certified
         </Link>
       </div>
