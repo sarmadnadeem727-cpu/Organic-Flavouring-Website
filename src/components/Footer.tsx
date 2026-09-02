@@ -45,8 +45,6 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
             <h4 className="font-bold text-[#222222] uppercase tracking-wider text-[11px] mb-3">Discovery</h4>
             <ul className="space-y-2 text-[#666666]">
               <li><Link to="/about" className="hover:text-[#D9542F]">Our Story (Est. 1994)</Link></li>
-              <li><Link to="/origin" className="hover:text-[#D9542F]">Origin & Terroirs</Link></li>
-              <li><Link to="/recipes" className="hover:text-[#D9542F]">Recipes & Pairings</Link></li>
               <li><Link to="/transparency" className="hover:text-[#D9542F]">Batch Transparency</Link></li>
               <li><Link to="/reviews" className="hover:text-[#D9542F]">Customer Reviews</Link></li>
               <li><Link to="/contact" className="hover:text-[#D9542F]">Contact & Wholesale</Link></li>

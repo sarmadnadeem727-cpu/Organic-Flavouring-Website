@@ -89,18 +89,7 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
               >
                 Our Story
               </Link>
-              <Link
-                to="/origin"
-                className={`transition-colors ${location.pathname === '/origin' ? 'text-[#D9542F] font-semibold' : 'hover:text-[#D9542F]'}`}
-              >
-                Origin
-              </Link>
-              <Link
-                to="/recipes"
-                className={`transition-colors ${location.pathname === '/recipes' ? 'text-[#D9542F] font-semibold' : 'hover:text-[#D9542F]'}`}
-              >
-                Recipes
-              </Link>
+
               <Link
                 to="/certifications"
                 className={`transition-colors ${location.pathname === '/certifications' ? 'text-[#D9542F] font-semibold' : 'hover:text-[#D9542F]'}`}
@@ -202,20 +191,7 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
             >
               Our Heritage & Story
             </Link>
-            <Link
-              to="/origin"
-              onClick={() => setIsOpen(false)}
-              className="block py-2 text-[#222222] hover:text-[#D9542F] font-medium"
-            >
-              Origin & Terroir
-            </Link>
-            <Link
-              to="/recipes"
-              onClick={() => setIsOpen(false)}
-              className="block py-2 text-[#222222] hover:text-[#D9542F] font-medium"
-            >
-              Recipes & Pairings
-            </Link>
+
             <Link
               to="/transparency"
               onClick={() => setIsOpen(false)}
