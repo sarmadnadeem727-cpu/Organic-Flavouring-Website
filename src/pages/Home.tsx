@@ -26,7 +26,7 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
   const crateRotations = [-3.5, 4.2, -2.8, 3.8, -4.5, 2.5, -3.0];
 
   const categoryTiles = [
-    { id: 'Chilli', name: 'Chilli & Flakes', image: assets.powderMain, count: 'Pure Pod Harvest' },
+    { id: 'Chilli', name: 'Chilli & Flakes', image: assets.flakesMain, count: 'Pure Pod Harvest' },
     { id: 'Powders', name: 'Everyday Powders', image: assets.qualitySeal, count: 'Stone Ground Daily' },
     { id: 'Whole Spices', name: 'Whole Spices', image: assets.macroTexture, count: 'Single Origin Belts' },
     { id: 'Flour', name: 'Gram Flour (Besan)', image: assets.packagingRange, count: 'Double Sifted' }
