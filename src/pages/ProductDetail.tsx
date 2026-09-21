@@ -293,33 +293,7 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* Simple Two-Column Detail Table (Origin / Heat Level / Form / Certification) */}
-            <div className="border-t border-[#E5D7C5] pt-2">
-              <div className="text-xs divide-y divide-[#E5D7C5]">
-                <div className="py-2.5 flex justify-between items-center">
-                  <span className="font-bold text-[#2A1F16]/70 uppercase text-[10px] tracking-wider">Origin</span>
-                  <Link to="/origin" className="font-semibold text-[#B0472B] hover:underline flex items-center gap-1 text-right">
-                    {product.sourcingOrigin || 'Sindh & Punjab'} →
-                  </Link>
-                </div>
-                <div className="py-2.5 flex justify-between items-center">
-                  <span className="font-bold text-[#2A1F16]/70 uppercase text-[10px] tracking-wider">Heat Level</span>
-                  <span className="font-semibold text-[#241A10] text-right">
-                    {product.heatName || (product.heatLevel ? `${product.heatLevel} / 5 Heat` : 'Gentle Aromatic')}
-                  </span>
-                </div>
-                <div className="py-2.5 flex justify-between items-center">
-                  <span className="font-bold text-[#2A1F16]/70 uppercase text-[10px] tracking-wider">Form</span>
-                  <span className="font-semibold text-[#241A10] text-right">Stone-Milled Pure Powder</span>
-                </div>
-                <div className="py-2.5 flex justify-between items-center">
-                  <span className="font-bold text-[#2A1F16]/70 uppercase text-[10px] tracking-wider">Certification</span>
-                  <Link to="/certifications" className="font-semibold text-[#6E8A4E] hover:underline flex items-center gap-1 text-right">
-                    Halal & ISO 9001:2015 →
-                  </Link>
-                </div>
-              </div>
-            </div>
+
 
             {/* Stepper & Full-Width Add to Cart Button (Clay Gradient Fill & Colored Drop Shadow) */}
             {!selectedSize.isBulk && (
