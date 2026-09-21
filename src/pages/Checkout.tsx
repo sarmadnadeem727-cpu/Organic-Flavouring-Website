@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useCart } from '../context/CartContext';
-import { officialInfo } from '../data/products';
-import { Trash2, Plus, Minus, Check, MessageCircle, ArrowRight } from 'lucide-react';
+import { officialInfo, brandLogo } from '../data/products';
+import { Trash2, Plus, Minus, Check, MessageCircle, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { sendOrderToAdmin, sendConfirmationToCustomer } from '../services/emailService';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export default function Checkout() {
   const { items, updateQuantity, removeFromCart, subtotal, clearCart } = useCart();
@@ -15,6 +17,12 @@ export default function Checkout() {
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerCity, setCustomerCity] = useState('Lahore');
   const [customerAddress, setCustomerAddress] = useState('');
+  const [orderId, setOrderId] = useState('');
+  
+  // Keep track of the final items when order was placed to show on slip
+  const [completedOrderDetails, setCompletedOrderDetails] = useState<any>(null);
+
+  const receiptRef = useRef<HTMLDivElement>(null);
 
   const freeShippingThreshold = 2500;
   const standardShipping = 250;
@@ -28,8 +36,10 @@ export default function Checkout() {
     
     try {
       const itemsList = items.map(i => `${i.product.name} (${i.selectedSize || 'Standard'}) x${i.quantity}`).join(', ');
+      const newOrderId = `ORD-${Math.floor(Math.random() * 1000000)}`;
       
       const orderDetails = {
+        orderId: newOrderId,
         customerName,
         customerEmail,
         customerPhone,
@@ -39,7 +49,9 @@ export default function Checkout() {
         itemsList,
         subtotal: subtotal.toLocaleString(),
         shipping: isFreeShipping ? 'FREE' : standardShipping.toString(),
-        total: finalTotal.toLocaleString()
+        total: finalTotal.toLocaleString(),
+        items: [...items],
+        date: new Date().toLocaleDateString()
       };
 
       // Send emails
@@ -48,6 +60,8 @@ export default function Checkout() {
         sendConfirmationToCustomer(orderDetails)
       ]);
 
+      setOrderId(newOrderId);
+      setCompletedOrderDetails(orderDetails);
       setIsSubmitting(false);
       setOrderComplete(true);
       clearCart();
@@ -59,13 +73,31 @@ export default function Checkout() {
   };
 
   const generateWhatsAppOrderText = () => {
-    const itemsList = items.map(i => `• ${i.product.name} (${i.selectedSize || 'Standard'}) x${i.quantity} = Rs. ${(i.product.price * i.quantity).toLocaleString()}`).join('%0A');
-    const msg = `*Order Confirmation - Organic Flavouring*%0A%0A*Items:*%0A${itemsList}%0A%0A*Subtotal:* Rs. ${subtotal.toLocaleString()}%0A*Delivery:* ${isFreeShipping ? 'FREE' : 'Rs. ' + standardShipping}%0A*Total:* Rs. ${finalTotal.toLocaleString()}%0A%0A*Customer Details:*%0AName: ${customerName || 'Customer'}%0APhone: ${customerPhone}%0ACity: ${customerCity}%0AAddress: ${customerAddress}%0APayment: ${paymentMethod === 'COD' ? 'Cash on Delivery' : 'Bank Transfer'}`;
+    if (!completedOrderDetails) return '';
+    const itemsList = completedOrderDetails.items.map((i: any) => `• ${i.product.name} (${i.selectedSize || 'Standard'}) x${i.quantity} = Rs. ${(i.product.price * i.quantity).toLocaleString()}`).join('%0A');
+    const msg = `*Order Confirmation - Organic Flavouring*%0AOrder ID: ${completedOrderDetails.orderId}%0A%0A*Items:*%0A${itemsList}%0A%0A*Subtotal:* Rs. ${completedOrderDetails.subtotal}%0A*Delivery:* ${completedOrderDetails.shipping}%0A*Total:* Rs. ${completedOrderDetails.total}%0A%0A*Customer Details:*%0AName: ${completedOrderDetails.customerName || 'Customer'}%0APhone: ${completedOrderDetails.customerPhone}%0ACity: ${completedOrderDetails.customerCity}%0AAddress: ${completedOrderDetails.customerAddress}%0APayment: ${completedOrderDetails.paymentMethod}`;
     return `https://wa.me/${officialInfo.whatsapp}?text=${msg}`;
   };
 
+  const downloadSlip = async () => {
+    if (!receiptRef.current) return;
+    
+    try {
+      const canvas = await html2canvas(receiptRef.current, { scale: 2 });
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`Organic_Flavouring_Slip_${orderId}.pdf`);
+    } catch (error) {
+      console.error("Error generating PDF", error);
+    }
+  };
+
   return (
-    <div className="bg-[#0E0904] min-h-screen text-[#FBF3E7] pb-16 pt-6">
+    <div className="bg-[#0E0904] min-h-screen text-[#FBF3E7] pb-16 pt-6 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Title */}
@@ -75,21 +107,27 @@ export default function Checkout() {
           </h1>
         </div>
 
-        {orderComplete ? (
-          <div className="bg-[#181008] rounded-lg border border-[#241A10] p-8 text-center max-w-lg mx-auto space-y-4 shadow-sm">
+        {orderComplete && completedOrderDetails ? (
+          <div className="bg-[#181008] rounded-lg border border-[#241A10] p-8 text-center max-w-lg mx-auto space-y-4 shadow-sm relative overflow-hidden">
             <div className="w-12 h-12 bg-[#6FAE3E]/10 text-[#6FAE3E] rounded-full flex items-center justify-center mx-auto border border-[#6FAE3E]/20">
               <Check className="w-6 h-6" />
             </div>
             <h2 className="text-xl font-bold text-[#F0C36B]">Order Placed Successfully</h2>
             <p className="text-xs text-[#FBF3E7]/70 leading-relaxed">
-              Thank you for shopping with Organic Flavouring. Your fresh spice order has been recorded and will be shipped shortly.
+              Thank you for shopping with Organic Flavouring. Your fresh spice order has been recorded and will be shipped shortly. Order ID: <strong>{orderId}</strong>
             </p>
-            <div className="pt-2 flex flex-col gap-2">
+            <div className="pt-4 flex flex-col gap-3">
+              <button
+                onClick={downloadSlip}
+                className="px-6 py-3 bg-[#F0C36B] hover:bg-[#e3b55c] text-[#0E0904] font-bold rounded-md transition-colors flex items-center justify-center gap-2 text-xs"
+              >
+                <Download className="w-4 h-4" /> Download Order Slip
+              </button>
               <a
                 href={generateWhatsAppOrderText()}
                 target="_blank"
                 rel="noreferrer"
-                className="px-6 py-2.5 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold rounded-md transition-colors flex items-center justify-center gap-2 text-xs"
+                className="px-6 py-3 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold rounded-md transition-colors flex items-center justify-center gap-2 text-xs"
               >
                 <MessageCircle className="w-4 h-4" /> Confirm Order via WhatsApp
               </a>
@@ -228,9 +266,13 @@ export default function Checkout() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full px-8 py-3.5 bg-gradient-to-r from-[#E8663D] via-[#B0472B] to-[#7E2F1C] hover:from-[#B0472B] hover:to-[#4A1C10] text-white text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] rounded-md transition-all shadow-xl hover:-translate-y-0.5 cursor-pointer mt-4"
+                  className="w-full px-8 py-3.5 bg-gradient-to-r from-[#E8663D] via-[#B0472B] to-[#7E2F1C] hover:from-[#B0472B] hover:to-[#4A1C10] text-white text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] rounded-md transition-all shadow-xl hover:-translate-y-0.5 cursor-pointer mt-4 flex items-center justify-center"
                 >
-                  {isSubmitting ? "Processing..." : `Place Order (Rs. ${finalTotal.toLocaleString()})`}
+                  {isSubmitting ? (
+                    <span className="animate-pulse">Processing...</span>
+                  ) : (
+                    `Place Order (Rs. ${finalTotal.toLocaleString()})`
+                  )}
                 </button>
               </form>
             </div>
@@ -246,7 +288,7 @@ export default function Checkout() {
                   {items.map(item => (
                     <div
                       key={`${item.product.id}-${item.selectedSize}`}
-                      className="flex gap-3 pb-3 border-b border-[#241A10] items-center justify-between"
+                      className="flex gap-3 pb-3 border-b border-[#241A10] items-center justify-between transition-all"
                     >
                       <img
                         src={item.product.image}
@@ -262,21 +304,21 @@ export default function Checkout() {
                         <div className="flex items-center border border-[#241A10] rounded bg-[#0E0904]">
                           <button
                             onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                            className="p-1.5 text-[#FBF3E7]/70 hover:text-[#D9542F] transition-colors"
+                            className="p-1.5 text-[#FBF3E7]/70 hover:text-[#D9542F] transition-colors cursor-pointer"
                           >
                             <Minus className="w-3 h-3" />
                           </button>
                           <span className="px-2 text-[11px] font-semibold text-[#FBF3E7]">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                            className="p-1.5 text-[#FBF3E7]/70 hover:text-[#D9542F] transition-colors"
+                            className="p-1.5 text-[#FBF3E7]/70 hover:text-[#D9542F] transition-colors cursor-pointer"
                           >
                             <Plus className="w-3 h-3" />
                           </button>
                         </div>
                         <button
                           onClick={() => removeFromCart(item.product.id)}
-                          className="p-1.5 text-[#FBF3E7]/40 hover:text-[#D9542F] transition-colors"
+                          className="p-1.5 text-[#FBF3E7]/40 hover:text-[#D9542F] transition-colors cursor-pointer"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -307,6 +349,85 @@ export default function Checkout() {
         )}
 
       </div>
+
+      {/* Hidden Receipt Element for PDF Generation */}
+      {completedOrderDetails && (
+        <div style={{ position: 'absolute', top: '-10000px', left: '-10000px' }}>
+          <div ref={receiptRef} style={{ width: '800px', padding: '40px', backgroundColor: '#FFFFFF', color: '#000000', fontFamily: 'sans-serif' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #E5E7EB', paddingBottom: '20px', marginBottom: '20px' }}>
+              <div>
+                <img src={brandLogo} alt="Organic Flavouring" style={{ height: '60px', objectFit: 'contain' }} />
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <h1 style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>ORDER SLIP</h1>
+                <p style={{ fontSize: '14px', color: '#4B5563', margin: '4px 0 0' }}>Order ID: {completedOrderDetails.orderId}</p>
+                <p style={{ fontSize: '14px', color: '#4B5563', margin: '4px 0 0' }}>Date: {completedOrderDetails.date}</p>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '30px' }}>
+              <div style={{ flex: 1 }}>
+                <h3 style={{ fontSize: '14px', fontWeight: 'bold', textTransform: 'uppercase', color: '#6B7280', margin: '0 0 8px' }}>Bill To:</h3>
+                <p style={{ fontSize: '16px', fontWeight: 'bold', margin: '0 0 4px' }}>{completedOrderDetails.customerName}</p>
+                <p style={{ fontSize: '14px', margin: '0 0 4px' }}>{completedOrderDetails.customerAddress}</p>
+                <p style={{ fontSize: '14px', margin: '0 0 4px' }}>{completedOrderDetails.customerCity}</p>
+                <p style={{ fontSize: '14px', margin: '0 0 4px' }}>{completedOrderDetails.customerPhone}</p>
+                <p style={{ fontSize: '14px', margin: '0 0 4px' }}>{completedOrderDetails.customerEmail}</p>
+              </div>
+              <div style={{ flex: 1, textAlign: 'right' }}>
+                <h3 style={{ fontSize: '14px', fontWeight: 'bold', textTransform: 'uppercase', color: '#6B7280', margin: '0 0 8px' }}>Payment Method:</h3>
+                <p style={{ fontSize: '16px', fontWeight: 'bold', margin: '0' }}>{completedOrderDetails.paymentMethod}</p>
+              </div>
+            </div>
+
+            <table style={{ w: '100%', width: '100%', borderCollapse: 'collapse', marginBottom: '30px' }}>
+              <thead>
+                <tr style={{ backgroundColor: '#F3F4F6' }}>
+                  <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #E5E7EB', fontSize: '14px', fontWeight: 'bold' }}>Item</th>
+                  <th style={{ padding: '12px', textAlign: 'center', borderBottom: '1px solid #E5E7EB', fontSize: '14px', fontWeight: 'bold' }}>Quantity</th>
+                  <th style={{ padding: '12px', textAlign: 'right', borderBottom: '1px solid #E5E7EB', fontSize: '14px', fontWeight: 'bold' }}>Price</th>
+                  <th style={{ padding: '12px', textAlign: 'right', borderBottom: '1px solid #E5E7EB', fontSize: '14px', fontWeight: 'bold' }}>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {completedOrderDetails.items.map((item: any, idx: number) => (
+                  <tr key={idx}>
+                    <td style={{ padding: '12px', borderBottom: '1px solid #E5E7EB', fontSize: '14px' }}>
+                      <div style={{ fontWeight: 'bold' }}>{item.product.name}</div>
+                      <div style={{ color: '#6B7280', fontSize: '12px' }}>{item.selectedSize}</div>
+                    </td>
+                    <td style={{ padding: '12px', borderBottom: '1px solid #E5E7EB', fontSize: '14px', textAlign: 'center' }}>{item.quantity}</td>
+                    <td style={{ padding: '12px', borderBottom: '1px solid #E5E7EB', fontSize: '14px', textAlign: 'right' }}>Rs. {item.product.price.toLocaleString()}</td>
+                    <td style={{ padding: '12px', borderBottom: '1px solid #E5E7EB', fontSize: '14px', textAlign: 'right' }}>Rs. {(item.product.price * item.quantity).toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <div style={{ width: '300px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', fontSize: '14px' }}>
+                  <span>Subtotal:</span>
+                  <span>Rs. {completedOrderDetails.subtotal}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', fontSize: '14px', borderBottom: '1px solid #E5E7EB' }}>
+                  <span>Shipping:</span>
+                  <span>{completedOrderDetails.shipping !== 'FREE' ? `Rs. ${completedOrderDetails.shipping}` : 'FREE'}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', fontSize: '18px', fontWeight: 'bold' }}>
+                  <span>Total:</span>
+                  <span>Rs. {completedOrderDetails.total}</span>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ marginTop: '50px', textAlign: 'center', color: '#6B7280', fontSize: '12px', borderTop: '1px solid #E5E7EB', paddingTop: '20px' }}>
+              <p>Thank you for shopping with Organic Flavouring!</p>
+              <p>100% Pure & Natural Spices</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
