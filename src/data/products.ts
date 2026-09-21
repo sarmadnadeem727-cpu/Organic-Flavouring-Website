@@ -145,9 +145,9 @@ export const products: Product[] = [
       { size: "400g", price: 600, sku: "2026010100017" },
       { size: "800g", price: 1200, sku: "2026010100016" }
     ],
-    image: assets.flakesMain,
+    image: "/images/products/red-chilli-flakes-1.jpg",
     gallery: [
-      assets.flakesMain,
+      "/images/products/red-chilli-flakes-1.jpg",
       assets.packagingRange,
       assets.macroTexture,
       assets.qualitySeal
@@ -181,9 +181,9 @@ export const products: Product[] = [
       { size: "400g", price: 560, sku: "2026010100024" },
       { size: "800g", price: 1120, sku: "2026010100023" }
     ],
-    image: assets.powderMain,
+    image: "/images/products/red-chilli-powder-1.jpg",
     gallery: [
-      assets.powderMain,
+      "/images/products/red-chilli-powder-1.jpg",
       assets.packagingRange,
       assets.macroTexture,
       assets.qualitySeal
@@ -217,11 +217,16 @@ export const products: Product[] = [
       { size: "400g", price: 600, sku: "2026010100035" },
       { size: "800g", price: 1200, sku: "2026010100036" }
     ],
-    image: assets.qualitySeal,
+    image: "/images/products/turmeric-powder-1.jpg",
     gallery: [
-      assets.qualitySeal,
-      assets.assortment,
-      assets.packagingRange
+      "/images/products/turmeric-powder-1.jpg",
+      "/images/products/turmeric-powder-2.jpg",
+      "/images/products/turmeric-powder-3.jpg",
+      "/images/products/turmeric-powder-4.jpg",
+      "/images/products/turmeric-powder-5.jpg",
+      "/images/products/turmeric-powder-6.jpg",
+      "/images/products/turmeric-powder-7.jpg",
+      "/images/products/turmeric-powder-8.jpg"
     ],
     heatLevel: 0,
     heatName: "Non-Pungent Earthy Warmth",
@@ -252,10 +257,10 @@ export const products: Product[] = [
       { size: "400g", price: 800, sku: "2026010100042" },
       { size: "800g", price: 1600, sku: "2026010100043" }
     ],
-    image: assets.packagingRange,
+    image: "/images/products/corriander-powder-1.jpg",
     gallery: [
-      assets.packagingRange,
-      assets.assortment,
+      "/images/products/corriander-powder-1.jpg",
+      "/images/products/corriander-powder-2.jpg",
       assets.hero
     ],
     heatLevel: 0,
@@ -287,9 +292,9 @@ export const products: Product[] = [
       { size: "400g", price: 1200, sku: "2026010100055" },
       { size: "800g", price: 2400, sku: "2026010100054" }
     ],
-    image: assets.assortment,
+    image: "/images/products/garam-masala-1.jpg",
     gallery: [
-      assets.assortment,
+      "/images/products/garam-masala-1.jpg",
       assets.culinaryTable,
       assets.qualitySeal
     ],
@@ -321,10 +326,10 @@ export const products: Product[] = [
       { size: "400g", price: 1400, sku: "2026010100066" },
       { size: "800g", price: 2800, sku: "2026010100067" }
     ],
-    image: assets.macroTexture,
+    image: "/images/products/black-pepper-1.jpg",
     gallery: [
-      assets.macroTexture,
-      assets.assortment,
+      "/images/products/black-pepper-1.jpg",
+      "/images/products/black-pepper-2.jpg",
       assets.packagingRange
     ],
     heatLevel: 3,
