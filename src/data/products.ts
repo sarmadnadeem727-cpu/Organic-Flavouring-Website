@@ -1,15 +1,15 @@
 export interface Product {
   id: string;
-  sku: number;
+  sku: string;
   name: string;
-  category: 'Chilli' | 'Powders' | 'Whole Spices' | 'Flour';
+  category: 'Chilli' | 'Powders' | 'Whole Spices' | 'Flour' | 'Herbs';
   tagline: string;
   shortDescription: string;
   description: string;
   usageAndStorage: string;
   certificationsNote: string;
   startingPrice: number; // in PKR for smallest size
-  packSizes: { size: string; price: number; isBulk?: boolean }[];
+  packSizes: { size: string; price: number; sku?: string; isBulk?: boolean }[];
   image: string;
   gallery: string[];
   heatLevel?: number; // 0 to 5
@@ -79,7 +79,7 @@ export const terroirRegions = [
     soilAndClimate: "Sun-drenched alluvial soil nourished by the Indus river plains.",
     usedInProducts: ["Red Chilli (Powder and Flakes)"],
     image: assets.packagingRange,
-    mapCoords: { x: 38, y: 72 } // Relative coordinates on stylised Pakistan map
+    mapCoords: { x: 38, y: 72 }
   },
   {
     id: "moro-sindh",
@@ -129,26 +129,24 @@ export const terroirRegions = [
 
 export const products: Product[] = [
   {
-    id: "red-chilli-powder-flakes",
-    sku: 1,
-    name: "Red Chilli (Powder and Flakes)",
+    id: "red-chilli-flakes",
+    sku: "2026010100019",
+    name: "Red Chilli Flakes",
     category: "Chilli",
     tagline: "Sun-Dried & Stone-Milled • Sindh & Kashmiri Sourcing",
-    shortDescription: "Pure single-origin red chilli powder and coarse crushed flakes. High natural carotenoid color, zero artificial Sudan dyes.",
-    description: "Our flagship Red Chilli is sourced from celebrated Pakistani terroirs including Dandi Cut Sindh, Moro Sindh, Kashmiri regions, and Tota Pari chilli-producing areas. Every batch is freshly procured, sun-cured over clean beds, and slow ground to preserve its natural aroma and rich red hue.",
+    shortDescription: "Pure single-origin coarse crushed flakes. High natural carotenoid color, zero artificial Sudan dyes.",
+    description: "Our flagship Red Chilli Flakes are sourced from celebrated Pakistani terroirs including Dandi Cut Sindh, Moro Sindh, Kashmiri regions, and Tota Pari chilli-producing areas. Every batch is freshly procured, sun-cured over clean beds, and slow ground to preserve its natural aroma and rich red hue.",
     usageAndStorage: "Store in an airtight container in a cool, dry place away from direct sunlight. Ideal for daily Pakistani salan, Nihari, Karahi, daal tarka, and BBQ marinades.",
     certificationsNote: "Halal Certified & ISO 9001:2015. 100% pure botanical with zero synthetic additives.",
-    startingPrice: 380,
+    startingPrice: 150,
     packSizes: [
-      { size: "100g Pouch", price: 380 },
-      { size: "250g Jar", price: 650 },
-      { size: "500g Resealable", price: 1200 },
-      { size: "1kg Master Pack", price: 2250 },
-      { size: "Bulk — 20kg/40kg", price: 0, isBulk: true }
+      { size: "100g", price: 150, sku: "2026010100019" },
+      { size: "200g", price: 300, sku: "2026010100018" },
+      { size: "400g", price: 600, sku: "2026010100017" },
+      { size: "800g", price: 1200, sku: "2026010100016" }
     ],
-    image: assets.powderMain,
+    image: assets.flakesMain,
     gallery: [
-      assets.powderMain,
       assets.flakesMain,
       assets.packagingRange,
       assets.macroTexture,
@@ -167,22 +165,57 @@ export const products: Product[] = [
     ]
   },
   {
+    id: "red-chilli-powder",
+    sku: "2026010100026",
+    name: "Red Chilli Powder",
+    category: "Chilli",
+    tagline: "Sun-Dried & Stone-Milled • Sindh & Kashmiri Sourcing",
+    shortDescription: "Pure single-origin red chilli powder. High natural carotenoid color, zero artificial Sudan dyes.",
+    description: "Our flagship Red Chilli Powder is sourced from celebrated Pakistani terroirs including Dandi Cut Sindh, Moro Sindh, Kashmiri regions, and Tota Pari chilli-producing areas. Every batch is freshly procured, sun-cured over clean beds, and slow ground to preserve its natural aroma and rich red hue.",
+    usageAndStorage: "Store in an airtight container in a cool, dry place away from direct sunlight. Ideal for daily Pakistani salan, Nihari, Karahi, daal tarka, and BBQ marinades.",
+    certificationsNote: "Halal Certified & ISO 9001:2015. 100% pure botanical with zero synthetic additives.",
+    startingPrice: 140,
+    packSizes: [
+      { size: "100g", price: 140, sku: "2026010100026" },
+      { size: "200g", price: 280, sku: "2026010100025" },
+      { size: "400g", price: 560, sku: "2026010100024" },
+      { size: "800g", price: 1120, sku: "2026010100023" }
+    ],
+    image: assets.powderMain,
+    gallery: [
+      assets.powderMain,
+      assets.packagingRange,
+      assets.macroTexture,
+      assets.qualitySeal
+    ],
+    heatLevel: 4,
+    heatName: "Balanced Robust Desi Heat",
+    sourcingOrigin: "Dandi Cut & Moro (Sindh) / Lodhran (Punjab)",
+    sourcingRegionId: "dandi-cut-sindh",
+    isFeatured: true,
+    freshnessHighlights: [
+      "Freshly ground from whole sun-dried pods",
+      "0% Sudan I-IV dyes or chemical coloring",
+      "Hygienically packed in ISO 9001 certified facility",
+      "Aroma & essential volatile oils preserved"
+    ]
+  },
+  {
     id: "turmeric-powder-haldi",
-    sku: 2,
-    name: "Turmeric Powder (Haldi)",
+    sku: "2026010100033",
+    name: "Turmeric Powder",
     category: "Powders",
     tagline: "High Natural Curcumin • Pure Golden Earthy Warmth",
     shortDescription: "100% pure sun-cured turmeric rhizomes, freshly ground with zero lead chromate, starch, or artificial polish.",
     description: "Sourced from fertile turmeric-growing belts in Punjab and Sindh. Tested for high natural curcumin potency, this pure Haldi brings an authentic golden warmth, rich aroma, and natural wellness to your daily cooking.",
     usageAndStorage: "Keep tightly sealed in amber glass or opaque pouch. Essential for gravies, vegetable curries, daal, and golden milk (Haldi Doodh).",
     certificationsNote: "Halal Certified & ISO 9001:2015 Quality Management System.",
-    startingPrice: 320,
+    startingPrice: 150,
     packSizes: [
-      { size: "100g Pouch", price: 320 },
-      { size: "250g Jar", price: 580 },
-      { size: "500g Resealable", price: 1100 },
-      { size: "1kg Master Pack", price: 2100 },
-      { size: "Bulk — 20kg/40kg", price: 0, isBulk: true }
+      { size: "100g", price: 150, sku: "2026010100033" },
+      { size: "200g", price: 300, sku: "2026010100034" },
+      { size: "400g", price: 600, sku: "2026010100035" },
+      { size: "800g", price: 1200, sku: "2026010100036" }
     ],
     image: assets.qualitySeal,
     gallery: [
@@ -203,22 +236,21 @@ export const products: Product[] = [
     ]
   },
   {
-    id: "coriander-powder-dhania",
-    sku: 3,
-    name: "Coriander (Dhania)",
+    id: "corriander-powder",
+    sku: "2026010100040",
+    name: "Corriander Powder",
     category: "Powders",
     tagline: "Freshly Roasted & Ground • Citrusy Floral Aroma",
     shortDescription: "Pure botanical coriander powder. Naturally fragrant, coarse-to-fine milled for velvety gravies and marinades.",
     description: "Selected from plump, fragrant green-gold coriander seeds. Gently roasted at low temperatures to release their volatile linalool oils before hygienic stone grinding.",
     usageAndStorage: "Store away from heat and moisture. Use as the aromatic foundation in all curries, biryani masala, and qorma bases.",
     certificationsNote: "Halal Certified & ISO 9001:2015 Certified.",
-    startingPrice: 280,
+    startingPrice: 200,
     packSizes: [
-      { size: "100g Pouch", price: 280 },
-      { size: "250g Jar", price: 520 },
-      { size: "500g Resealable", price: 980 },
-      { size: "1kg Master Pack", price: 1900 },
-      { size: "Bulk — 20kg/40kg", price: 0, isBulk: true }
+      { size: "100g", price: 200, sku: "2026010100040" },
+      { size: "200g", price: 400, sku: "2026010100041" },
+      { size: "400g", price: 800, sku: "2026010100042" },
+      { size: "800g", price: 1600, sku: "2026010100043" }
     ],
     image: assets.packagingRange,
     gallery: [
@@ -239,8 +271,8 @@ export const products: Product[] = [
     ]
   },
   {
-    id: "garam-masala-special-blend",
-    sku: 4,
+    id: "garam-masala",
+    sku: "2026010100057",
     name: "Garam Masala",
     category: "Powders",
     tagline: "30-Year Heritage Formula • Whole Spice Royale",
@@ -248,13 +280,12 @@ export const products: Product[] = [
     description: "Crafted using our family's generational formula established in 1994. Every whole spice in this master blend is individually inspected, lightly roasted, and freshly ground for an incomparable royal finish.",
     usageAndStorage: "Sprinkle 1/2 teaspoon over hot dishes at the very end of cooking (Dum) to trap the rich essential aromatics.",
     certificationsNote: "Halal Certified & ISO 9001:2015 Quality Management System.",
-    startingPrice: 450,
+    startingPrice: 300,
     packSizes: [
-      { size: "100g Glass Shaker", price: 450 },
-      { size: "250g Jar", price: 850 },
-      { size: "500g Resealable", price: 1650 },
-      { size: "1kg Master Pack", price: 3100 },
-      { size: "Bulk — 20kg/40kg", price: 0, isBulk: true }
+      { size: "100g", price: 300, sku: "2026010100057" },
+      { size: "200g", price: 600, sku: "2026010100056" },
+      { size: "400g", price: 1200, sku: "2026010100055" },
+      { size: "800g", price: 2400, sku: "2026010100054" }
     ],
     image: assets.assortment,
     gallery: [
@@ -274,22 +305,21 @@ export const products: Product[] = [
     ]
   },
   {
-    id: "black-pepper-kali-mirch",
-    sku: 5,
-    name: "Black Pepper (Kali Mirch)",
+    id: "black-pepper",
+    sku: "2026010100064",
+    name: "Black Pepper",
     category: "Whole Spices",
     tagline: "Bold High-Piperine Berries • Sharp Crisp Pungency",
     shortDescription: "Heavy density, bold whole black peppercorns and coarsely crushed table grind. Sharp aroma and intense natural warmth.",
     description: "High-density black peppercorns rich in essential piperine oil. Available as whole aromatic berries or freshly crushed table seasoning with an intense, woody aroma.",
     usageAndStorage: "Grind fresh over steaks, soups, eggs, White Karahi, and pasta dishes for clean, zesty heat.",
     certificationsNote: "Halal Certified & ISO 9001:2015 Certified.",
-    startingPrice: 480,
+    startingPrice: 350,
     packSizes: [
-      { size: "100g Glass Grinder/Jar", price: 480 },
-      { size: "250g Jar", price: 920 },
-      { size: "500g Resealable", price: 1780 },
-      { size: "1kg Master Pack", price: 3400 },
-      { size: "Bulk — 20kg/40kg", price: 0, isBulk: true }
+      { size: "100g", price: 350, sku: "2026010100064" },
+      { size: "200g", price: 700, sku: "2026010100065" },
+      { size: "400g", price: 1400, sku: "2026010100066" },
+      { size: "800g", price: 2800, sku: "2026010100067" }
     ],
     image: assets.macroTexture,
     gallery: [
@@ -309,44 +339,8 @@ export const products: Product[] = [
     ]
   },
   {
-    id: "zeera-cumin-seeds",
-    sku: 6,
-    name: "Zeera (Cumin)",
-    category: "Whole Spices",
-    tagline: "Unpolished Whole White Cumin • Rich Warmth",
-    shortDescription: "Aromatic, long-grain whole cumin seeds and freshly ground powder. Essential for authentic Pakistani tarka and rice dishes.",
-    description: "Naturally dried whole white cumin seeds sourced from prime crops. Free from artificial dust, dirt, or stone mixing, offering an unmatched nutty, earthy aroma when tempered in oil.",
-    usageAndStorage: "Sizzle in warm Desi Ghee for zeera rice, daal baghaar, or dry-roast and crush for raita and chaat masala.",
-    certificationsNote: "Halal Certified & ISO 9001:2015 Certified.",
-    startingPrice: 390,
-    packSizes: [
-      { size: "100g Pouch", price: 390 },
-      { size: "250g Jar", price: 720 },
-      { size: "500g Resealable", price: 1390 },
-      { size: "1kg Master Pack", price: 2700 },
-      { size: "Bulk — 20kg/40kg", price: 0, isBulk: true }
-    ],
-    image: assets.sunDrying,
-    gallery: [
-      assets.sunDrying,
-      assets.assortment,
-      assets.packagingRange
-    ],
-    heatLevel: 1,
-    heatName: "Warm Nutty Earthy",
-    sourcingOrigin: "Lodhran & South Punjab Belt",
-    sourcingRegionId: "lodhran-region",
-    isFeatured: false,
-    freshnessHighlights: [
-      "Machine-cleaned & hand-sorted for maximum purity",
-      "Zero artificial fragrance spray or oil polish",
-      "Long grain with high natural cuminaldehyde",
-      "Authentic tarka sizzle guarantee"
-    ]
-  },
-  {
-    id: "gram-flour-pure-besan",
-    sku: 7,
+    id: "gram-flour",
+    sku: "2026010100074",
     name: "Gram Flour (Besan)",
     category: "Flour",
     tagline: "100% Pure Desi Chana • Silky Hygienic Milling",
@@ -354,12 +348,10 @@ export const products: Product[] = [
     description: "Milled exclusively from 100% pure de-husked desi chickpeas in our certified hygienic Lahore milling facility. Produces the crispest, lightest pakoras and traditional halwas without heavy grease absorption.",
     usageAndStorage: "Keep in an airtight container in a dry pantry. Perfect for Ramadan pakoras, Kadi Pakora, Besan Ladoo, and savory batters.",
     certificationsNote: "Halal Certified & ISO 9001:2015 Certified.",
-    startingPrice: 220,
+    startingPrice: 250,
     packSizes: [
-      { size: "500g Sealed Pouch", price: 220 },
-      { size: "1kg Premium Pack", price: 420 },
-      { size: "5kg Chef Sack", price: 1950 },
-      { size: "Bulk — 20kg/40kg", price: 0, isBulk: true }
+      { size: "400g", price: 250, sku: "2026010100074" },
+      { size: "800g", price: 500, sku: "2026010100073" }
     ],
     image: assets.qualitySeal,
     gallery: [
@@ -376,6 +368,138 @@ export const products: Product[] = [
       "Silky fine mesh hygienic sifting",
       "Naturally high protein & dietary fiber",
       "Rich golden aroma when roasted"
+    ]
+  },
+  {
+    id: "kasuri-methi",
+    sku: "2026010100084",
+    name: "Kasuri Methi",
+    category: "Herbs",
+    tagline: "Aromatic Dried Fenugreek Leaves",
+    shortDescription: "Hand-picked, sun-dried fenugreek leaves from the famous Kasur region.",
+    description: "Our Kasuri Methi is sourced directly from the fields of Kasur, renowned globally for the most aromatic fenugreek. Sun-dried to preserve its essential oils, it adds a distinct savory flavor to your dishes.",
+    usageAndStorage: "Crush gently between palms before sprinkling over Qorma, Karahi, or mixed vegetables at the end of cooking. Store in an airtight jar.",
+    certificationsNote: "Halal Certified & ISO 9001:2015 Certified.",
+    startingPrice: 150,
+    packSizes: [
+      { size: "50g", price: 150, sku: "2026010100084" },
+      { size: "100g", price: 300, sku: "2026010100085" },
+      { size: "200g", price: 550, sku: "2026010100086" },
+      { size: "400g", price: 1100, sku: "2026010100087" }
+    ],
+    image: assets.assortment,
+    gallery: [
+      assets.assortment,
+      assets.packagingRange
+    ],
+    heatLevel: 0,
+    heatName: "Savory Earthy Aroma",
+    sourcingOrigin: "Kasur Region",
+    isFeatured: false,
+    freshnessHighlights: [
+      "Authentic Kasur origin",
+      "Carefully destemmed",
+      "Preserved natural green color",
+      "Intense aromatic profile"
+    ]
+  },
+  {
+    id: "wheat-flour",
+    sku: "2026010100094",
+    name: "Wheat Flour",
+    category: "Flour",
+    tagline: "Wholesome Chakki Atta",
+    shortDescription: "100% whole wheat flour, stone-ground to preserve bran and germ for nutritious, soft rotis.",
+    description: "Our Wheat Flour (Chakki Atta) is milled from premium quality wheat grains. The traditional stone grinding process ensures that the natural dietary fibers, vitamins, and minerals are retained, yielding soft and fluffy rotis.",
+    usageAndStorage: "Store in a cool, dry place in an airtight container to maintain freshness and protect from moisture.",
+    certificationsNote: "Halal Certified & ISO 9001:2015 Certified.",
+    startingPrice: 800,
+    packSizes: [
+      { size: "5kgs", price: 800, sku: "2026010100094" },
+      { size: "10kgs", price: 1600, sku: "2026010100093" }
+    ],
+    image: assets.qualitySeal,
+    gallery: [
+      assets.qualitySeal,
+      assets.packagingRange
+    ],
+    heatLevel: 0,
+    heatName: "Nutritious Whole Wheat",
+    sourcingOrigin: "Punjab Wheat Belt",
+    isFeatured: false,
+    freshnessHighlights: [
+      "100% Whole Wheat",
+      "Rich in natural dietary fiber",
+      "No added preservatives or bleaching agents",
+      "Produces soft, long-lasting rotis"
+    ]
+  },
+  {
+    id: "zera-whole",
+    sku: "2026010100104",
+    name: "Zera Whole",
+    category: "Whole Spices",
+    tagline: "Unpolished Whole White Cumin • Rich Warmth",
+    shortDescription: "Aromatic, long-grain whole cumin seeds. Essential for authentic Pakistani tarka and rice dishes.",
+    description: "Naturally dried whole white cumin seeds sourced from prime crops. Free from artificial dust, dirt, or stone mixing, offering an unmatched nutty, earthy aroma when tempered in oil.",
+    usageAndStorage: "Sizzle in warm Desi Ghee for zeera rice, daal baghaar, or dry-roast and crush for raita and chaat masala.",
+    certificationsNote: "Halal Certified & ISO 9001:2015 Certified.",
+    startingPrice: 150,
+    packSizes: [
+      { size: "50g", price: 150, sku: "2026010100104" },
+      { size: "100g", price: 300, sku: "2026010100105" },
+      { size: "200g", price: 600, sku: "2026010100106" }
+    ],
+    image: assets.sunDrying,
+    gallery: [
+      assets.sunDrying,
+      assets.assortment,
+      assets.packagingRange
+    ],
+    heatLevel: 1,
+    heatName: "Warm Nutty Earthy",
+    sourcingOrigin: "Lodhran & South Punjab Belt",
+    sourcingRegionId: "lodhran-region",
+    isFeatured: false,
+    freshnessHighlights: [
+      "Machine-cleaned & hand-sorted",
+      "Zero artificial fragrance",
+      "High natural cuminaldehyde",
+      "Authentic tarka sizzle guarantee"
+    ]
+  },
+  {
+    id: "corriander-whole",
+    sku: "2026010100114",
+    name: "Corriander Whole",
+    category: "Whole Spices",
+    tagline: "Aromatic Whole Coriander Seeds",
+    shortDescription: "Plump, green-gold coriander seeds with a bright, citrusy aroma.",
+    description: "Selected from the finest crops, our whole coriander seeds are rich in natural essential oils. They provide a warm, floral, and slightly citrusy flavor essential for pickling, marinades, and custom spice blends.",
+    usageAndStorage: "Lightly toast in a dry pan before crushing to release maximum flavor. Store in an airtight container.",
+    certificationsNote: "Halal Certified & ISO 9001:2015 Certified.",
+    startingPrice: 200,
+    packSizes: [
+      { size: "100g", price: 200, sku: "2026010100114" },
+      { size: "200g", price: 400, sku: "2026010100115" },
+      { size: "400g", price: 800, sku: "2026010100116" }
+    ],
+    image: assets.macroTexture,
+    gallery: [
+      assets.macroTexture,
+      assets.assortment,
+      assets.packagingRange
+    ],
+    heatLevel: 0,
+    heatName: "Mild Floral Herbaceous",
+    sourcingOrigin: "Punjab & Sindh River Plains",
+    sourcingRegionId: "lodhran-region",
+    isFeatured: false,
+    freshnessHighlights: [
+      "Plump, unbroken seeds",
+      "High volatile oil content",
+      "Cleaned and sorted",
+      "Bright citrusy flavor profile"
     ]
   }
 ];
