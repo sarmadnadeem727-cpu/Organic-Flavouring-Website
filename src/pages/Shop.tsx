@@ -154,67 +154,62 @@ export default function Shop() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, delay: idx * 0.05 }}
-                className={`rounded-2xl border-2 border-[#241D17] overflow-hidden flex flex-col hover:border-[#D9542F] transition-all duration-300 group shadow-md relative cursor-pointer ${getCardTintClass(product.category)}`}
+                className={`rounded-2xl border-2 border-[#241D17] overflow-hidden flex flex-col hover:border-[#D9542F] transition-all duration-300 group shadow-sm hover:shadow-xl bg-white ${getCardTintClass(product.category)}`}
               >
-                {/* Full Card Link Layer */}
+                {/* Clickable Card Link Area */}
                 <Link 
-                  to={`/product/${product.id}`} 
-                  className="absolute inset-0 z-10" 
-                  aria-label={`View ${product.name}`} 
-                />
-
-                {/* Image Box */}
-                <div className="relative aspect-square p-6 flex items-center justify-center overflow-hidden group/image">
-                  <div className="absolute inset-0 radial-glow-turmeric opacity-50 pointer-events-none" />
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-contain group-hover:scale-108 transition-transform duration-500 relative z-0 pointer-events-none"
-                  />
-                  <span className="absolute top-3 left-3 bg-[#3E2A1C] text-[#E0A020] text-[10px] font-bold px-2.5 py-0.5 rounded uppercase tracking-widest z-20 shadow-sm">
-                    {product.category}
-                  </span>
-
-                  {/* Hover Details Overlay */}
-                  <div className="absolute inset-0 bg-[#0E0904]/95 backdrop-blur-sm p-6 flex flex-col justify-center translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-30">
-                    <h4 className="font-serif-heading text-[#F0C36B] text-sm font-bold mb-3 border-b border-[#F0C36B]/30 pb-2">Inside the Pack</h4>
-                    <ul className="space-y-2">
-                      {product.freshnessHighlights.slice(0, 3).map((highlight, i) => (
-                        <li key={i} className="flex items-start gap-2 text-[11px] text-[#FBF3E7]/90 leading-tight">
-                          <span className="text-[#D9542F] mt-0.5">•</span>
-                          <span>{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  to={`/product/${product.id}`}
+                  className="flex flex-col flex-1 cursor-pointer"
+                >
+                  {/* Image Box */}
+                  <div className="relative aspect-square p-6 flex items-center justify-center overflow-hidden bg-[#FAF6F0]">
+                    <div className="absolute inset-0 radial-glow-turmeric opacity-40 pointer-events-none" />
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 ease-out"
+                    />
+                    <span className="absolute top-3 left-3 bg-[#3E2A1C] text-[#E0A020] text-[10px] font-bold px-2.5 py-0.5 rounded uppercase tracking-widest shadow-sm">
+                      {product.category}
+                    </span>
                   </div>
-                </div>
 
-                {/* Details & Direct Quick Add */}
-                <div className="p-5 bg-white border-t border-[#E5D7C5] flex flex-col flex-1 relative z-20">
-                  <h3 className="font-serif-heading text-lg font-bold text-[#241D17] mb-1 group-hover:text-[#D9542F] transition-colors">
-                    {product.name}
-                  </h3>
-
-                  <p className="text-xs text-[#5A4F46] line-clamp-2 mb-4">
-                    {product.shortDescription}
-                  </p>
-
-                  <div className="mt-auto pt-3 border-t border-[#E5D7C5]/50 flex items-center justify-between">
+                  {/* Details */}
+                  <div className="p-5 bg-white border-t border-[#E5D7C5] flex flex-col flex-1 justify-between">
                     <div>
-                      <span className="text-[10px] text-[#5A4F46] block uppercase tracking-wider">From</span>
-                      <span className="font-serif-heading text-base font-black text-[#D9542F]">Rs. {product.startingPrice}</span>
+                      <h3 className="font-serif-heading text-lg font-bold text-[#241D17] group-hover:text-[#D9542F] transition-colors leading-snug">
+                        {product.name}
+                      </h3>
+
+                      <p className="text-xs text-[#5A4F46] line-clamp-2 mt-1.5 leading-relaxed">
+                        {product.shortDescription}
+                      </p>
                     </div>
 
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleQuickAdd(product, e);
-                      }}
-                      className="btn-primary-custom py-2 px-3.5 text-[10px] relative z-30 cursor-pointer"
-                    >
-                      <ShoppingBag className="w-3.5 h-3.5" /> Quick Add
-                    </button>
+                    <div className="mt-4 pt-3 border-t border-[#E5D7C5]/60 flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] text-[#5A4F46] block uppercase tracking-wider font-semibold">From</span>
+                        <span className="font-serif-heading text-base font-black text-[#D9542F]">Rs. {product.startingPrice}</span>
+                      </div>
+                      <span className="text-xs font-bold text-[#D9542F] group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                        View Product →
+                      </span>
+                    </div>
                   </div>
+                </Link>
+
+                {/* Quick Add Button outside Link */}
+                <div className="px-5 pb-5 pt-1 bg-white border-t border-transparent">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleQuickAdd(product, e);
+                    }}
+                    className="w-full btn-primary-custom py-2.5 px-3.5 text-xs flex items-center justify-center gap-2 cursor-pointer font-bold tracking-wider uppercase shadow-xs hover:shadow-md"
+                  >
+                    <ShoppingBag className="w-3.5 h-3.5" /> Quick Add
+                  </button>
                 </div>
               </motion.div>
             ))}

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { brandLogo } from '../data/products';
-import { RotateCcw } from 'lucide-react';
+import { RotateCcw, ArrowRight } from 'lucide-react';
 
 interface CinematicHeroProps {
   onOpenCertModal?: () => void;
@@ -435,29 +436,20 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
 
 
 
-        {/* CTA Actions */}
+        {/* Single Big CTA Action */}
         <div 
-          className={`flex flex-col sm:flex-row items-center gap-4 transition-all duration-500 ${
+          className={`transition-all duration-500 ${
             impactHappened ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
           }`}
           style={{ transitionDelay: '0.65s' }}
         >
-          <a
-            href="#crate-section"
-            className="relative z-50 pointer-events-auto px-8 py-3.5 bg-gradient-to-r from-[#E8663D] via-[#B0472B] to-[#7E2F1C] hover:from-[#B0472B] hover:to-[#4A1C10] text-white text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] rounded-md transition-all shadow-xl hover:-translate-y-0.5 cursor-pointer"
-            style={{ boxShadow: '0 16px 34px -14px rgba(176, 71, 43, 0.65)' }}
+          <Link
+            to="/shop"
+            className="relative z-50 pointer-events-auto inline-flex items-center justify-center gap-3.5 px-10 py-4.5 sm:px-12 sm:py-5 bg-gradient-to-r from-[#E8663D] via-[#B0472B] to-[#7E2F1C] hover:from-[#F07A54] hover:to-[#B0472B] text-white text-sm sm:text-base font-bold uppercase tracking-[0.22em] rounded-xl shadow-[0_16px_40px_-10px_rgba(232,102,61,0.6)] hover:shadow-[0_22px_50px_-8px_rgba(232,102,61,0.85)] hover:-translate-y-1 active:translate-y-0 transition-all duration-300 border border-[#F0C36B]/40 group cursor-pointer"
           >
-            Shop the Harvest
-          </a>
-
-          {onOpenCertModal && (
-            <button 
-              onClick={onOpenCertModal}
-              className="relative z-50 pointer-events-auto text-[12px] uppercase tracking-[0.18em] text-[#FBF3E7]/75 hover:text-[#F0C36B] transition-colors py-2 px-3 cursor-pointer border-b border-[#FBF3E7]/30 hover:border-[#F0C36B]"
-            >
-              Watch it happen ↻
-            </button>
-          )}
+            <span>Shop the Spices</span>
+            <ArrowRight className="w-5 h-5 text-[#F0C36B] group-hover:translate-x-1.5 transition-transform duration-300" />
+          </Link>
         </div>
 
       </div>
