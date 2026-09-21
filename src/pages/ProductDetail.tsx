@@ -15,7 +15,7 @@ interface FlyingParticle {
   targetY: number;
 }
 
-type ThumbnailType = '3d-jar' | 'macro' | 'pack' | 'scale';
+type ThumbnailType = number;
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
@@ -26,7 +26,7 @@ export default function ProductDetail() {
   const product = products.find(p => p.id === id) || products[0];
   const [selectedSize, setSelectedSize] = useState(product.packSizes[0]);
   const [quantity, setQuantity] = useState(1);
-  const [activeThumbnail, setActiveThumbnail] = useState<ThumbnailType>('3d-jar');
+  const [activeThumbnail, setActiveThumbnail] = useState<number>(0);
   const [activeTab, setActiveTab] = useState<'description' | 'usage' | 'certifications'>(
     (tabParam === 'usage' || tabParam === 'certifications') ? tabParam : 'description'
   );
@@ -36,7 +36,7 @@ export default function ProductDetail() {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    setActiveThumbnail('3d-jar');
+    setActiveThumbnail(0);
     setSelectedSize(product.packSizes[0]);
     setQuantity(1);
     setAddedSuccess(false);
@@ -94,21 +94,7 @@ export default function ProductDetail() {
 
   const particleColor = getProductParticleColor(product.category);
 
-  // Define thumbnail tiles: 3D Jar, Macro Shot, Pack, Scale reference
-  const thumbnailTiles: { type: ThumbnailType; label: string; image: string; is3D?: boolean }[] = [
-    { type: '3d-jar', label: '3D Jar', image: product.image, is3D: true },
-    { type: 'macro', label: 'Macro Texture', image: product.gallery[1] || product.image },
-    { type: 'pack', label: 'Packaging', image: product.gallery[2] || product.image },
-    { type: 'scale', label: 'Scale Ref', image: product.gallery[3] || product.image }
-  ];
-
-  const currentFlatImage = activeThumbnail === 'macro'
-    ? (product.gallery[1] || product.image)
-    : activeThumbnail === 'pack'
-    ? (product.gallery[2] || product.image)
-    : activeThumbnail === 'scale'
-    ? (product.gallery[3] || product.image)
-    : undefined;
+  const currentImage = product.gallery[activeThumbnail] || product.image;
 
   return (
     <div className="bg-[#FBF3E7] min-h-screen text-[#2A1F16] bg-texture-grain pb-24 pt-6 relative">
@@ -176,41 +162,35 @@ export default function ProductDetail() {
           {/* Left Column (55% on desktop): Sticky 3D Interactive Product Viewer */}
           <div className="lg:col-span-7 space-y-4 relative z-10 lg:sticky lg:top-24">
             
-            {/* 3D Cylinder Interactive Viewer */}
-            <Product3DViewer
-              product={product}
-              activeMedia={currentFlatImage}
-              isFlatImage={activeThumbnail !== '3d-jar'}
-            />
+            {/* Simple Image Viewer */}
+            <div className="w-full aspect-square bg-[#FAF6F0] rounded-2xl border-2 border-[#241A10] p-8 flex items-center justify-center relative overflow-hidden">
+              <div className="absolute inset-0 radial-glow-turmeric opacity-40 pointer-events-none" />
+              <img
+                src={currentImage}
+                alt={product.name}
+                className="w-full h-full object-contain drop-shadow-xl"
+              />
+            </div>
 
-            {/* Thumbnail Row Below Viewer (3-4 small tiles) */}
-            <div className="flex items-center justify-center gap-3 pt-2">
-              {thumbnailTiles.map((tile) => {
-                const isActive = activeThumbnail === tile.type;
+            {/* Thumbnail Row Below Viewer */}
+            <div className="flex items-center justify-center gap-3 pt-2 overflow-x-auto pb-2">
+              {product.gallery.map((img, idx) => {
+                const isActive = activeThumbnail === idx;
                 return (
                   <button
-                    key={tile.type}
-                    onClick={() => setActiveThumbnail(tile.type)}
-                    className={`relative px-3 py-2 rounded-xl border-2 transition-all flex flex-col items-center gap-1.5 cursor-pointer min-w-[76px] bg-[#FBF3E7] ${
+                    key={idx}
+                    onClick={() => setActiveThumbnail(idx)}
+                    className={`relative w-16 h-16 rounded-xl border-2 transition-all flex items-center justify-center cursor-pointer flex-shrink-0 bg-white overflow-hidden ${
                       isActive 
-                        ? 'border-[#B0472B] shadow-md scale-105 bg-white' 
+                        ? 'border-[#B0472B] shadow-md scale-105' 
                         : 'border-[#E5D7C5] opacity-75 hover:opacity-100 hover:border-[#241A10]'
                     }`}
                   >
-                    <div className="w-10 h-10 rounded-lg bg-[#241A10] flex items-center justify-center overflow-hidden">
-                      {tile.is3D ? (
-                        <Box className={`w-5 h-5 ${isActive ? 'text-[#D89A2E]' : 'text-[#EDE1CC]'}`} />
-                      ) : (
-                        <img 
-                          src={tile.image} 
-                          alt={tile.label} 
-                          className="w-full h-full object-cover"
-                        />
-                      )}
-                    </div>
-                    <span className={`text-[10px] font-bold tracking-wider uppercase ${isActive ? 'text-[#B0472B]' : 'text-[#2A1F16]/80'}`}>
-                      {tile.label}
-                    </span>
+                    <img 
+                      src={img} 
+                      alt={`${product.name} view ${idx + 1}`} 
+                      className="w-full h-full object-contain p-1"
+                    />
                   </button>
                 );
               })}
