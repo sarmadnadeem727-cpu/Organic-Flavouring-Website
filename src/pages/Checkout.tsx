@@ -98,7 +98,7 @@ export default function Checkout() {
 
   return (
     <div className="bg-[#0E0904] min-h-screen text-[#FBF3E7] pb-16 pt-6 relative">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
         
         {/* Header Title */}
         <div className="mb-6 pb-3 border-b border-[#241A10]">
@@ -266,7 +266,7 @@ export default function Checkout() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full px-8 py-3.5 bg-gradient-to-r from-[#E8663D] via-[#B0472B] to-[#7E2F1C] hover:from-[#B0472B] hover:to-[#4A1C10] text-white text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] rounded-md transition-all shadow-xl hover:-translate-y-0.5 cursor-pointer mt-4 flex items-center justify-center"
+                  className="w-full px-8 py-6 bg-gradient-to-r from-[#E8663D] via-[#B0472B] to-[#7E2F1C] hover:from-[#B0472B] hover:to-[#4A1C10] text-white text-lg sm:text-xl font-black uppercase tracking-[0.25em] rounded-xl transition-all shadow-2xl hover:-translate-y-1 cursor-pointer mt-8 flex items-center justify-center border-2 border-[#D9542F]/30"
                 >
                   {isSubmitting ? (
                     <span className="animate-pulse">Processing...</span>

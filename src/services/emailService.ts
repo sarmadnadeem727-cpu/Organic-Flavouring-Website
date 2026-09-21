@@ -7,7 +7,7 @@ const customerTemplateId = import.meta.env.VITE_EMAILJS_CUSTOMER_TEMPLATE_ID;
 
 // Initialize EmailJS with the public key
 if (publicKey && publicKey !== 'your_public_key_here') {
-  emailjs.init(publicKey);
+  emailjs.init({ publicKey });
 }
 
 export interface OrderDetails {
@@ -24,8 +24,8 @@ export interface OrderDetails {
 }
 
 export const sendOrderToAdmin = async (orderDetails: OrderDetails) => {
-  if (!serviceId || !adminTemplateId || serviceId === 'your_service_id_here') {
-    console.warn('EmailJS credentials are not set. Skipping admin email dispatch.');
+  if (!serviceId || !adminTemplateId || serviceId === 'your_service_id_here' || adminTemplateId === 'your_admin_template_id_here') {
+    console.warn('EmailJS admin credentials are not set. Skipping admin email dispatch.');
     return;
   }
   
@@ -49,8 +49,8 @@ export const sendOrderToAdmin = async (orderDetails: OrderDetails) => {
 };
 
 export const sendConfirmationToCustomer = async (orderDetails: OrderDetails) => {
-  if (!serviceId || !customerTemplateId || serviceId === 'your_service_id_here') {
-    console.warn('EmailJS credentials are not set. Skipping customer email dispatch.');
+  if (!serviceId || !customerTemplateId || serviceId === 'your_service_id_here' || customerTemplateId === 'your_customer_template_id_here') {
+    console.warn('EmailJS customer credentials are not set. Skipping customer email dispatch.');
     return;
   }
 
