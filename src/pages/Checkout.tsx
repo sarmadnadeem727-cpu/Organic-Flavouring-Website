@@ -3,6 +3,7 @@ import { useCart } from '../context/CartContext';
 import { officialInfo } from '../data/products';
 import { Trash2, Plus, Minus, Check, MessageCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { sendOrderToAdmin, sendConfirmationToCustomer } from '../services/emailService';
 
 export default function Checkout() {
   const { items, updateQuantity, removeFromCart, subtotal, clearCart } = useCart();
@@ -10,6 +11,7 @@ export default function Checkout() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'COD' | 'IBFT'>('COD');
   const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerCity, setCustomerCity] = useState('Lahore');
   const [customerAddress, setCustomerAddress] = useState('');
@@ -20,14 +22,40 @@ export default function Checkout() {
   const shippingCharge = items.length === 0 ? 0 : isFreeShipping ? 0 : standardShipping;
   const finalTotal = subtotal + shippingCharge;
 
-  const handleOrderSubmit = (e: React.FormEvent) => {
+  const handleOrderSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+    
+    try {
+      const itemsList = items.map(i => `${i.product.name} (${i.selectedSize || 'Standard'}) x${i.quantity}`).join(', ');
+      
+      const orderDetails = {
+        customerName,
+        customerEmail,
+        customerPhone,
+        customerCity,
+        customerAddress,
+        paymentMethod: paymentMethod === 'COD' ? 'Cash on Delivery' : 'Bank Transfer',
+        itemsList,
+        subtotal: subtotal.toLocaleString(),
+        shipping: isFreeShipping ? 'FREE' : standardShipping.toString(),
+        total: finalTotal.toLocaleString()
+      };
+
+      // Send emails
+      await Promise.all([
+        sendOrderToAdmin(orderDetails),
+        sendConfirmationToCustomer(orderDetails)
+      ]);
+
       setIsSubmitting(false);
       setOrderComplete(true);
       clearCart();
-    }, 1000);
+    } catch (error) {
+      console.error("Error processing order:", error);
+      alert("There was an issue processing your order. Please try again or contact us via WhatsApp.");
+      setIsSubmitting(false);
+    }
   };
 
   const generateWhatsAppOrderText = () => {
@@ -102,6 +130,18 @@ export default function Checkout() {
                       placeholder="e.g. Tariq Mahmood"
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
+                      className="w-full bg-[#0E0904] border border-[#241A10] rounded-md px-3 py-2 text-xs text-[#FBF3E7] placeholder-[#FBF3E7]/30 focus:outline-none focus:border-[#D9542F]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[#FBF3E7]/90 font-semibold mb-1">Email Address *</label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="e.g. tariq@example.com"
+                      value={customerEmail}
+                      onChange={(e) => setCustomerEmail(e.target.value)}
                       className="w-full bg-[#0E0904] border border-[#241A10] rounded-md px-3 py-2 text-xs text-[#FBF3E7] placeholder-[#FBF3E7]/30 focus:outline-none focus:border-[#D9542F]"
                     />
                   </div>
