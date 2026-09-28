@@ -10,6 +10,7 @@ import CinematicHero from '../components/CinematicHero';
 import { ShoppingBag, Check } from 'lucide-react';
 import { HalalIcon, IsoIcon, FamilyOwnedIcon, DeliveryTruckIcon } from '../components/Illustrations';
 import { trackAddToCart } from '../lib/analytics';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,6 +20,11 @@ interface HomeProps {
 }
 
 export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps) {
+  usePageMeta({
+    title: "Pakistan's Online Spice Store - Since 2022",
+    description: "Buy 100% pure, freshly procured, hygienically packed Pakistani spices online. Red chilli, haldi, coriander, garam masala, zeera & black pepper delivered nationwide.",
+  });
+
   const { addToCart } = useCart();
   const [addedToast, setAddedToast] = useState<string | null>(null);
 
@@ -120,7 +126,7 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
       {/* -------------------------------------------------------------------------- */}
       <section className="py-12 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10 pb-4 border-b border-[#E5D7C5]">
-          <span className="text-[11px] font-bold uppercase tracking-widest text-[#B0472B]">Curated Spice Lines</span>
+          <span className="text-xs font-bold uppercase tracking-widest text-[#B0472B]">Curated Spice Lines</span>
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-[#241A10]">
             Explore Categories
           </h2>
@@ -142,9 +148,9 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
               <div className="absolute inset-0 bg-gradient-to-t from-[#1B140F] via-[#1B140F]/40 to-transparent" />
               
               <div className="absolute bottom-4 left-4 right-4 text-white space-y-1 z-10">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-[#F0C36B]">{cat.count}</span>
+                <span className="text-xs uppercase font-bold tracking-widest text-[#F0C36B]">{cat.count}</span>
                 <h3 className="font-display text-xl font-bold text-[#FFF6E8]">{cat.name}</h3>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-[#D9683F] group-hover:underline block pt-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#D9683F] group-hover:underline block pt-1">
                   Browse Category →
                 </span>
               </div>
@@ -160,7 +166,7 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
           <div className="mb-12 space-y-2">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[#D89A2E]">
+            <span className="text-xs font-bold uppercase tracking-widest text-[#D89A2E]">
               THIS WEEK'S CRATE
             </span>
             <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-normal text-[#FFF6E8]">
@@ -200,7 +206,7 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
                         alt={product.name}
                         className="w-full h-full object-contain group-hover:scale-108 transition-transform duration-500 relative z-0"
                       />
-                      <span className="absolute top-2.5 left-2.5 text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#241A10] text-[#FFF6E8] border border-[#4A1C10]/60">
+                      <span className="absolute top-2.5 left-2.5 text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#241A10] text-[#FFF6E8] border border-[#4A1C10]/60">
                         {product.category}
                       </span>
                     </div>
@@ -210,7 +216,7 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
                         <h3 className="font-display text-base font-bold text-[#FFF6E8] group-hover:text-[#D9683F] transition-colors">
                           {product.name}
                         </h3>
-                        <p className="text-[11px] text-[#FFF6E8]/65 line-clamp-2 mt-1">
+                        <p className="text-xs text-[#FFF6E8]/65 line-clamp-2 mt-1">
                           {product.shortDescription}
                         </p>
                       </div>
@@ -222,13 +228,13 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
                               From {formatPKR(product.startingPrice)}
                             </span>
                             {product.packSizes[0] && (
-                              <span className="text-[10px] text-[#FFF6E8]/60 font-medium">
+                              <span className="text-xs text-[#FFF6E8]/60 font-medium">
                                 / {product.packSizes[0].size}
                               </span>
                             )}
                           </div>
                         </div>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#D9683F] group-hover:underline">
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#D9683F] group-hover:underline">
                           View →
                         </span>
                       </div>
@@ -242,7 +248,7 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
                         e.stopPropagation();
                         handleQuickAdd(product, e);
                       }}
-                      className="w-full py-1.5 bg-gradient-to-r from-[#B0472B] to-[#7E2F1C] hover:from-[#D9683F] hover:to-[#B0472B] text-white text-[10px] uppercase font-bold tracking-widest rounded transition-all shadow-md cursor-pointer flex items-center justify-center gap-1.5"
+                      className="w-full py-1.5 bg-gradient-to-r from-[#B0472B] to-[#7E2F1C] hover:from-[#D9683F] hover:to-[#B0472B] text-white text-xs uppercase font-bold tracking-widest rounded transition-all shadow-md cursor-pointer flex items-center justify-center gap-1.5"
                     >
                       <ShoppingBag className="w-3 h-3" /> Quick Add
                     </button>
@@ -261,7 +267,7 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
       <section className="py-24 bg-[#1B140F] text-[#FFF6E8] bg-texture-grain border-t border-[#241A10]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-10">
           
-          <span className="text-[11px] font-bold uppercase tracking-widest text-[#D89A2E]">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#D89A2E]">
             OUR FOUNDING PHILOSOPHY
           </span>
 

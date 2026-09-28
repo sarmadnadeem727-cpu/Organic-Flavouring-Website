@@ -20,6 +20,11 @@ const Certifications = lazy(() => import('./pages/Certifications'));
 const Transparency = lazy(() => import('./pages/Transparency'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Reviews = lazy(() => import('./pages/Reviews'));
+const Terms = lazy(() => import('./pages/Terms'));
+const Privacy = lazy(() => import('./pages/Privacy'));
+const Shipping = lazy(() => import('./pages/Shipping'));
+const Returns = lazy(() => import('./pages/Returns'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Lightweight page skeleton loader fallback
 function PageFallback() {
@@ -117,6 +122,11 @@ export default function App() {
                 <Route path="/transparency" element={<Transparency />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/reviews" element={<Reviews />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/shipping" element={<Shipping />} />
+                <Route path="/returns" element={<Returns />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
           </main>

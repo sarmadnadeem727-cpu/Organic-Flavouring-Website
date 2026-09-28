@@ -7,8 +7,14 @@ import { formatPKR } from '../config/store';
 import { ShoppingBag, Search, Check } from 'lucide-react';
 import { PureBotanicalIcon, NoResultsIllustration } from '../components/Illustrations';
 import { trackAddToCart } from '../lib/analytics';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function Shop() {
+  usePageMeta({
+    title: 'Pure Pakistani Spices & Masalas',
+    description: 'Explore our farm-procured spices, everyday pure powders, and whole masalas. Cash on delivery available across Pakistan.',
+  });
+
   const { addToCart } = useCart();
   const [searchParams, setSearchParams] = useSearchParams();
   const catParam = searchParams.get('category');

@@ -2,8 +2,13 @@ import React from 'react';
 import { brandLogo } from '../data/products';
 import { Link } from 'react-router-dom';
 import { PureBotanicalIcon, HalalIcon, IsoIcon, FamilyOwnedIcon } from '../components/Illustrations';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function About() {
+  usePageMeta({
+    title: 'Our Heritage & Story',
+    description: 'Homegrown spice venture established in 2022 in Lahore, Pakistan. Dedicated to 100% pure, unadulterated spices and farm freshness.',
+  });
   return (
     <div className="bg-[#FBF8F2] min-h-screen text-[#211D18] bg-grain pb-24">
       

@@ -3,8 +3,14 @@ import { Mail, Phone, MapPin, Send, MessageCircle } from 'lucide-react';
 import { brandLogo, officialInfo } from '../data/products';
 import { PureBotanicalIcon, HalalIcon, IsoIcon } from '../components/Illustrations';
 import { trackContact } from '../lib/analytics';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function Contact() {
+  usePageMeta({
+    title: 'Contact Us & WhatsApp Support',
+    description: 'Get in touch with Organic Flavouring in Lahore, Pakistan. Chat with our team on WhatsApp or send an order inquiry.',
+  });
+
   const [formData, setFormData] = useState({
     name: '',
     emailOrPhone: '',
@@ -54,7 +60,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-serif-heading text-xl font-bold text-[#211D18]">{officialInfo.name}</h3>
-                  <p className="text-[10px] text-[#D9542F] font-bold uppercase tracking-widest mt-0.5">Serving You the Natural Twist • Est. 2022</p>
+                  <p className="text-xs text-[#D9542F] font-bold uppercase tracking-widest mt-0.5">Serving You the Natural Twist • Est. 2022</p>
                 </div>
               </div>
 
@@ -76,7 +82,7 @@ export default function Contact() {
                   <div>
                     <p className="font-serif-heading font-bold text-[#211D18]">Direct Phone / WhatsApp</p>
                     <p>{officialInfo.phone}</p>
-                    <p className="text-[10px] text-[#5A4F46]">Monday – Saturday, 9:00 AM – 7:00 PM PKT</p>
+                    <p className="text-xs text-[#5A4F46]">Monday – Saturday, 9:00 AM – 7:00 PM PKT</p>
                   </div>
                 </div>
 
@@ -187,7 +193,7 @@ export default function Contact() {
       <section className="mt-20 py-10 sm:py-16 bg-[#2F4F24] text-[#FBF8F2] bg-grain-dark border-t-2 border-[#C79A46]/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="space-y-2 text-center md:text-left">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#C79A46]">Wholesale Sacks Desk</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-[#C79A46]">Wholesale Sacks Desk</span>
             <h3 className="font-serif-heading text-2xl font-bold text-[#FBF8F2]">Direct Commercial Inquiries</h3>
             <p className="text-xs text-[#FBF8F2]/80 max-w-xl">Inquire about 20kg & 40kg master sacks with custom grinding specifications for hotels, restaurants, and retailers.</p>
           </div>

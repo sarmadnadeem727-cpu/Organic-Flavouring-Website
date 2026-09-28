@@ -5,6 +5,7 @@ import { FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING, formatPKR, WHATSAPP_NUMBER 
 import { Trash2, Plus, Minus, Check, MessageCircle, Download, AlertCircle, ChevronDown, ChevronUp, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { trackInitiateCheckout, trackPurchase, trackContact } from '../lib/analytics';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 const PAKISTAN_MAJOR_CITIES = [
   'Lahore',
@@ -32,6 +33,11 @@ interface FormErrors {
 }
 
 export default function Checkout() {
+  usePageMeta({
+    title: 'Cash on Delivery Checkout',
+    description: 'Fast, secure Cash on Delivery checkout for Organic Flavouring spices across Pakistan.',
+  });
+
   const { items, updateQuantity, removeFromCart, subtotal, clearCart } = useCart();
   
   // Confirmed order state initialized from sessionStorage
@@ -434,7 +440,7 @@ export default function Checkout() {
                     <div key={`${item.product.id}-${item.packSize}`} className="flex justify-between items-center text-xs py-2 border-b border-[#241A10]/60 last:border-none">
                       <div>
                         <p className="font-semibold text-[#FBF3E7]">{item.product.name}</p>
-                        <p className="text-[11px] text-[#FBF3E7]/60">{item.packSize} × {item.quantity}</p>
+                        <p className="text-xs text-[#FBF3E7]/60">{item.packSize} × {item.quantity}</p>
                       </div>
                       <span className="font-bold text-[#FBF3E7]">{formatPKR(item.lineTotal)}</span>
                     </div>
@@ -513,7 +519,7 @@ export default function Checkout() {
                       className={`w-full min-h-[44px] bg-[#0E0904] border ${errors.name && touched.name ? 'border-[#D9542F]' : 'border-[#241A10]'} rounded-lg px-3.5 py-2.5 text-sm text-[#FBF3E7] placeholder-[#FBF3E7]/30 focus:outline-none focus:border-[#D9542F] transition-colors`}
                     />
                     {errors.name && touched.name && (
-                      <p className="text-[#D9542F] text-[11px] mt-1">{errors.name}</p>
+                      <p className="text-[#D9542F] text-xs mt-1">{errors.name}</p>
                     )}
                   </div>
 
@@ -538,7 +544,7 @@ export default function Checkout() {
                         className={`w-full min-h-[44px] bg-[#0E0904] border ${errors.phone && touched.phone ? 'border-[#D9542F]' : 'border-[#241A10]'} rounded-lg px-3.5 py-2.5 text-sm text-[#FBF3E7] placeholder-[#FBF3E7]/30 focus:outline-none focus:border-[#D9542F] transition-colors`}
                       />
                       {errors.phone && touched.phone && (
-                        <p className="text-[#D9542F] text-[11px] mt-1">{errors.phone}</p>
+                        <p className="text-[#D9542F] text-xs mt-1">{errors.phone}</p>
                       )}
                     </div>
 
@@ -578,7 +584,7 @@ export default function Checkout() {
                         />
                       )}
                       {errors.city && touched.city && (
-                        <p className="text-[#D9542F] text-[11px] mt-1">{errors.city}</p>
+                        <p className="text-[#D9542F] text-xs mt-1">{errors.city}</p>
                       )}
                     </div>
                   </div>
@@ -601,7 +607,7 @@ export default function Checkout() {
                       className={`w-full bg-[#0E0904] border ${errors.address && touched.address ? 'border-[#D9542F]' : 'border-[#241A10]'} rounded-lg p-3 text-sm text-[#FBF3E7] placeholder-[#FBF3E7]/30 focus:outline-none focus:border-[#D9542F] transition-colors`}
                     />
                     {errors.address && touched.address && (
-                      <p className="text-[#D9542F] text-[11px] mt-1">{errors.address}</p>
+                      <p className="text-[#D9542F] text-xs mt-1">{errors.address}</p>
                     )}
                   </div>
 
@@ -670,10 +676,10 @@ export default function Checkout() {
                       />
                       <label htmlFor="payment-cod" className="cursor-pointer">
                         <span className="font-bold text-[#FBF3E7] block text-xs sm:text-sm">Cash on Delivery (COD)</span>
-                        <span className="text-[11px] text-[#FBF3E7]/70">Pay cash directly to courier upon arrival</span>
+                        <span className="text-xs text-[#FBF3E7]/70">Pay cash directly to courier upon arrival</span>
                       </label>
                     </div>
-                    <span className="text-[11px] font-bold text-[#6FAE3E] bg-[#6FAE3E]/10 border border-[#6FAE3E]/20 px-2.5 py-1 rounded shrink-0">
+                    <span className="text-xs font-bold text-[#6FAE3E] bg-[#6FAE3E]/10 border border-[#6FAE3E]/20 px-2.5 py-1 rounded shrink-0">
                       Dispatched Nationwide
                     </span>
                   </div>
@@ -696,8 +702,15 @@ export default function Checkout() {
                     )}
                   </button>
 
-                  <p className="text-center text-[11px] sm:text-xs text-[#FBF3E7]/60 leading-relaxed">
+                  <p className="text-center text-xs text-[#FBF3E7]/60 leading-relaxed">
                     Cash on Delivery. We may confirm your order by call or WhatsApp before dispatch.
+                  </p>
+
+                  <p className="text-center text-[11px] text-[#FBF3E7]/50 pt-1">
+                    By placing an order, you agree to our{' '}
+                    <Link to="/terms" target="_blank" className="text-[#F0C36B] hover:underline">Terms</Link>,{' '}
+                    <Link to="/privacy" target="_blank" className="text-[#F0C36B] hover:underline">Privacy</Link>, and{' '}
+                    <Link to="/returns" target="_blank" className="text-[#F0C36B] hover:underline">Returns Policy</Link>.
                   </p>
                 </div>
               </form>
@@ -723,7 +736,7 @@ export default function Checkout() {
                       />
                       <div className="flex-1 min-w-0">
                         <h4 className="font-semibold text-xs text-[#FBF3E7] truncate">{item.product.name}</h4>
-                        <p className="text-[11px] text-[#FBF3E7]/60">{item.packSize}</p>
+                        <p className="text-xs text-[#FBF3E7]/60">{item.packSize}</p>
                         <p className="text-xs font-bold text-[#D9542F]">{formatPKR(item.lineTotal)}</p>
                       </div>
                       <div className="flex items-center gap-2">

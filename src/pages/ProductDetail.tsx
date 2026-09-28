@@ -7,6 +7,7 @@ import { formatPKR } from '../config/store';
 import { Minus, Plus, ShoppingBag, MessageCircle, Check, MapPin, Box, Eye, Layers, ArrowRight } from 'lucide-react';
 import { HalalIcon, IsoIcon } from '../components/Illustrations';
 import { trackViewContent, trackAddToCart } from '../lib/analytics';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 interface FlyingParticle {
   id: number;
@@ -35,6 +36,14 @@ export default function ProductDetail() {
   const [flyingParticles, setFlyingParticles] = useState<FlyingParticle[]>([]);
 
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Dynamic SEO metadata
+  usePageMeta({
+    title: product.name,
+    description: `${product.shortDescription} Starting from ${formatPKR(product.startingPrice)}. Cash on delivery across Pakistan.`,
+    image: product.image,
+    type: 'product',
+  });
 
   useEffect(() => {
     setActiveThumbnail(0);
@@ -127,6 +136,36 @@ export default function ProductDetail() {
           style={{ backgroundColor: particleColor }}
         />
       ))}
+
+      {/* Structured Data: Product + Offer */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            name: product.name,
+            image: product.image.startsWith('http') ? product.image : `https://organicflavouring.com${product.image}`,
+            description: product.description,
+            sku: product.sku,
+            brand: {
+              "@type": "Brand",
+              name: "Organic Flavouring"
+            },
+            offers: {
+              "@type": "Offer",
+              url: `https://organicflavouring.com/product/${product.id}`,
+              priceCurrency: "PKR",
+              price: selectedSize?.price || product.startingPrice,
+              availability: "https://schema.org/InStock",
+              seller: {
+                "@type": "Organization",
+                name: "Organic Flavouring"
+              }
+            }
+          })
+        }}
+      />
 
       {/* Toast Notification */}
       <AnimatePresence>

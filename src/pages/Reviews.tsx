@@ -3,8 +3,14 @@ import { Star, MessageCircle, MapPin, Sparkles } from 'lucide-react';
 import { reviews } from '../data/reviews';
 import { officialInfo } from '../data/products';
 import { Link } from 'react-router-dom';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function Reviews() {
+  usePageMeta({
+    title: 'Customer Reviews & Feedback',
+    description: 'Read verified experiences and feedback from real home cooks and kitchens across Pakistan.',
+  });
+
   const verifiedReviews = reviews.filter(r => r.verified);
 
   return (

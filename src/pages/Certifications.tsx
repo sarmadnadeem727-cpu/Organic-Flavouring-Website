@@ -3,8 +3,14 @@ import { products, officialCertificates } from '../data/products';
 import { Eye, X } from 'lucide-react';
 import { motion } from 'motion/react';
 import { HalalIcon, IsoIcon, PureBotanicalIcon } from '../components/Illustrations';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 export default function Certifications() {
+  usePageMeta({
+    title: 'Quality & Halal Certifications',
+    description: 'Accredited quality standards: PS:3733-2022 Halal compliance and ISO 9001:2015 certified processing facilities.',
+  });
+
   const [modalCert, setModalCert] = useState<string | null>(null);
 
   return (

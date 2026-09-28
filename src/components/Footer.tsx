@@ -105,7 +105,10 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
             {reviews.some(r => r.verified) && (
               <Link to="/reviews" className="hover:text-[#D9542F]">Reviews</Link>
             )}
-            <Link to="/certifications" className="hover:text-[#D9542F]">Certifications</Link>
+            <Link to="/shipping" className="hover:text-[#D9542F]">Shipping</Link>
+            <Link to="/returns" className="hover:text-[#D9542F]">Returns</Link>
+            <Link to="/privacy" className="hover:text-[#D9542F]">Privacy</Link>
+            <Link to="/terms" className="hover:text-[#D9542F]">Terms</Link>
             <Link to="/contact" className="hover:text-[#D9542F]">Contact</Link>
           </div>
         </div>
