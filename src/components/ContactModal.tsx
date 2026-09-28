@@ -3,6 +3,7 @@ import { X, Send, MessageCircle, Mail, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { officialInfo } from '../data/products';
 import { PureBotanicalIcon } from './Illustrations';
+import { trackContact } from '../lib/analytics';
 
 interface Props {
   isOpen: boolean;
@@ -10,19 +11,17 @@ interface Props {
 }
 
 export default function ContactModal({ isOpen, onClose }: Props) {
-  const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: '', contact: '', message: '' });
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', contact: '', message: '' });
-      onClose();
-    }, 2000);
+    trackContact('whatsapp', 'Contact Modal Inquiry');
+    const msg = `*Inquiry from Website*\nName: ${formData.name}\nContact: ${formData.contact}\n\n*Message:*\n${formData.message}`;
+    window.open(`https://wa.me/${officialInfo.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+    setFormData({ name: '', contact: '', message: '' });
+    onClose();
   };
 
   return (
@@ -53,7 +52,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
 
           {/* Modal Header */}
           <div className="text-center space-y-2 border-b border-[#E5D7C5] pb-4">
-            <span className="text-[10px] uppercase font-bold tracking-widest text-[#D9542F]">
+            <span className="text-xs uppercase font-bold tracking-widest text-[#D9542F]">
               Direct Contact & Wholesale
             </span>
             <h3 className="font-serif-heading text-2xl font-bold text-[#241D17]">
@@ -74,16 +73,7 @@ export default function ContactModal({ isOpen, onClose }: Props) {
             </a>
           </div>
 
-          {submitted ? (
-            <div className="text-center py-6 space-y-2">
-              <div className="w-12 h-12 bg-[#2F4F24] text-white rounded-full flex items-center justify-center mx-auto">
-                <PureBotanicalIcon className="w-6 h-6 text-[#E0A020]" />
-              </div>
-              <h4 className="font-serif-heading text-lg font-bold">Message Sent!</h4>
-              <p className="text-xs text-[#5A4F46]">Shukriya! Our team will reply shortly.</p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
               <div>
                 <label className="block text-[#5A4F46] uppercase font-bold tracking-widest mb-1">Your Name *</label>
                 <input
@@ -124,9 +114,8 @@ export default function ContactModal({ isOpen, onClose }: Props) {
                 <Send className="w-4 h-4" /> Send Message
               </button>
             </form>
-          )}
 
-          <div className="flex items-center justify-between text-[11px] text-[#5A4F46] pt-2 border-t border-[#E5D7C5]">
+          <div className="flex items-center justify-between text-xs text-[#5A4F46] pt-2 border-t border-[#E5D7C5]">
             <span className="flex items-center gap-1"><Phone className="w-3.5 h-3.5 text-[#6FAE3E]" /> {officialInfo.phone}</span>
             <span className="flex items-center gap-1"><Mail className="w-3.5 h-3.5 text-[#D9542F]" /> {officialInfo.email}</span>
           </div>

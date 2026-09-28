@@ -131,7 +131,7 @@ export default function ProductDetail() {
           key={p.id}
           initial={{ x: p.x, y: p.y, scale: 1, opacity: 1 }}
           animate={{ x: p.targetX, y: p.targetY, scale: 0.2, opacity: 0 }}
-          transition={{ duration: 0.85, ease: "cubic-bezier(0.16, 1, 0.3, 1)" }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
           className="fixed z-50 w-2.5 h-2.5 rounded-full pointer-events-none"
           style={{ backgroundColor: particleColor }}
         />

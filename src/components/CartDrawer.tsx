@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { officialInfo } from '../data/products';
 import { FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING, formatPKR } from '../config/store';
@@ -8,6 +8,26 @@ import { EmptyCartIllustration, PureBotanicalIcon, HalalIcon, IsoIcon } from './
 
 export default function CartDrawer() {
   const { isCartOpen, setIsCartOpen, items, updateQuantity, removeFromCart, subtotal } = useCart();
+
+  // Handle ESC key and scroll locking
+  useEffect(() => {
+    if (!isCartOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsCartOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isCartOpen, setIsCartOpen]);
 
   if (!isCartOpen) return null;
 
@@ -25,7 +45,12 @@ export default function CartDrawer() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
+    <div 
+      className="fixed inset-0 z-50 overflow-hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cart-drawer-heading"
+    >
       {/* Backdrop */}
       <div
         onClick={() => setIsCartOpen(false)}
@@ -37,7 +62,7 @@ export default function CartDrawer() {
           {/* Header */}
           <div className="p-6 border-b border-[#E5D7C5] flex items-center justify-between bg-white">
             <div className="flex items-center gap-3">
-              <h2 className="font-serif-heading text-xl font-bold tracking-tight text-[#211D18]">
+              <h2 id="cart-drawer-heading" className="font-serif-heading text-xl font-bold tracking-tight text-[#211D18]">
                 Your Spice Reserve
               </h2>
               <span className="text-xs uppercase font-bold tracking-widest px-2.5 py-0.5 rounded bg-[#2F4F24] text-[#FBF8F2]">

@@ -702,15 +702,15 @@ export default function Checkout() {
                     )}
                   </button>
 
-                  <p className="text-center text-xs text-[#FBF3E7]/60 leading-relaxed">
+                  <p className="text-center text-xs text-[#FBF3E7]/80 leading-relaxed">
                     Cash on Delivery. We may confirm your order by call or WhatsApp before dispatch.
                   </p>
 
-                  <p className="text-center text-[11px] text-[#FBF3E7]/50 pt-1">
+                  <p className="text-center text-xs text-[#FBF3E7]/70 pt-1">
                     By placing an order, you agree to our{' '}
-                    <Link to="/terms" target="_blank" className="text-[#F0C36B] hover:underline">Terms</Link>,{' '}
-                    <Link to="/privacy" target="_blank" className="text-[#F0C36B] hover:underline">Privacy</Link>, and{' '}
-                    <Link to="/returns" target="_blank" className="text-[#F0C36B] hover:underline">Returns Policy</Link>.
+                    <Link to="/terms" target="_blank" className="text-[#F0C36B] underline hover:text-[#FFF6E8]">Terms</Link>,{' '}
+                    <Link to="/privacy" target="_blank" className="text-[#F0C36B] underline hover:text-[#FFF6E8]">Privacy</Link>, and{' '}
+                    <Link to="/returns" target="_blank" className="text-[#F0C36B] underline hover:text-[#FFF6E8]">Returns Policy</Link>.
                   </p>
                 </div>
               </form>

@@ -9,6 +9,7 @@ export interface Product {
   usageAndStorage: string;
   certificationsNote: string;
   startingPrice: number; // in PKR for smallest size
+  price?: number; // legacy/derived active pack price
   packSizes: { size: string; price: number; sku?: string; isBulk?: boolean }[];
   image: string;
   gallery: string[];

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { X, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HalalIcon, IsoIcon, PureBotanicalIcon } from './Illustrations';
@@ -10,11 +10,31 @@ interface Props {
 }
 
 export default function CertificationsModal({ isOpen, onClose }: Props) {
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4">
+      <div 
+        className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cert-modal-heading"
+      >
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -40,10 +60,10 @@ export default function CertificationsModal({ isOpen, onClose }: Props) {
 
           {/* Modal Header */}
           <div className="text-center space-y-2 border-b border-[#E5D7C5] pb-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3E2A1C] text-[#E0A020] text-[10px] uppercase font-bold tracking-widest">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3E2A1C] text-[#E0A020] text-xs uppercase font-bold tracking-widest">
               <PureBotanicalIcon className="w-3.5 h-3.5" /> Accredited Verification
             </div>
-            <h3 className="font-serif-heading text-2xl font-bold text-[#241D17]">
+            <h3 id="cert-modal-heading" className="font-serif-heading text-2xl font-bold text-[#241D17]">
               Certified Standards & Quality
             </h3>
           </div>
@@ -55,10 +75,10 @@ export default function CertificationsModal({ isOpen, onClose }: Props) {
                 <HalalIcon className="w-7 h-7" />
                 <div>
                   <h4 className="font-serif-heading text-sm font-bold text-[#241D17]">Pakistan Halal Standard</h4>
-                  <p className="text-[10px] font-mono text-[#5A4F46]">PS:3733-2022 (R)</p>
+                  <p className="text-xs font-mono text-[#5A4F46]">PS:3733-2022 (R)</p>
                 </div>
               </div>
-              <p className="text-[11px] text-[#5A4F46] leading-relaxed">
+              <p className="text-xs text-[#5A4F46] leading-relaxed">
                 Certified 100% botanical food consumption and Shariah-compliant packaging.
               </p>
             </div>
@@ -68,10 +88,10 @@ export default function CertificationsModal({ isOpen, onClose }: Props) {
                 <IsoIcon className="w-7 h-7" />
                 <div>
                   <h4 className="font-serif-heading text-sm font-bold text-[#241D17]">ISO 9001:2015</h4>
-                  <p className="text-[10px] font-mono text-[#5A4F46]">Quality Management System</p>
+                  <p className="text-xs font-mono text-[#5A4F46]">Quality Management System</p>
                 </div>
               </div>
-              <p className="text-[11px] text-[#5A4F46] leading-relaxed">
+              <p className="text-xs text-[#5A4F46] leading-relaxed">
                 Operates S.O.P. for raw spice quality grading, zero moisture adulteration, and hygienic sealing.
               </p>
             </div>
@@ -79,12 +99,12 @@ export default function CertificationsModal({ isOpen, onClose }: Props) {
 
           {/* Certified Line */}
           <div>
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#5A4F46] mb-2">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-[#5A4F46] mb-2">
               Certified Pure Spice Products:
             </h4>
             <div className="grid grid-cols-2 gap-2 text-xs">
               {products.map(p => (
-                <div key={p.id} className="flex items-center gap-1.5 p-2 bg-white rounded border border-[#E5D7C5] text-[11px]">
+                <div key={p.id} className="flex items-center gap-1.5 p-2 bg-white rounded border border-[#E5D7C5] text-xs">
                   <Check className="w-3.5 h-3.5 text-[#6FAE3E]" />
                   <span className="truncate font-semibold">{p.name}</span>
                 </div>

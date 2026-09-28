@@ -27,6 +27,21 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
+
+  // Handle ESC key for mobile menu
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -163,7 +178,11 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
 
         {/* Mobile Dropdown */}
         {isOpen && (
-          <div className="lg:hidden bg-white border-t border-[#E5E0D8] px-4 pt-2 pb-4 space-y-2 text-sm">
+          <div 
+            className="lg:hidden bg-white border-t border-[#E5E0D8] px-4 pt-2 pb-4 space-y-2 text-sm"
+            role="region"
+            aria-label="Mobile Navigation Menu"
+          >
             <form onSubmit={handleSearchSubmit} className="relative mb-3 pt-1">
               <input
                 type="text"

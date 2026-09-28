@@ -20,12 +20,12 @@ export default function MobileMiniCartBar() {
         <div className="flex items-center gap-2.5">
           <div className="relative w-9 h-9 rounded-lg bg-[#241A10] flex items-center justify-center text-[#F0C36B]">
             <ShoppingBag className="w-4 h-4" />
-            <span className="absolute -top-1 -right-1 bg-[#D9542F] text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center">
+            <span className="absolute -top-1.5 -right-1.5 bg-[#D9542F] text-white text-xs font-black min-w-[18px] h-[18px] px-1 rounded-full flex items-center justify-center">
               {totalItems}
             </span>
           </div>
           <div>
-            <span className="text-[11px] text-[#FBF3E7]/60 uppercase tracking-wider block">Total</span>
+            <span className="text-xs text-[#FBF3E7]/70 uppercase tracking-wider block">Total</span>
             <span className="text-sm font-bold text-[#FBF3E7]">{formatPKR(subtotal)}</span>
           </div>
         </div>

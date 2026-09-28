@@ -9,6 +9,7 @@ import ContactModal from './components/ContactModal';
 import MobileMiniCartBar from './components/MobileMiniCartBar';
 import { CartProvider } from './context/CartContext';
 import { lazy, Suspense } from 'react';
+import ErrorBoundary from './components/ErrorBoundary';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 
@@ -103,32 +104,34 @@ export default function App() {
           />
           
           <main className="flex-grow">
-            <Suspense fallback={<PageFallback />}>
-              <Routes>
-                <Route path="/" element={
-                  <Home 
-                    onOpenCertModal={() => setIsCertModalOpen(true)}
-                    onOpenContactModal={() => setIsContactModalOpen(true)}
-                  />
-                } />
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/product/corriander-powder" element={<Navigate to="/product/coriander-powder" replace />} />
-                <Route path="/product/corriander-whole" element={<Navigate to="/product/coriander-whole" replace />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-                <Route path="/cart" element={<Checkout />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/certifications" element={<Certifications />} />
-                <Route path="/transparency" element={<Transparency />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/reviews" element={<Reviews />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/shipping" element={<Shipping />} />
-                <Route path="/returns" element={<Returns />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<PageFallback />}>
+                <Routes>
+                  <Route path="/" element={
+                    <Home 
+                      onOpenCertModal={() => setIsCertModalOpen(true)}
+                      onOpenContactModal={() => setIsContactModalOpen(true)}
+                    />
+                  } />
+                  <Route path="/shop" element={<Shop />} />
+                  <Route path="/product/corriander-powder" element={<Navigate to="/product/coriander-powder" replace />} />
+                  <Route path="/product/corriander-whole" element={<Navigate to="/product/coriander-whole" replace />} />
+                  <Route path="/product/:id" element={<ProductDetail />} />
+                  <Route path="/cart" element={<Checkout />} />
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/certifications" element={<Certifications />} />
+                  <Route path="/transparency" element={<Transparency />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/reviews" element={<Reviews />} />
+                  <Route path="/terms" element={<Terms />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/shipping" element={<Shipping />} />
+                  <Route path="/returns" element={<Returns />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </ErrorBoundary>
           </main>
 
           <CartDrawer />
