@@ -1,9 +1,9 @@
 import emailjs from '@emailjs/browser';
 
-const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-const adminTemplateId = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID;
-const customerTemplateId = import.meta.env.VITE_EMAILJS_CUSTOMER_TEMPLATE_ID;
+const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'QHZ9Zd0nKfHmMxYop';
+const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_g86qxka';
+const adminTemplateId = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID || 'template_wla4qrf';
+const customerTemplateId = import.meta.env.VITE_EMAILJS_CUSTOMER_TEMPLATE_ID || 'template_luh812b';
 
 // Initialize EmailJS with the public key
 if (publicKey && publicKey !== 'your_public_key_here') {
@@ -26,7 +26,7 @@ export interface OrderDetails {
 
 export const sendOrderToAdmin = async (orderDetails: OrderDetails) => {
   if (!serviceId || !adminTemplateId || serviceId === 'your_service_id_here' || adminTemplateId === 'your_admin_template_id_here') {
-    console.warn('EmailJS admin credentials are not set. Skipping admin email dispatch.');
+    console.warn('EmailJS admin credentials are not set in .env. Skipping admin email dispatch.');
     return;
   }
   
@@ -51,16 +51,19 @@ export const sendOrderToAdmin = async (orderDetails: OrderDetails) => {
       total: orderDetails.total,
       order_total: orderDetails.total,
     };
-    await emailjs.send(serviceId, adminTemplateId, params, publicKey);
-  } catch (error) {
-    console.error('Failed to send order email to admin:', error);
-    throw new Error('Failed to send admin notification');
+    console.log('[EmailJS] Sending Admin Notification with Service:', serviceId, 'Template:', adminTemplateId);
+    const result = await emailjs.send(serviceId, adminTemplateId, params, publicKey);
+    console.log('[EmailJS] Admin email sent response:', result);
+    return result;
+  } catch (error: any) {
+    console.error('[EmailJS] Failed to send order email to admin:', error);
+    throw error;
   }
 };
 
 export const sendConfirmationToCustomer = async (orderDetails: OrderDetails) => {
   if (!serviceId || !customerTemplateId || serviceId === 'your_service_id_here' || customerTemplateId === 'your_customer_template_id_here') {
-    console.warn('EmailJS customer credentials are not set. Skipping customer email dispatch.');
+    console.warn('EmailJS customer credentials are not set in .env. Skipping customer email dispatch.');
     return;
   }
 
@@ -81,10 +84,13 @@ export const sendConfirmationToCustomer = async (orderDetails: OrderDetails) => 
       payment_method: orderDetails.paymentMethod,
       shipping_address: `${orderDetails.customerAddress}, ${orderDetails.customerCity}`,
     };
-    await emailjs.send(serviceId, customerTemplateId, params, publicKey);
-  } catch (error) {
-    console.error('Failed to send confirmation email to customer:', error);
-    throw new Error('Failed to send customer confirmation');
+    console.log('[EmailJS] Sending Customer Confirmation with Service:', serviceId, 'Template:', customerTemplateId);
+    const result = await emailjs.send(serviceId, customerTemplateId, params, publicKey);
+    console.log('[EmailJS] Customer email sent response:', result);
+    return result;
+  } catch (error: any) {
+    console.error('[EmailJS] Failed to send confirmation email to customer:', error);
+    throw error;
   }
 };
 
