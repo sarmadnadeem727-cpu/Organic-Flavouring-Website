@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, ShoppingBag, Search, User } from 'lucide-react';
 import { brandLogo } from '../data/products';
+import { reviews } from '../data/reviews';
 import { useCart } from '../context/CartContext';
 import { trackSearch, trackContact } from '../lib/analytics';
 
@@ -104,12 +105,14 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
               >
                 Contact
               </Link>
-              <Link
-                to="/reviews"
-                className={`transition-colors ${location.pathname === '/reviews' ? 'text-[#D9542F] font-semibold' : 'hover:text-[#D9542F]'}`}
-              >
-                Reviews
-              </Link>
+              {reviews.some(r => r.verified) && (
+                <Link
+                  to="/reviews"
+                  className={`transition-colors ${location.pathname === '/reviews' ? 'text-[#D9542F] font-semibold' : 'hover:text-[#D9542F]'}`}
+                >
+                  Reviews
+                </Link>
+              )}
             </div>
 
             {/* Search Bar */}

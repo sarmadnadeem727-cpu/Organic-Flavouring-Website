@@ -57,8 +57,11 @@ export const officialCertificates = [
     title: "Halal Certification",
     standard: "Pakistan Halal Standard PS:3733-2022 (R) / OIC-SMIIC 1:2019",
     scope: "Packaging and Distribution of Spices",
-    certifiedBy: "Accredited Third-Party Halal Certification Body",
+    certificateNumber: "[CONFIRM: Halal certificate number]",
+    certifiedBy: "[CONFIRM: Accredited Halal issuing body name]",
     badgeLabel: "Halal Certified",
+    verificationPending: true, // Set to false once certificate number and image are provided
+    imageSlot: "/certs/halal-cert.jpg",
     description: "Certified compliance with Islamic Shariah guidelines and Pakistan Halal Standards for 100% pure botanical food consumption."
   },
   {
@@ -66,8 +69,11 @@ export const officialCertificates = [
     title: "ISO 9001:2015 Quality Management System",
     standard: "ISO 9001:2015",
     scope: "Packaging and Distribution of Spices",
-    certifiedBy: "Accredited Third-Party Certification Body",
+    certificateNumber: "[CONFIRM: ISO certificate number]",
+    certifiedBy: "[CONFIRM: Accredited ISO registrar/body name]",
     badgeLabel: "ISO 9001:2015 Certified",
+    verificationPending: true, // Set to false once certificate number and image are provided
+    imageSlot: "/certs/iso-cert.jpg",
     description: "Certified compliance with international quality management standards for hygienic procurement, storage, sorting, packaging, and nationwide distribution."
   }
 ];

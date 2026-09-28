@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { brandLogo, officialInfo } from '../data/products';
+import { reviews } from '../data/reviews';
 import { Phone, Mail, MessageCircle, Facebook, Youtube } from 'lucide-react';
 import { HalalIcon, IsoIcon } from './Illustrations';
 
@@ -31,7 +32,7 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
 
           {/* Col 2: Shop Links */}
           <div className="space-y-2">
-            <h4 className="font-bold text-[#222222] uppercase tracking-wider text-[11px] mb-3">Shop Spices</h4>
+            <h4 className="font-bold text-[#222222] uppercase tracking-wider text-xs mb-3">Shop Spices</h4>
             <ul className="space-y-2 text-[#666666]">
               <li><Link to="/shop?category=Chilli" className="hover:text-[#D9542F]">Red Chilli & Flakes</Link></li>
               <li><Link to="/shop?category=Powders" className="hover:text-[#D9542F]">Everyday Powders</Link></li>
@@ -42,7 +43,7 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
 
           {/* Col 3: Company & Discovery */}
           <div className="space-y-2">
-            <h4 className="font-bold text-[#222222] uppercase tracking-wider text-[11px] mb-3">Discovery</h4>
+            <h4 className="font-bold text-[#222222] uppercase tracking-wider text-xs mb-3">Discovery</h4>
             <ul className="space-y-2 text-[#666666]">
               <li><Link to="/about" className="hover:text-[#D9542F]">Our Story (Est. 2022)</Link></li>
               <li><Link to="/transparency" className="hover:text-[#D9542F]">Batch Transparency</Link></li>
@@ -54,7 +55,7 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
 
           {/* Col 4: Certifications & WhatsApp Direct */}
           <div className="space-y-3">
-            <h4 className="font-bold text-[#222222] uppercase tracking-wider text-[11px] mb-3">Accreditations</h4>
+            <h4 className="font-bold text-[#222222] uppercase tracking-wider text-xs mb-3">Accreditations</h4>
             <div className="flex items-center gap-3">
               <Link 
                 to="/certifications"
@@ -62,7 +63,7 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
               >
                 <HalalIcon className="w-5 h-5 shrink-0 text-[#6FAE3E]" />
                 <div className="text-left">
-                  <p className="font-semibold text-[10px]">Halal PS:3733</p>
+                  <p className="font-semibold text-xs">Halal PS:3733</p>
                 </div>
               </Link>
 
@@ -72,7 +73,7 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
               >
                 <IsoIcon className="w-5 h-5 shrink-0 text-[#D9542F]" />
                 <div className="text-left">
-                  <p className="font-semibold text-[10px]">ISO 9001:2015</p>
+                  <p className="font-semibold text-xs">ISO 9001:2015</p>
                 </div>
               </Link>
             </div>
@@ -90,7 +91,7 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
         </div>
 
         {/* Bottom Copyright Line */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[#666666] text-[11px] gap-4">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[#666666] text-xs gap-4">
           <p>© 2022 – {new Date().getFullYear()} Organic Flavouring. All Rights Reserved. Lahore, Pakistan.</p>
           <div className="flex items-center space-x-4">
             <div className="flex items-center gap-3 border-r border-[#E5E0D8] pr-4">
@@ -101,7 +102,9 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
                 <Youtube className="w-4 h-4" />
               </a>
             </div>
-            <Link to="/reviews" className="hover:text-[#D9542F]">Reviews</Link>
+            {reviews.some(r => r.verified) && (
+              <Link to="/reviews" className="hover:text-[#D9542F]">Reviews</Link>
+            )}
             <Link to="/certifications" className="hover:text-[#D9542F]">Certifications</Link>
             <Link to="/contact" className="hover:text-[#D9542F]">Contact</Link>
           </div>
