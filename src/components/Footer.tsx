@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { brandLogo, officialInfo } from '../data/products';
-import { Phone, Mail, MessageCircle } from 'lucide-react';
+import { Phone, Mail, MessageCircle, Facebook, Youtube } from 'lucide-react';
 import { HalalIcon, IsoIcon } from './Illustrations';
 
 interface FooterProps {
@@ -90,9 +90,17 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
         </div>
 
         {/* Bottom Copyright Line */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[#666666] text-[11px] gap-2">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[#666666] text-[11px] gap-4">
           <p>© 2022 – {new Date().getFullYear()} Organic Flavouring. All Rights Reserved. Lahore, Pakistan.</p>
-          <div className="flex space-x-4">
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-3 border-r border-[#E5E0D8] pr-4">
+              <a href={officialInfo.facebook} target="_blank" rel="noreferrer" className="hover:text-[#D9542F]" aria-label="Facebook">
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a href={officialInfo.youtube} target="_blank" rel="noreferrer" className="hover:text-[#D9542F]" aria-label="YouTube">
+                <Youtube className="w-4 h-4" />
+              </a>
+            </div>
             <Link to="/reviews" className="hover:text-[#D9542F]">Reviews</Link>
             <Link to="/certifications" className="hover:text-[#D9542F]">Certifications</Link>
             <Link to="/contact" className="hover:text-[#D9542F]">Contact</Link>
