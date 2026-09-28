@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, ShoppingBag, Search, User } from 'lucide-react';
 import { brandLogo } from '../data/products';
 import { useCart } from '../context/CartContext';
+import { trackSearch, trackContact } from '../lib/analytics';
 
 interface NavbarProps {
   onOpenCertModal?: () => void;
@@ -28,6 +29,7 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
+      trackSearch(searchQuery.trim());
       navigate(`/shop?search=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery('');
       setIsOpen(false);

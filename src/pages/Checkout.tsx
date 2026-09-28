@@ -4,6 +4,7 @@ import { officialInfo, brandLogo } from '../data/products';
 import { FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING, formatPKR, WHATSAPP_NUMBER } from '../config/store';
 import { Trash2, Plus, Minus, Check, MessageCircle, Download, AlertCircle, ChevronDown, ChevronUp, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { trackInitiateCheckout, trackPurchase, trackContact } from '../lib/analytics';
 
 const PAKISTAN_MAJOR_CITIES = [
   'Lahore',
@@ -80,6 +81,20 @@ export default function Checkout() {
   const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
   const shippingCharge = items.length === 0 ? 0 : isFreeShipping ? 0 : STANDARD_SHIPPING;
   const finalTotal = subtotal + shippingCharge;
+
+  // Track InitiateCheckout when items are in cart and not yet on confirmation screen
+  useEffect(() => {
+    if (!orderComplete && items.length > 0) {
+      trackInitiateCheckout(
+        items.map(i => ({
+          sku: i.product.sku,
+          price: i.product.price,
+          quantity: i.quantity,
+        })),
+        finalTotal
+      );
+    }
+  }, []);
 
   // Validation rules for Pakistani checkout
   const validatePhone = (phone: string): boolean => {
@@ -236,6 +251,19 @@ export default function Checkout() {
       } catch {
         // ignore private mode error
       }
+
+      // Track Purchase event across pixels (deduped automatically in trackPurchase)
+      trackPurchase({
+        orderId: data.orderId,
+        total: data.total,
+        items: items.map(item => ({
+          sku: item.product.sku,
+          name: item.product.name,
+          packSize: item.packSize,
+          price: item.product.price,
+          quantity: item.quantity,
+        })),
+      });
 
       setCompletedOrderDetails(confirmedOrder);
       setOrderComplete(true);

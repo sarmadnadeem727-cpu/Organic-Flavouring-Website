@@ -6,6 +6,7 @@ import { useCart } from '../context/CartContext';
 import { formatPKR } from '../config/store';
 import { Minus, Plus, ShoppingBag, MessageCircle, Check, MapPin, Box, Eye, Layers, ArrowRight } from 'lucide-react';
 import { HalalIcon, IsoIcon } from '../components/Illustrations';
+import { trackViewContent, trackAddToCart } from '../lib/analytics';
 
 interface FlyingParticle {
   id: number;
@@ -40,6 +41,14 @@ export default function ProductDetail() {
     setSelectedSize(product.packSizes[0]);
     setQuantity(1);
     setAddedSuccess(false);
+
+    // Track ViewContent for ad pixels
+    trackViewContent({
+      sku: product.sku,
+      name: product.name,
+      category: product.category,
+      price: product.packSizes[0]?.price || product.startingPrice,
+    });
   }, [product]);
 
   useEffect(() => {
@@ -56,6 +65,14 @@ export default function ProductDetail() {
     }
 
     addToCart({ ...product, price: selectedSize.price }, quantity, selectedSize.size);
+    trackAddToCart({
+      sku: product.sku,
+      name: product.name,
+      category: product.category,
+      packSize: selectedSize.size,
+      price: selectedSize.price,
+      quantity,
+    });
     setAddedSuccess(true);
     setTimeout(() => setAddedSuccess(false), 2200);
 

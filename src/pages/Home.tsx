@@ -9,6 +9,7 @@ import { formatPKR } from '../config/store';
 import CinematicHero from '../components/CinematicHero';
 import { ShoppingBag, Check } from 'lucide-react';
 import { HalalIcon, IsoIcon, FamilyOwnedIcon, DeliveryTruckIcon } from '../components/Illustrations';
+import { trackAddToCart } from '../lib/analytics';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,6 +39,14 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
     const defaultPack = product.packSizes[0];
     if (defaultPack.isBulk) return;
     addToCart({ ...product, price: defaultPack.price }, 1, defaultPack.size);
+    trackAddToCart({
+      sku: product.sku,
+      name: product.name,
+      category: product.category,
+      packSize: defaultPack.size,
+      price: defaultPack.price,
+      quantity: 1,
+    });
     setAddedToast(product.name);
     setTimeout(() => setAddedToast(null), 2200);
   };

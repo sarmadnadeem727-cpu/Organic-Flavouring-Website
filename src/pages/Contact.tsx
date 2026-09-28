@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, MessageCircle } from 'lucide-react';
 import { brandLogo, officialInfo } from '../data/products';
 import { PureBotanicalIcon, HalalIcon, IsoIcon } from '../components/Illustrations';
+import { trackContact } from '../lib/analytics';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    trackContact('whatsapp', formData.subject || 'Inquiry');
     const msg = `*Inquiry from Website*\nName: ${formData.name}\nContact: ${formData.emailOrPhone}\nSubject: ${formData.subject}\n\n*Message:*\n${formData.message}`;
     window.open(`https://wa.me/${officialInfo.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
     setFormData({ name: '', emailOrPhone: '', subject: '', message: '' });

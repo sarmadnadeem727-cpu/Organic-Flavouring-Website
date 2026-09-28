@@ -17,11 +17,16 @@ import Transparency from './pages/Transparency';
 import Contact from './pages/Contact';
 import Reviews from './pages/Reviews';
 
-function ScrollToTop() {
+import { initAnalytics, trackPageView } from './lib/analytics';
+
+function RouteTracker() {
   const { pathname } = useLocation();
+
   useEffect(() => {
+    trackPageView(pathname);
     window.scrollTo(0, 0);
   }, [pathname]);
+
   return null;
 }
 
@@ -50,10 +55,15 @@ export default function App() {
     };
   }, []);
 
+  // Initialize analytics off the critical path
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+
   return (
     <CartProvider>
       <Router>
-        <ScrollToTop />
+        <RouteTracker />
         <div className="flex flex-col min-h-screen bg-[#FBF3E7] text-[#2A1F16] selection:bg-[#D89A2E]/30 selection:text-[#2A1F16]">
           <Navbar 
             onOpenCertModal={() => setIsCertModalOpen(true)}
