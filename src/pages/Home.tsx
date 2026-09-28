@@ -5,6 +5,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { products, Product, assets } from '../data/products';
 import { useCart } from '../context/CartContext';
+import { formatPKR } from '../config/store';
 import CinematicHero from '../components/CinematicHero';
 import { ShoppingBag, Check } from 'lucide-react';
 import { HalalIcon, IsoIcon, FamilyOwnedIcon, DeliveryTruckIcon } from '../components/Illustrations';
@@ -207,8 +208,16 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
 
                       <div className="pt-3 mt-3 border-t border-[#4A1C10]/40 flex items-center justify-between">
                         <div>
-                          <span className="text-[9px] uppercase tracking-wider text-[#FFF6E8]/50 block">From</span>
-                          <span className="font-display font-black text-sm text-[#D9683F]">Rs. {product.startingPrice}</span>
+                          <div className="flex items-baseline gap-1">
+                            <span className="font-display font-black text-sm text-[#D9683F]">
+                              From {formatPKR(product.startingPrice)}
+                            </span>
+                            {product.packSizes[0] && (
+                              <span className="text-[10px] text-[#FFF6E8]/60 font-medium">
+                                / {product.packSizes[0].size}
+                              </span>
+                            )}
+                          </div>
                         </div>
                         <span className="text-[10px] font-bold uppercase tracking-wider text-[#D9683F] group-hover:underline">
                           View →

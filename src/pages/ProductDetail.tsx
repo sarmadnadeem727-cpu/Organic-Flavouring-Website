@@ -3,6 +3,7 @@ import { useParams, useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { products, officialInfo } from '../data/products';
 import { useCart } from '../context/CartContext';
+import { formatPKR } from '../config/store';
 import { Minus, Plus, ShoppingBag, MessageCircle, Check, MapPin, Box, Eye, Layers, ArrowRight } from 'lucide-react';
 import { HalalIcon, IsoIcon } from '../components/Illustrations';
 
@@ -235,7 +236,7 @@ export default function ProductDetail() {
                       animate={{ scale: 1 }}
                       className="font-display text-3xl font-black text-[#7E2F1C] inline-block"
                     >
-                      Rs. {(selectedSize.price * quantity).toLocaleString()}
+                      {formatPKR(selectedSize.price * quantity)}
                     </motion.span>
                   </div>
                 )}
@@ -265,7 +266,7 @@ export default function ProductDetail() {
                           : 'bg-transparent text-[#2A1F16] border-2 border-[#E5D7C5] hover:border-[#241A10]'
                       }`}
                     >
-                      {sizeOption.size} {sizeOption.isBulk ? '(Bulk)' : `— Rs. ${sizeOption.price}`}
+                      {sizeOption.size} {sizeOption.isBulk ? '(Bulk)' : `— ${formatPKR(sizeOption.price)}`}
                     </button>
                   );
                 })}
@@ -297,7 +298,7 @@ export default function ProductDetail() {
                   </div>
 
                   <span className="text-xs text-[#2A1F16]/65 font-medium">
-                    Total: Rs. {(selectedSize.price * quantity).toLocaleString()}
+                    Total: {formatPKR(selectedSize.price * quantity)}
                   </span>
                 </div>
 

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useCart } from '../context/CartContext';
 import { officialInfo, brandLogo } from '../data/products';
+import { FREE_SHIPPING_THRESHOLD, STANDARD_SHIPPING, formatPKR } from '../config/store';
 import { Trash2, Plus, Minus, Check, MessageCircle, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { sendOrderToAdmin, sendConfirmationToCustomer } from '../services/emailService';
@@ -24,10 +25,8 @@ export default function Checkout() {
 
   const receiptRef = useRef<HTMLDivElement>(null);
 
-  const freeShippingThreshold = 2500;
-  const standardShipping = 250;
-  const isFreeShipping = subtotal >= freeShippingThreshold;
-  const shippingCharge = items.length === 0 ? 0 : isFreeShipping ? 0 : standardShipping;
+  const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+  const shippingCharge = items.length === 0 ? 0 : isFreeShipping ? 0 : STANDARD_SHIPPING;
   const finalTotal = subtotal + shippingCharge;
 
   const handleOrderSubmit = async (e: React.FormEvent) => {
@@ -47,9 +46,9 @@ export default function Checkout() {
         customerAddress,
         paymentMethod: paymentMethod === 'COD' ? 'Cash on Delivery' : 'Bank Transfer',
         itemsList,
-        subtotal: subtotal.toLocaleString(),
-        shipping: isFreeShipping ? 'FREE' : standardShipping.toString(),
-        total: finalTotal.toLocaleString(),
+        subtotal: formatPKR(subtotal),
+        shipping: isFreeShipping ? 'FREE' : formatPKR(STANDARD_SHIPPING),
+        total: formatPKR(finalTotal),
         items: [...items],
         date: new Date().toLocaleDateString()
       };
@@ -277,7 +276,7 @@ export default function Checkout() {
                 <div className="space-y-3 max-h-[300px] overflow-y-auto pr-1 custom-scrollbar">
                   {items.map(item => (
                     <div
-                      key={`${item.product.id}-${item.selectedSize}`}
+                      key={`${item.product.id}-${item.packSize}`}
                       className="flex gap-3 pb-3 border-b border-[#241A10] items-center justify-between transition-all"
                     >
                       <img
@@ -287,28 +286,31 @@ export default function Checkout() {
                       />
                       <div className="flex-1 min-w-0">
                         <h4 className="font-semibold text-xs text-[#FBF3E7] truncate">{item.product.name}</h4>
-                        <p className="text-[10px] text-[#FBF3E7]/60 uppercase tracking-wider">{item.selectedSize}</p>
-                        <p className="text-xs font-bold text-[#D9542F]">Rs. {(item.product.price * item.quantity).toLocaleString()}</p>
+                        <p className="text-[10px] text-[#FBF3E7]/60 uppercase tracking-wider">{item.packSize}</p>
+                        <p className="text-xs font-bold text-[#D9542F]">{formatPKR(item.lineTotal)}</p>
                       </div>
                       <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
                         <div className="flex items-center border border-[#241A10] rounded bg-[#0E0904]">
                           <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                            onClick={() => updateQuantity(item.product.id, item.packSize, item.quantity - 1)}
                             className="p-1.5 text-[#FBF3E7]/70 hover:text-[#D9542F] transition-colors cursor-pointer"
+                            aria-label="Decrease quantity"
                           >
                             <Minus className="w-3 h-3" />
                           </button>
                           <span className="px-2 text-[11px] font-semibold text-[#FBF3E7]">{item.quantity}</span>
                           <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.product.id, item.packSize, item.quantity + 1)}
                             className="p-1.5 text-[#FBF3E7]/70 hover:text-[#D9542F] transition-colors cursor-pointer"
+                            aria-label="Increase quantity"
                           >
                             <Plus className="w-3 h-3" />
                           </button>
                         </div>
                         <button
-                          onClick={() => removeFromCart(item.product.id)}
+                          onClick={() => removeFromCart(item.product.id, item.packSize)}
                           className="p-1.5 text-[#FBF3E7]/40 hover:text-[#D9542F] transition-colors cursor-pointer"
+                          aria-label="Remove item"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -321,15 +323,15 @@ export default function Checkout() {
                 <div className="pt-2 space-y-2 text-xs text-[#FBF3E7]/70">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span className="font-semibold text-[#FBF3E7]">Rs. {subtotal.toLocaleString()}</span>
+                    <span className="font-semibold text-[#FBF3E7]">{formatPKR(subtotal)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Nationwide Delivery</span>
-                    <span>{isFreeShipping ? <strong className="text-[#6FAE3E]">FREE</strong> : `Rs. ${standardShipping}`}</span>
+                    <span>{isFreeShipping ? <strong className="text-[#6FAE3E]">FREE</strong> : formatPKR(STANDARD_SHIPPING)}</span>
                   </div>
                   <div className="flex justify-between text-base font-bold text-[#FBF3E7] pt-3 border-t border-[#241A10]">
                     <span>Total Amount</span>
-                    <span className="text-[#D9542F]">Rs. {finalTotal.toLocaleString()}</span>
+                    <span className="text-[#D9542F]">{formatPKR(finalTotal)}</span>
                   </div>
                 </div>
               </div>

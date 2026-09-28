@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { products, Product } from '../data/products';
 import { useCart } from '../context/CartContext';
+import { formatPKR } from '../config/store';
 import { ShoppingBag, Search, Check } from 'lucide-react';
 import { PureBotanicalIcon, NoResultsIllustration } from '../components/Illustrations';
 
@@ -188,8 +189,16 @@ export default function Shop() {
 
                     <div className="mt-4 pt-3 border-t border-[#E5D7C5]/60 flex items-center justify-between">
                       <div>
-                        <span className="text-[10px] text-[#5A4F46] block uppercase tracking-wider font-semibold">From</span>
-                        <span className="font-serif-heading text-base font-black text-[#D9542F]">Rs. {product.startingPrice}</span>
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="font-serif-heading text-base font-black text-[#D9542F]">
+                            From {formatPKR(product.startingPrice)}
+                          </span>
+                          {product.packSizes[0] && (
+                            <span className="text-xs text-[#5A4F46] font-medium">
+                              / {product.packSizes[0].size}
+                            </span>
+                          )}
+                        </div>
                       </div>
                       <span className="text-xs font-bold text-[#D9542F] group-hover:translate-x-1 transition-transform flex items-center gap-1">
                         View Product →

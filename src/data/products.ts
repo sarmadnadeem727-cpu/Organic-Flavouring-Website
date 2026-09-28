@@ -244,9 +244,9 @@ export const products: Product[] = [
     ]
   },
   {
-    id: "corriander-powder",
+    id: "coriander-powder",
     sku: "2026010100040",
-    name: "Corriander Powder",
+    name: "Coriander Powder",
     category: "Powders",
     tagline: "Freshly Roasted & Ground • Citrusy Floral Aroma",
     shortDescription: "Pure botanical coriander powder. Naturally fragrant, coarse-to-fine milled for velvety gravies and marinades.",
@@ -260,10 +260,10 @@ export const products: Product[] = [
       { size: "400g", price: 800, sku: "2026010100042" },
       { size: "800g", price: 1600, sku: "2026010100043" }
     ],
-    image: "/images/products/corriander-powder-1.jpg",
+    image: "/images/products/coriander-powder-1.jpg",
     gallery: [
-      "/images/products/corriander-powder-1.jpg",
-      "/images/products/corriander-powder-2.jpg",
+      "/images/products/coriander-powder-1.jpg",
+      "/images/products/coriander-powder-2.jpg",
       assets.hero
     ],
     heatLevel: 0,
@@ -477,9 +477,9 @@ export const products: Product[] = [
     ]
   },
   {
-    id: "corriander-whole",
+    id: "coriander-whole",
     sku: "2026010100114",
-    name: "Corriander Whole",
+    name: "Coriander Whole",
     category: "Whole Spices",
     tagline: "Aromatic Whole Coriander Seeds",
     shortDescription: "Plump, green-gold coriander seeds with a bright, citrusy aroma.",

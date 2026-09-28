@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Lenis from 'lenis';
 import Navbar from './components/Navbar';
@@ -69,6 +69,8 @@ export default function App() {
                 />
               } />
               <Route path="/shop" element={<Shop />} />
+              <Route path="/product/corriander-powder" element={<Navigate to="/product/coriander-powder" replace />} />
+              <Route path="/product/corriander-whole" element={<Navigate to="/product/coriander-whole" replace />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<Checkout />} />
               <Route path="/checkout" element={<Checkout />} />
