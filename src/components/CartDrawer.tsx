@@ -296,19 +296,20 @@ export default function CartDrawer() {
                   </button>
                 </div>
               ) : (
-                <div className="space-y-2">
+                <div className="space-y-2.5">
                   <Link
                     to="/checkout"
                     onClick={() => setIsCartOpen(false)}
-                    className="btn-primary-custom w-full text-xs py-3.5 text-center flex items-center justify-center gap-2"
+                    className="w-full py-3.5 px-4 bg-gradient-to-r from-[#D9683F] via-[#B0472B] to-[#7E2F1C] hover:from-[#B0472B] hover:to-[#4A1C10] text-white text-xs sm:text-sm font-black uppercase tracking-widest rounded-lg flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all cursor-pointer border border-[#E8663D]/40"
                   >
-                    Proceed to Checkout <ArrowRight className="w-4 h-4" />
+                    <span>Proceed to Checkout</span>
+                    <ArrowRight className="w-4 h-4" />
                   </Link>
                   <a
                     href={generateWhatsAppOrderText()}
                     target="_blank"
                     rel="noreferrer"
-                    className="w-full py-2.5 border-2 border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10 text-xs font-bold uppercase tracking-widest rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                    className="w-full py-3 px-4 border-2 border-[#25D366] text-[#25D366] hover:bg-[#25D366]/10 text-xs font-bold uppercase tracking-widest rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer"
                   >
                     <MessageCircle className="w-4 h-4" /> WhatsApp Quick Order
                   </a>
