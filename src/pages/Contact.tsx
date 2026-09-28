@@ -89,16 +89,7 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div className="pt-2">
-                <a
-                  href={`https://wa.me/${officialInfo.whatsapp}?text=Hi%20Organic%20Flavouring,%20I%20have%20an%20inquiry`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full py-3.5 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold uppercase tracking-widest rounded-lg transition-colors flex items-center justify-center gap-2 shadow-xs cursor-pointer"
-                >
-                  <MessageCircle className="w-4 h-4" /> Chat on WhatsApp
-                </a>
-              </div>
+
             </div>
 
             {/* Wholesale Info Block */}
