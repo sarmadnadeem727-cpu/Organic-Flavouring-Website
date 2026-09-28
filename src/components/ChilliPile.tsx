@@ -54,7 +54,8 @@ export default function ChilliPile() {
   // GSAP Pour & Settle Sequence + rAF Throttled Mouse Parallax
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    const isTouch = window.matchMedia('(hover: none) or (pointer: coarse)').matches;
+    if (prefersReducedMotion || isTouch) return;
 
     const validFlakes = flakeRefs.current.filter(Boolean) as HTMLDivElement[];
     if (validFlakes.length === 0) return;

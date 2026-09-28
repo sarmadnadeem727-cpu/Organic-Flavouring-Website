@@ -67,7 +67,7 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
                 <span className="font-bold text-lg text-[#222222] leading-none">
                   Organic <span className="text-[#D9542F]">Flavouring</span>
                 </span>
-                <span className="text-[10px] text-[#666666] font-medium mt-0.5">Established 2022</span>
+                <span className="text-xs text-[#666666] font-medium mt-0.5">Established 2022</span>
               </div>
             </Link>
 
@@ -140,7 +140,7 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
                 <ShoppingBag className="w-5 h-5" />
                 <span className="hidden sm:inline text-xs font-semibold">Cart</span>
                 {totalItems > 0 && (
-                  <span className="bg-[#D9542F] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
+                  <span className="bg-[#D9542F] text-white text-xs font-bold h-4 w-4 rounded-full flex items-center justify-center">
                     {totalItems}
                   </span>
                 )}
@@ -175,53 +175,55 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
             <Link
               to="/"
               onClick={() => setIsOpen(false)}
-              className="block py-2 text-[#222222] hover:text-[#D9542F] font-medium"
+              className="flex items-center min-h-[48px] py-2.5 px-2 text-[#222222] hover:text-[#D9542F] font-semibold text-sm border-b border-[#E5E0D8]/40"
             >
               Home
             </Link>
             <Link
               to="/shop"
               onClick={() => setIsOpen(false)}
-              className="block py-2 text-[#222222] hover:text-[#D9542F] font-medium"
+              className="flex items-center min-h-[48px] py-2.5 px-2 text-[#222222] hover:text-[#D9542F] font-semibold text-sm border-b border-[#E5E0D8]/40"
             >
               Shop All Spices
             </Link>
             <Link
               to="/about"
               onClick={() => setIsOpen(false)}
-              className="block py-2 text-[#222222] hover:text-[#D9542F] font-medium"
+              className="flex items-center min-h-[48px] py-2.5 px-2 text-[#222222] hover:text-[#D9542F] font-semibold text-sm border-b border-[#E5E0D8]/40"
             >
               Our Heritage & Story
             </Link>
-
             <Link
               to="/transparency"
               onClick={() => setIsOpen(false)}
-              className="block py-2 text-[#222222] hover:text-[#D9542F] font-medium"
+              className="flex items-center min-h-[48px] py-2.5 px-2 text-[#222222] hover:text-[#D9542F] font-semibold text-sm border-b border-[#E5E0D8]/40"
             >
               Trace Provenance
             </Link>
             <Link
               to="/certifications"
               onClick={() => setIsOpen(false)}
-              className="block py-2 text-[#222222] hover:text-[#D9542F] font-medium"
+              className="flex items-center min-h-[48px] py-2.5 px-2 text-[#222222] hover:text-[#D9542F] font-semibold text-sm border-b border-[#E5E0D8]/40"
             >
               Certifications (Halal & ISO)
             </Link>
             <Link
               to="/contact"
               onClick={() => setIsOpen(false)}
-              className="block py-2 text-[#222222] hover:text-[#D9542F] font-medium"
+              className="flex items-center min-h-[48px] py-2.5 px-2 text-[#222222] hover:text-[#D9542F] font-semibold text-sm border-b border-[#E5E0D8]/40"
             >
-              Contact & Wholesale Desk
+              Contact & WhatsApp
             </Link>
-            <Link
-              to="/reviews"
-              onClick={() => setIsOpen(false)}
-              className="block py-2 text-[#222222] hover:text-[#D9542F] font-medium"
-            >
-              Customer Reviews
-            </Link>
+            <div className="pt-2">
+              <a
+                href="https://wa.me/923000000000?text=Hi%20Organic%20Flavouring,%20I%20have%20an%20inquiry"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center min-h-[48px] w-full py-2.5 px-4 bg-[#25D366] text-white font-bold rounded-lg text-xs tracking-wider"
+              >
+                Direct WhatsApp Support (0300 0000000)
+              </a>
+            </div>
           </div>
         )}
       </nav>

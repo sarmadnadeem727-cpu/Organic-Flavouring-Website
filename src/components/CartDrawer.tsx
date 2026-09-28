@@ -32,15 +32,15 @@ export default function CartDrawer() {
         className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
       />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-6 sm:pl-10">
-        <div className="w-screen max-w-md bg-[#FBF8F2] text-[#211D18] shadow-2xl flex flex-col border-l-2 border-[#211D18]">
+      <div className="fixed inset-y-0 right-0 w-full sm:max-w-md flex">
+        <div className="w-full h-[100dvh] bg-[#FBF8F2] text-[#211D18] shadow-2xl flex flex-col border-l-2 border-[#211D18] pb-[env(safe-area-inset-bottom)]">
           {/* Header */}
           <div className="p-6 border-b border-[#E5D7C5] flex items-center justify-between bg-white">
             <div className="flex items-center gap-3">
               <h2 className="font-serif-heading text-xl font-bold tracking-tight text-[#211D18]">
                 Your Spice Reserve
               </h2>
-              <span className="text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded bg-[#2F4F24] text-[#FBF8F2]">
+              <span className="text-xs uppercase font-bold tracking-widest px-2.5 py-0.5 rounded bg-[#2F4F24] text-[#FBF8F2]">
                 {items.reduce((s, i) => s + i.quantity, 0)} items
               </span>
             </div>
@@ -56,12 +56,12 @@ export default function CartDrawer() {
           {/* Delivery Progress Bar */}
           <div className="bg-[#EFE7DA] px-6 py-3 border-b border-[#E5D7C5] text-xs">
             {isFreeShipping ? (
-              <p className="text-[#2F4F24] font-bold flex items-center gap-1.5 uppercase text-[11px] tracking-wider">
+              <p className="text-[#2F4F24] font-bold flex items-center gap-1.5 uppercase text-xs tracking-wider">
                 <PureBotanicalIcon className="w-4 h-4" /> Free Delivery Unlocked Across Pakistan
               </p>
             ) : (
               <div>
-                <p className="text-[#5A4F46] text-[11px] mb-1.5">
+                <p className="text-[#5A4F46] text-xs mb-1.5">
                   Add <strong className="text-[#D9542F]">{formatPKR(FREE_SHIPPING_THRESHOLD - subtotal)}</strong> more for Free Delivery
                 </p>
                 <div className="w-full bg-[#E5D7C5] h-2 rounded-full overflow-hidden">
@@ -103,30 +103,30 @@ export default function CartDrawer() {
                   />
                   <div className="flex-1 min-w-0">
                     <h4 className="font-serif-heading text-xs font-bold text-[#211D18] truncate">{item.product.name}</h4>
-                    <p className="text-[10px] text-[#5A4F46]">{item.packSize}</p>
+                    <p className="text-xs text-[#5A4F46]">{item.packSize}</p>
                     <p className="text-xs font-bold text-[#D9542F] mt-0.5">{formatPKR(item.lineTotal)}</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="flex items-center border border-[#211D18] rounded bg-[#FBF8F2]">
+                    <div className="flex items-center border border-[#211D18] rounded-lg bg-[#FBF8F2]">
                       <button
                         onClick={() => updateQuantity(item.product.id, item.packSize, item.quantity - 1)}
-                        className="p-1 text-[#211D18]"
+                        className="w-8 h-8 flex items-center justify-center text-[#211D18] hover:text-[#D9542F] cursor-pointer"
                         aria-label="Decrease quantity"
                       >
-                        <Minus className="w-3 h-3" />
+                        <Minus className="w-3.5 h-3.5" />
                       </button>
-                      <span className="px-2 text-xs font-bold">{item.quantity}</span>
+                      <span className="px-2 text-xs font-bold min-w-[20px] text-center">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.product.id, item.packSize, item.quantity + 1)}
-                        className="p-1 text-[#211D18]"
+                        className="w-8 h-8 flex items-center justify-center text-[#211D18] hover:text-[#D9542F] cursor-pointer"
                         aria-label="Increase quantity"
                       >
-                        <Plus className="w-3 h-3" />
+                        <Plus className="w-3.5 h-3.5" />
                       </button>
                     </div>
                     <button
                       onClick={() => removeFromCart(item.product.id, item.packSize)}
-                      className="p-1 text-[#5A4F46] hover:text-[#D9542F]"
+                      className="w-8 h-8 flex items-center justify-center text-[#5A4F46] hover:text-[#D9542F] cursor-pointer"
                       aria-label="Remove item"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -174,7 +174,7 @@ export default function CartDrawer() {
                 </a>
               </div>
 
-              <div className="flex items-center justify-center gap-2 text-[10px] text-[#5A4F46] pt-1">
+              <div className="flex items-center justify-center gap-2 text-xs text-[#5A4F46] pt-1">
                 <HalalIcon className="w-4 h-4" />
                 <IsoIcon className="w-4 h-4" />
                 <span>Halal & ISO 9001:2015 Certified • Cash on Delivery</span>

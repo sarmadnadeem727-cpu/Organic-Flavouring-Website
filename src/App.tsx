@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
 import CertificationsModal from './components/CertificationsModal';
 import ContactModal from './components/ContactModal';
+import MobileMiniCartBar from './components/MobileMiniCartBar';
 import { CartProvider } from './context/CartContext';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -34,8 +35,17 @@ export default function App() {
   const [isCertModalOpen, setIsCertModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
-  // Initialize Lenis Smooth Scrolling
+  // Initialize Lenis Smooth Scrolling only on desktop non-touch devices
   useEffect(() => {
+    // Disable on touch devices, small viewports, or when user prefers reduced motion
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+    const isSmallScreen = window.innerWidth < 1024;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (isTouch || isSmallScreen || prefersReducedMotion) {
+      return;
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -43,14 +53,16 @@ export default function App() {
       touchMultiplier: 2
     });
 
+    let animationFrameId: number;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      animationFrameId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    animationFrameId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(animationFrameId);
       lenis.destroy();
     };
   }, []);
@@ -93,6 +105,7 @@ export default function App() {
           </main>
 
           <CartDrawer />
+          <MobileMiniCartBar />
 
           <Footer 
             onOpenCertModal={() => setIsCertModalOpen(true)}

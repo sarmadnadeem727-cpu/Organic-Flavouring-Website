@@ -87,7 +87,8 @@ export default function MasalaSmashEngine() {
   // GSAP Physics Explosion + Settle + Cursor Repulsion Loop
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    const isTouch = window.matchMedia('(hover: none) or (pointer: coarse)').matches;
+    if (prefersReducedMotion || isTouch) return;
 
     const validRefs = particleRefs.current.filter(Boolean) as HTMLDivElement[];
     if (validRefs.length === 0) return;

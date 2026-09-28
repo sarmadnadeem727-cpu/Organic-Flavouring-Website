@@ -179,39 +179,57 @@ export default function ProductDetail() {
           {/* Left Column (55% on desktop): Sticky 3D Interactive Product Viewer */}
           <div className="lg:col-span-7 space-y-4 relative z-10 lg:sticky lg:top-24">
             
-            {/* Simple Image Viewer */}
-            <div className="w-full aspect-square bg-[#FAF6F0] rounded-2xl border-2 border-[#241A10] p-8 flex items-center justify-center relative overflow-hidden">
+            {/* Swipeable Aspect-Square Gallery with counter indicator */}
+            <div className="w-full aspect-square bg-[#FAF6F0] rounded-2xl border-2 border-[#241A10] p-6 sm:p-8 flex items-center justify-center relative overflow-hidden">
               <div className="absolute inset-0 radial-glow-turmeric opacity-40 pointer-events-none" />
               <img
                 src={currentImage}
                 alt={product.name}
-                className="w-full h-full object-contain drop-shadow-xl"
+                width={500}
+                height={500}
+                fetchPriority={activeThumbnail === 0 ? "high" : "auto"}
+                loading={activeThumbnail === 0 ? "eager" : "lazy"}
+                decoding="async"
+                className="w-full h-full object-contain drop-shadow-xl select-none"
               />
+              {/* Gallery image counter badge */}
+              {product.gallery.length > 1 && (
+                <div className="absolute bottom-3 right-3 bg-[#181008]/80 text-[#FBF3E7] text-[11px] font-bold px-2.5 py-1 rounded-full border border-[#241A10]">
+                  {activeThumbnail + 1} / {product.gallery.length}
+                </div>
+              )}
             </div>
 
-            {/* Thumbnail Row Below Viewer */}
-            <div className="flex items-center justify-center gap-3 pt-2 overflow-x-auto pb-2">
-              {product.gallery.map((img, idx) => {
-                const isActive = activeThumbnail === idx;
-                return (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveThumbnail(idx)}
-                    className={`relative w-16 h-16 rounded-xl border-2 transition-all flex items-center justify-center cursor-pointer flex-shrink-0 bg-white overflow-hidden ${
-                      isActive 
-                        ? 'border-[#B0472B] shadow-md scale-105' 
-                        : 'border-[#E5D7C5] opacity-75 hover:opacity-100 hover:border-[#241A10]'
-                    }`}
-                  >
-                    <img 
-                      src={img} 
-                      alt={`${product.name} view ${idx + 1}`} 
-                      className="w-full h-full object-contain p-1"
-                    />
-                  </button>
-                );
-              })}
-            </div>
+            {/* Thumbnail Row Below Viewer with min 44px tap targets */}
+            {product.gallery.length > 1 && (
+              <div className="flex items-center justify-center gap-3 pt-1 overflow-x-auto pb-2">
+                {product.gallery.map((img, idx) => {
+                  const isActive = activeThumbnail === idx;
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveThumbnail(idx)}
+                      className={`relative min-w-[52px] min-h-[52px] w-14 h-14 sm:w-16 sm:h-16 rounded-xl border-2 transition-all flex items-center justify-center cursor-pointer flex-shrink-0 bg-white overflow-hidden ${
+                        isActive 
+                          ? 'border-[#B0472B] shadow-md scale-105' 
+                          : 'border-[#E5D7C5] opacity-75 hover:opacity-100 hover:border-[#241A10]'
+                      }`}
+                      aria-label={`View ${product.name} photo ${idx + 1}`}
+                    >
+                      <img 
+                        src={img} 
+                        alt=""
+                        width={64}
+                        height={64}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-contain p-1"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            )}
 
           </div>
 
@@ -221,10 +239,10 @@ export default function ProductDetail() {
             {/* Category Eyebrow, Heading, Price */}
             <div>
               <div className="flex items-center gap-2 mb-2.5">
-                <span className="px-2.5 py-0.5 bg-[#241A10] text-[#D89A2E] text-[10px] uppercase font-bold tracking-widest rounded">
+                <span className="px-2.5 py-0.5 bg-[#241A10] text-[#D89A2E] text-xs uppercase font-bold tracking-widest rounded">
                   {product.category}
                 </span>
-                <span className="px-2.5 py-0.5 bg-[#6E8A4E]/20 text-[#455A2E] text-[10px] uppercase font-bold tracking-widest rounded border border-[#6E8A4E]/30">
+                <span className="px-2.5 py-0.5 bg-[#6E8A4E]/20 text-[#455A2E] text-xs uppercase font-bold tracking-widest rounded border border-[#6E8A4E]/30">
                   Halal & ISO Certified
                 </span>
               </div>
@@ -241,12 +259,12 @@ export default function ProductDetail() {
               <div className="mt-4 pt-3 border-t border-[#E5D7C5]/80">
                 {selectedSize.isBulk ? (
                   <div>
-                    <span className="text-[10px] text-[#2A1F16]/70 uppercase tracking-widest block font-bold">Wholesale Sacks</span>
+                    <span className="text-xs text-[#2A1F16]/70 uppercase tracking-widest block font-bold">Wholesale Sacks</span>
                     <span className="font-display text-2xl font-bold text-[#7E2F1C]">Direct Mandi Rates</span>
                   </div>
                 ) : (
                   <div>
-                    <span className="text-[10px] text-[#2A1F16]/70 uppercase tracking-widest block font-bold">Price</span>
+                    <span className="text-xs text-[#2A1F16]/70 uppercase tracking-widest block font-bold">Price</span>
                     <motion.span 
                       key={selectedSize.price * quantity}
                       initial={{ scale: 1.08 }}
@@ -267,7 +285,7 @@ export default function ProductDetail() {
 
             {/* Pack-Size Selector as a Row of Pill Buttons */}
             <div className="space-y-2.5">
-              <label className="block text-[11px] font-bold uppercase tracking-widest text-[#2A1F16]/70">
+              <label className="block text-xs font-bold uppercase tracking-widest text-[#2A1F16]/70">
                 Select Pack Size:
               </label>
               <div className="flex flex-wrap gap-2">
@@ -277,7 +295,7 @@ export default function ProductDetail() {
                     <button
                       key={sizeOption.size}
                       onClick={() => setSelectedSize(sizeOption)}
-                      className={`px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                      className={`min-h-[44px] px-4 py-2.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center justify-center ${
                         isSelected 
                           ? 'bg-[#B0472B] text-white shadow-md border-2 border-[#B0472B]' 
                           : 'bg-transparent text-[#2A1F16] border-2 border-[#E5D7C5] hover:border-[#241A10]'
@@ -324,7 +342,7 @@ export default function ProductDetail() {
                   ref={buttonRef}
                   whileTap={{ scale: 0.97 }}
                   onClick={handleAddToCart}
-                  className={`w-full py-4 text-white text-xs uppercase font-bold tracking-[0.18em] rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg ${
+                  className={`w-full min-h-[50px] py-3.5 text-white text-sm uppercase font-bold tracking-[0.16em] rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg active:scale-98 ${
                     addedSuccess 
                       ? 'bg-[#241A10] border-2 border-[#D89A2E] text-[#FFF6E8]' 
                       : 'bg-gradient-to-r from-[#D9683F] via-[#B0472B] to-[#7E2F1C] hover:from-[#B0472B] hover:to-[#4A1C10]'
@@ -335,11 +353,11 @@ export default function ProductDetail() {
                 >
                   {addedSuccess ? (
                     <>
-                      <Check className="w-4 h-4 text-[#D89A2E]" /> Added to Cart!
+                      <Check className="w-5 h-5 text-[#D89A2E]" /> Added to Cart!
                     </>
                   ) : (
                     <>
-                      <ShoppingBag className="w-4 h-4" /> Add to Cart
+                      <ShoppingBag className="w-5 h-5" /> Add to Cart
                     </>
                   )}
                 </motion.button>
@@ -352,10 +370,30 @@ export default function ProductDetail() {
                 href={`https://wa.me/${officialInfo.whatsapp}?text=Hi%20Organic%20Flavouring,%20I%20want%20to%20order%20${encodeURIComponent(product.name)}%20(${selectedSize.size})%20Qty:%20${quantity}`}
                 target="_blank"
                 rel="noreferrer"
-                className="w-full py-3.5 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs uppercase font-bold tracking-widest rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                className="w-full min-h-[48px] py-3 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs uppercase font-bold tracking-widest rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
               >
                 <MessageCircle className="w-4 h-4" /> {selectedSize.isBulk ? "Inquire Bulk Sacks via WhatsApp" : "Order via WhatsApp"}
               </a>
+            </div>
+
+            {/* Trust Highlights on Mobile & Desktop */}
+            <div className="pt-3 border-t border-[#E5D7C5]/60 grid grid-cols-2 gap-3 text-xs text-[#2A1F16]/80">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#6FAE3E]" />
+                <span>Cash on Delivery</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#D9542F]" />
+                <span>Dispatched from Lahore</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#D89A2E]" />
+                <span>100% Sun-Dried Purity</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#25D366]" />
+                <span>Quick WhatsApp Help</span>
+              </div>
             </div>
 
           </div>

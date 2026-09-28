@@ -111,13 +111,13 @@ export default function Shop() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pb-6 border-b border-[#E5D7C5]">
           
-          {/* Category Tabs */}
-          <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+          {/* Compact Category Chip Row (Scrollable with snap on mobile) */}
+          <div className="w-full md:w-auto flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none snap-x">
             {categories.map(cat => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all cursor-pointer ${
+                className={`min-h-[44px] px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 snap-start flex items-center justify-center ${
                   selectedCategory === cat
                     ? 'bg-[#D9542F] text-white shadow-xs border-2 border-[#241D17]'
                     : 'bg-white text-[#241D17] border border-[#E5D7C5] hover:border-[#D9542F]'
@@ -154,9 +154,15 @@ export default function Shop() {
 
         </div>
 
-        {/* Product Cards Grid with Spice Powder Tints */}
+        {/* Result Count */}
+        <div className="pt-4 flex items-center justify-between text-xs text-[#241D17]/70 font-semibold">
+          <span>Showing {filteredProducts.length} single-origin spices</span>
+          {selectedCategory !== 'All' && <span>Category: {selectedCategory}</span>}
+        </div>
+
+        {/* Product Cards Grid with Spice Powder Tints - 2 cols on mobile */}
         {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 pt-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 lg:gap-8 pt-6">
             {filteredProducts.map((product, idx) => (
               <motion.div
                 layout
@@ -179,54 +185,55 @@ export default function Shop() {
                       alt={product.name}
                       className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 ease-out"
                     />
-                    <span className="absolute top-3 left-3 bg-[#3E2A1C] text-[#E0A020] text-[10px] font-bold px-2.5 py-0.5 rounded uppercase tracking-widest shadow-sm">
+                    <span className="absolute top-3 left-3 bg-[#3E2A1C] text-[#E0A020] text-xs font-bold px-2.5 py-0.5 rounded uppercase tracking-widest shadow-sm">
                       {product.category}
                     </span>
                   </div>
 
                   {/* Details */}
-                  <div className="p-5 bg-white border-t border-[#E5D7C5] flex flex-col flex-1 justify-between">
+                  <div className="p-3 sm:p-5 bg-white border-t border-[#E5D7C5] flex flex-col flex-1 justify-between">
                     <div>
-                      <h3 className="font-serif-heading text-lg font-bold text-[#241D17] group-hover:text-[#D9542F] transition-colors leading-snug">
+                      <h3 className="font-serif-heading text-xs sm:text-base font-bold text-[#241D17] group-hover:text-[#D9542F] transition-colors leading-snug line-clamp-1 sm:line-clamp-none">
                         {product.name}
                       </h3>
 
-                      <p className="text-xs text-[#5A4F46] line-clamp-2 mt-1.5 leading-relaxed">
+                      <p className="text-xs text-[#5A4F46] line-clamp-2 mt-1 leading-relaxed hidden sm:block">
                         {product.shortDescription}
                       </p>
                     </div>
 
-                    <div className="mt-4 pt-3 border-t border-[#E5D7C5]/60 flex items-center justify-between">
+                    <div className="mt-2 sm:mt-4 pt-2 sm:pt-3 border-t border-[#E5D7C5]/60 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                       <div>
-                        <div className="flex items-baseline gap-1.5">
-                          <span className="font-serif-heading text-base font-black text-[#D9542F]">
+                        <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-1.5">
+                          <span className="font-serif-heading text-xs sm:text-base font-black text-[#D9542F]">
                             From {formatPKR(product.startingPrice)}
                           </span>
                           {product.packSizes[0] && (
-                            <span className="text-xs text-[#5A4F46] font-medium">
-                              / {product.packSizes[0].size}
+                            <span className="text-[11px] sm:text-xs text-[#5A4F46] font-medium">
+                              ({product.packSizes[0].size})
                             </span>
                           )}
                         </div>
                       </div>
-                      <span className="text-xs font-bold text-[#D9542F] group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                        View Product →
+                      <span className="text-[11px] sm:text-xs font-bold text-[#D9542F] hidden sm:flex items-center gap-1">
+                        View →
                       </span>
                     </div>
                   </div>
                 </Link>
 
-                {/* Quick Add Button outside Link */}
-                <div className="px-5 pb-5 pt-1 bg-white border-t border-transparent">
+                {/* Quick Add Button outside Link with min 44px touch target */}
+                <div className="px-3 pb-3 sm:px-5 sm:pb-5 pt-0 bg-white">
                   <button
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                       handleQuickAdd(product, e);
                     }}
-                    className="w-full btn-primary-custom py-2.5 px-3.5 text-xs flex items-center justify-center gap-2 cursor-pointer font-bold tracking-wider uppercase shadow-xs hover:shadow-md"
+                    className="w-full min-h-[44px] btn-primary-custom py-2 px-2 sm:px-3.5 text-[11px] sm:text-xs flex items-center justify-center gap-1.5 cursor-pointer font-bold tracking-wider uppercase shadow-xs hover:shadow-md"
                   >
-                    <ShoppingBag className="w-3.5 h-3.5" /> Quick Add
+                    <ShoppingBag className="w-3.5 h-3.5 shrink-0" />
+                    <span>Add to Cart</span>
                   </button>
                 </div>
               </motion.div>

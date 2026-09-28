@@ -13,6 +13,20 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
   const [impactHappened, setImpactHappened] = useState(false);
   const [keyReset, setKeyReset] = useState(0);
 
+  const [isMobileOrTouch, setIsMobileOrTouch] = useState(false);
+
+  useEffect(() => {
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+    const isSmall = window.innerWidth < 1024;
+    // Check Data Saver or slow network
+    const conn = (navigator as any).connection;
+    const isSlow = conn && (conn.saveData || conn.effectiveType === '2g' || conn.effectiveType === '3g');
+    if (isTouch || isSmall || isSlow) {
+      setIsMobileOrTouch(true);
+      setImpactHappened(true);
+    }
+  }, []);
+
   const reduceMotion = typeof window !== 'undefined' 
     ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
     : false;
@@ -23,7 +37,7 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
   }, []);
 
   useEffect(() => {
-    if (reduceMotion) {
+    if (reduceMotion || isMobileOrTouch) {
       setImpactHappened(true);
       return;
     }
@@ -310,7 +324,7 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
     };
-  }, [keyReset, reduceMotion]);
+  }, [keyReset, reduceMotion, isMobileOrTouch]);
 
   return (
     <section 
@@ -319,19 +333,30 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
       style={{ contain: 'paint layout' }}
     >
       {/* -------------------------------------------------------------------------- */}
-      {/* LAYER 0: Background Video                                                   */}
+      {/* LAYER 0: Background Visual (Optimized Poster on Mobile, Video on Desktop)  */}
       {/* -------------------------------------------------------------------------- */}
       <div className="absolute inset-0 z-0 flex items-center justify-center bg-[#0E0904] pointer-events-none">
-        <video
-          src="/IMG_0199.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          className="w-full h-full object-cover relative z-10 opacity-40 mix-blend-screen"
-          style={{ fetchPriority: 'high' } as any}
-        />
+        {isMobileOrTouch ? (
+          <img
+            src="/images/products/red-chilli-powder-1.jpg"
+            alt="Organic Flavouring Red Chilli Spices"
+            className="w-full h-full object-cover opacity-35 mix-blend-luminosity filter contrast-125"
+            loading="eager"
+            decoding="async"
+            style={{ fetchPriority: 'high' } as any}
+          />
+        ) : (
+          <video
+            src="/IMG_0199.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            className="w-full h-full object-cover relative z-10 opacity-40 mix-blend-screen"
+            style={{ fetchPriority: 'high' } as any}
+          />
+        )}
         {/* Dark gradient overlay to blend perfectly and not wash out the text */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#0E0904]/70 via-transparent to-[#0E0904]/90 z-20 pointer-events-none" />
       </div>
@@ -389,7 +414,7 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
       >
         {/* Scroll cue inside letterbox */}
         <span 
-          className="text-[10px] tracking-[0.35em] uppercase text-[#E8A33D]/65 font-bold opacity-0 animate-hero-scroll"
+          className="text-xs tracking-[0.35em] uppercase text-[#E8A33D]/65 font-bold opacity-0 animate-hero-scroll"
         >
           SCROLL
         </span>
@@ -417,7 +442,7 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
         {/* Kicker Line */}
         <div className={`transition-all duration-500 ${impactHappened ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`} style={{ transitionDelay: '0.08s' }}>
           <span 
-            className="text-[11px] sm:text-xs font-semibold tracking-[0.32em] uppercase text-[#F0C36B] block"
+            className="text-xs sm:text-xs font-semibold tracking-[0.32em] uppercase text-[#F0C36B] block"
           >
             ORGANIC FLAVOURING · EST. 2022
           </span>
@@ -436,20 +461,29 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
 
 
 
-        {/* Single Big CTA Action */}
+        {/* Primary CTA + Secondary WhatsApp Action */}
         <div 
-          className={`transition-all duration-500 ${
+          className={`transition-all duration-500 flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto px-2 ${
             impactHappened ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
           }`}
           style={{ transitionDelay: '0.65s' }}
         >
           <Link
             to="/shop"
-            className="relative z-50 pointer-events-auto inline-flex items-center justify-center gap-3.5 px-10 py-4.5 sm:px-12 sm:py-5 bg-gradient-to-r from-[#E8663D] via-[#B0472B] to-[#7E2F1C] hover:from-[#F07A54] hover:to-[#B0472B] text-white text-sm sm:text-base font-bold uppercase tracking-[0.22em] rounded-xl shadow-[0_16px_40px_-10px_rgba(232,102,61,0.6)] hover:shadow-[0_22px_50px_-8px_rgba(232,102,61,0.85)] hover:-translate-y-1 active:translate-y-0 transition-all duration-300 border border-[#F0C36B]/40 group cursor-pointer"
+            className="relative z-50 pointer-events-auto w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-3 px-8 py-3.5 sm:px-10 sm:py-4.5 bg-gradient-to-r from-[#E8663D] via-[#B0472B] to-[#7E2F1C] hover:from-[#F07A54] hover:to-[#B0472B] text-white text-xs sm:text-sm font-bold uppercase tracking-[0.2em] rounded-xl shadow-[0_16px_40px_-10px_rgba(232,102,61,0.6)] hover:shadow-[0_22px_50px_-8px_rgba(232,102,61,0.85)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 border border-[#F0C36B]/40 group cursor-pointer"
           >
-            <span>Shop the Spices</span>
-            <ArrowRight className="w-5 h-5 text-[#F0C36B] group-hover:translate-x-1.5 transition-transform duration-300" />
+            <span>Shop Spices (From Rs. 140)</span>
+            <ArrowRight className="w-4 h-4 text-[#F0C36B] group-hover:translate-x-1.5 transition-transform duration-300" />
           </Link>
+
+          <a
+            href="https://wa.me/923000000000?text=Hi%20Organic%20Flavouring,%20I%20would%20like%20to%20order%20spices%20via%20WhatsApp"
+            target="_blank"
+            rel="noreferrer"
+            className="w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#25D366]/20 hover:bg-[#25D366]/30 border border-[#25D366]/60 text-[#25D366] text-xs font-bold uppercase tracking-wider rounded-xl transition-colors cursor-pointer"
+          >
+            <span>Order on WhatsApp</span>
+          </a>
         </div>
 
       </div>
@@ -459,7 +493,7 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
       {/* -------------------------------------------------------------------------- */}
       <button
         onClick={handleReplay}
-        className="absolute bottom-6 right-6 sm:bottom-8 sm:right-10 z-50 text-[11px] tracking-[0.14em] uppercase text-[#FBF3E7]/40 hover:text-[#FBF3E7]/90 flex items-center gap-2 transition-colors cursor-pointer focus:outline-none"
+        className="absolute bottom-6 right-6 sm:bottom-8 sm:right-10 z-50 text-xs tracking-[0.14em] uppercase text-[#FBF3E7]/40 hover:text-[#FBF3E7]/90 flex items-center gap-2 transition-colors cursor-pointer focus:outline-none"
         title="Replay chilli impact animation"
       >
         <RotateCcw className="w-3.5 h-3.5 text-[#E8663D]" />
