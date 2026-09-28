@@ -8,15 +8,30 @@ import CertificationsModal from './components/CertificationsModal';
 import ContactModal from './components/ContactModal';
 import MobileMiniCartBar from './components/MobileMiniCartBar';
 import { CartProvider } from './context/CartContext';
+import { lazy, Suspense } from 'react';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
-import ProductDetail from './pages/ProductDetail';
-import Checkout from './pages/Checkout';
-import About from './pages/About';
-import Certifications from './pages/Certifications';
-import Transparency from './pages/Transparency';
-import Contact from './pages/Contact';
-import Reviews from './pages/Reviews';
+
+// Route-level code-splitting for secondary pages
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const About = lazy(() => import('./pages/About'));
+const Certifications = lazy(() => import('./pages/Certifications'));
+const Transparency = lazy(() => import('./pages/Transparency'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Reviews = lazy(() => import('./pages/Reviews'));
+
+// Lightweight page skeleton loader fallback
+function PageFallback() {
+  return (
+    <div className="min-h-[60vh] flex items-center justify-center p-8 bg-[#FBF3E7]">
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-8 h-8 border-3 border-[#D9542F] border-t-transparent rounded-full animate-spin" />
+        <span className="text-xs uppercase font-bold tracking-widest text-[#241A10]/70">Loading...</span>
+      </div>
+    </div>
+  );
+}
 
 import { initAnalytics, trackPageView } from './lib/analytics';
 
@@ -83,25 +98,27 @@ export default function App() {
           />
           
           <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={
-                <Home 
-                  onOpenCertModal={() => setIsCertModalOpen(true)}
-                  onOpenContactModal={() => setIsContactModalOpen(true)}
-                />
-              } />
-              <Route path="/shop" element={<Shop />} />
-              <Route path="/product/corriander-powder" element={<Navigate to="/product/coriander-powder" replace />} />
-              <Route path="/product/corriander-whole" element={<Navigate to="/product/coriander-whole" replace />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/cart" element={<Checkout />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/certifications" element={<Certifications />} />
-              <Route path="/transparency" element={<Transparency />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/reviews" element={<Reviews />} />
-            </Routes>
+            <Suspense fallback={<PageFallback />}>
+              <Routes>
+                <Route path="/" element={
+                  <Home 
+                    onOpenCertModal={() => setIsCertModalOpen(true)}
+                    onOpenContactModal={() => setIsContactModalOpen(true)}
+                  />
+                } />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/product/corriander-powder" element={<Navigate to="/product/coriander-powder" replace />} />
+                <Route path="/product/corriander-whole" element={<Navigate to="/product/coriander-whole" replace />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/cart" element={<Checkout />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/certifications" element={<Certifications />} />
+                <Route path="/transparency" element={<Transparency />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/reviews" element={<Reviews />} />
+              </Routes>
+            </Suspense>
           </main>
 
           <CartDrawer />
