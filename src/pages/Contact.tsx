@@ -4,7 +4,6 @@ import { brandLogo, officialInfo } from '../data/products';
 import { PureBotanicalIcon, HalalIcon, IsoIcon } from '../components/Illustrations';
 
 export default function Contact() {
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     emailOrPhone: '',
@@ -14,7 +13,9 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
+    const msg = `*Inquiry from Website*\nName: ${formData.name}\nContact: ${formData.emailOrPhone}\nSubject: ${formData.subject}\n\n*Message:*\n${formData.message}`;
+    window.open(`https://wa.me/${officialInfo.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+    setFormData({ name: '', emailOrPhone: '', subject: '', message: '' });
   };
 
   return (
@@ -113,98 +114,77 @@ export default function Contact() {
 
           {/* Right Block: Minimal Form */}
           <div className="lg:col-span-7 bg-white p-8 md:p-12 rounded-2xl border-2 border-[#211D18] shadow-lg">
-            {formSubmitted ? (
-              <div className="text-center py-16 space-y-4">
-                <div className="w-16 h-16 bg-[#2F4F24] text-white rounded-full flex items-center justify-center mx-auto">
-                  <PureBotanicalIcon className="w-8 h-8 text-[#C79A46]" />
-                </div>
-                <h3 className="font-serif-heading text-3xl text-[#211D18]">Message Sent Successfully</h3>
-                <p className="text-xs sm:text-sm text-[#5A4F46] max-w-md mx-auto">
-                  Shukriya for contacting Organic Flavouring. Our team will review your message and reply via phone/WhatsApp within 24 hours.
-                </p>
-                <button
-                  onClick={() => {
-                    setFormSubmitted(false);
-                    setFormData({ name: '', emailOrPhone: '', subject: '', message: '' });
-                  }}
-                  className="btn-primary-custom text-xs py-3 px-6 mt-4"
-                >
-                  Send Another Message
-                </button>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <h3 className="font-serif-heading text-2xl font-bold text-[#211D18] mb-1">Inquire via WhatsApp</h3>
+                <p className="text-xs text-[#5A4F46]">Please fill out the details below to chat with us on WhatsApp.</p>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <h3 className="font-serif-heading text-2xl font-bold text-[#211D18] mb-1">Send Us a Message</h3>
-                  <p className="text-xs text-[#5A4F46]">Please fill out the form below and we will respond promptly.</p>
-                </div>
 
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-widest text-[#5A4F46] mb-1">
+                  Your Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Tariq Mahmood"
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  className="w-full bg-transparent border-b-2 border-[#211D18] py-2 text-sm text-[#211D18] focus:outline-none focus:border-[#D9542F]"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-widest text-[#5A4F46] mb-1">
-                    Your Name *
+                    Email or WhatsApp Number *
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Tariq Mahmood"
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    placeholder="0300 1234567 or email@domain.com"
+                    value={formData.emailOrPhone}
+                    onChange={(e) => setFormData({...formData, emailOrPhone: e.target.value})}
                     className="w-full bg-transparent border-b-2 border-[#211D18] py-2 text-sm text-[#211D18] focus:outline-none focus:border-[#D9542F]"
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-[#5A4F46] mb-1">
-                      Email or WhatsApp Number *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="0300 1234567 or email@domain.com"
-                      value={formData.emailOrPhone}
-                      onChange={(e) => setFormData({...formData, emailOrPhone: e.target.value})}
-                      className="w-full bg-transparent border-b-2 border-[#211D18] py-2 text-sm text-[#211D18] focus:outline-none focus:border-[#D9542F]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-[#5A4F46] mb-1">
-                      Subject *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Retail Order / Bulk 20kg Supply / General"
-                      value={formData.subject}
-                      onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                      className="w-full bg-transparent border-b-2 border-[#211D18] py-2 text-sm text-[#211D18] focus:outline-none focus:border-[#D9542F]"
-                    />
-                  </div>
-                </div>
-
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-widest text-[#5A4F46] mb-1">
-                    Message *
+                    Subject *
                   </label>
-                  <textarea
-                    rows={4}
+                  <input
+                    type="text"
                     required
-                    placeholder="Type your message here..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    className="w-full bg-transparent border-b-2 border-[#211D18] py-2 text-sm text-[#211D18] focus:outline-none focus:border-[#D9542F] resize-none"
+                    placeholder="Retail Order / Bulk 20kg Supply / General"
+                    value={formData.subject}
+                    onChange={(e) => setFormData({...formData, subject: e.target.value})}
+                    className="w-full bg-transparent border-b-2 border-[#211D18] py-2 text-sm text-[#211D18] focus:outline-none focus:border-[#D9542F]"
                   />
                 </div>
+              </div>
 
-                <button
-                  type="submit"
-                  className="btn-primary-custom w-full text-xs py-4"
-                >
-                  <Send className="w-4 h-4" /> Send Message
-                </button>
-              </form>
-            )}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-widest text-[#5A4F46] mb-1">
+                  Message *
+                </label>
+                <textarea
+                  rows={4}
+                  required
+                  placeholder="Type your message here..."
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  className="w-full bg-transparent border-b-2 border-[#211D18] py-2 text-sm text-[#211D18] focus:outline-none focus:border-[#D9542F] resize-none"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-4 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold uppercase tracking-widest rounded transition-colors flex items-center justify-center gap-2 shadow-xs cursor-pointer mt-4"
+              >
+                <MessageCircle className="w-4 h-4" /> Send via WhatsApp
+              </button>
+            </form>
           </div>
 
         </div>
