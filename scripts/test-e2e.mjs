@@ -88,6 +88,7 @@ async function runE2E() {
 
     // 9. Fill valid customer details
     await page.fill('#checkout-name', 'Ali Raza');
+    await page.fill('#checkout-email', 'ali.raza@example.com');
     await page.fill('#checkout-phone', '0300 1234567');
     await page.selectOption('#checkout-city', 'Lahore');
     await page.fill('#checkout-address', 'House 22, Street 4, Sector Y, DHA Phase 3');
@@ -137,6 +138,7 @@ async function runE2E() {
     });
 
     await page.fill('#checkout-name', 'Usman Khan');
+    await page.fill('#checkout-email', 'usman.khan@example.com');
     await page.fill('#checkout-phone', '0321 7654321');
     await page.selectOption('#checkout-city', 'Karachi');
     await page.fill('#checkout-address', 'Apartment 4B, Clifton Block 2');

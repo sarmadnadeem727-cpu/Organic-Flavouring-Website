@@ -27,6 +27,7 @@ const PAKISTAN_MAJOR_CITIES = [
 
 interface FormErrors {
   name?: string;
+  email?: string;
   phone?: string;
   city?: string;
   address?: string;
@@ -108,11 +109,19 @@ export default function Checkout() {
     return /^(03\d{9}|\+923\d{9}|923\d{9})$/.test(cleaned);
   };
 
+  const validateEmail = (val: string): boolean => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
+  };
+
   const validateField = (field: string, value: string): string | undefined => {
     switch (field) {
       case 'name':
         if (!value.trim()) return 'Please enter your full name.';
         if (value.trim().length < 2) return 'Name is too short.';
+        return undefined;
+      case 'email':
+        if (!value.trim()) return 'Email address is required for order confirmation.';
+        if (!validateEmail(value)) return 'Please enter a valid email address (e.g. name@example.com).';
         return undefined;
       case 'phone':
         if (!value.trim()) return 'Mobile number is required for Cash on Delivery.';
@@ -143,23 +152,29 @@ export default function Checkout() {
 
     // Validate all fields
     const nameErr = validateField('name', customerName);
+    const emailErr = validateField('email', customerEmail);
     const phoneErr = validateField('phone', customerPhone);
     const cityErr = validateField('city', customerCity);
     const addressErr = validateField('address', customerAddress);
 
     const newErrors: FormErrors = {
       name: nameErr,
+      email: emailErr,
       phone: phoneErr,
       city: cityErr,
       address: addressErr,
     };
 
     setErrors(newErrors);
-    setTouched({ name: true, phone: true, city: true, address: true });
+    setTouched({ name: true, email: true, phone: true, city: true, address: true });
 
     // Focus first invalid element
     if (nameErr) {
       document.getElementById('checkout-name')?.focus();
+      return;
+    }
+    if (emailErr) {
+      document.getElementById('checkout-email')?.focus();
       return;
     }
     if (phoneErr) {
@@ -326,51 +341,62 @@ export default function Checkout() {
   };
 
   return (
-    <div className="bg-[#0E0904] min-h-screen text-[#FBF3E7] pb-24 pt-6 relative">
+    <div className="bg-[#FBF8F2] min-h-screen text-[#211D18] bg-grain pb-24 pt-6 relative">
       <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Title */}
-        <div className="mb-6 pb-3 border-b border-[#241A10] flex items-center justify-between">
-          <h1 className="text-xl sm:text-2xl font-bold text-[#FBF3E7]">
-            {orderComplete ? 'Order Confirmation' : 'Checkout (Cash on Delivery)'}
-          </h1>
-          <div className="flex items-center gap-1.5 text-xs text-[#6FAE3E]">
-            <ShieldCheck className="w-4 h-4" />
+        <div className="mb-6 pb-4 border-b border-[#E5D7C5] flex items-center justify-between">
+          <div>
+            <span className="text-xs uppercase font-bold tracking-widest text-[#D9542F] block mb-1">
+              Secure Cash on Delivery
+            </span>
+            <h1 className="font-serif-heading text-2xl sm:text-3xl font-bold text-[#211D18]">
+              {orderComplete ? 'Order Confirmation' : 'Checkout & Delivery'}
+            </h1>
+          </div>
+          <div className="flex items-center gap-1.5 text-xs text-[#2F4F24] font-semibold bg-[#2F4F24]/10 px-3 py-1.5 rounded-full border border-[#2F4F24]/20">
+            <ShieldCheck className="w-4 h-4 text-[#2F4F24]" />
             <span className="hidden sm:inline">100% Genuine Sun-Dried Spices</span>
           </div>
         </div>
 
         {/* State 1: Order Confirmed */}
         {orderComplete && completedOrderDetails ? (
-          <div className="bg-[#181008] rounded-xl border border-[#241A10] p-6 sm:p-8 text-center max-w-lg mx-auto space-y-5 shadow-2xl relative overflow-hidden">
-            <div className="w-14 h-14 bg-[#6FAE3E]/15 text-[#6FAE3E] rounded-full flex items-center justify-center mx-auto border border-[#6FAE3E]/30">
+          <div className="bg-white rounded-2xl border-2 border-[#211D18] p-6 sm:p-8 text-center max-w-lg mx-auto space-y-5 shadow-xl relative overflow-hidden">
+            <div className="w-14 h-14 bg-[#2F4F24]/10 text-[#2F4F24] rounded-full flex items-center justify-center mx-auto border border-[#2F4F24]/30">
               <Check className="w-7 h-7" />
             </div>
 
             <div className="space-y-1">
-              <span className="text-xs uppercase tracking-widest text-[#6FAE3E] font-semibold">Order Placed Successfully</span>
-              <h2 className="text-2xl font-bold text-[#F0C36B]">{completedOrderDetails.orderId}</h2>
-              <p className="text-xs text-[#FBF3E7]/70 pt-1">
+              <span className="text-xs uppercase tracking-widest text-[#2F4F24] font-bold">Order Placed Successfully</span>
+              <h2 className="font-serif-heading text-2xl sm:text-3xl font-bold text-[#211D18]">{completedOrderDetails.orderId}</h2>
+              <p className="text-xs sm:text-sm text-[#5A4F46] pt-1">
                 Thank you, <strong>{completedOrderDetails.customerName}</strong>! Your order is recorded and prepared for dispatch from Lahore.
               </p>
             </div>
 
-            <div className="bg-[#0E0904] p-4 rounded-lg border border-[#241A10] text-left text-xs space-y-2">
-              <div className="flex justify-between text-[#FBF3E7]/80">
+            <div className="bg-[#FBF8F2] p-4 rounded-xl border border-[#E5D7C5] text-left text-xs space-y-2">
+              <div className="flex justify-between text-[#211D18]">
                 <span>Total Amount (COD):</span>
                 <span className="text-sm font-bold text-[#D9542F]">{formatPKR(completedOrderDetails.total)}</span>
               </div>
-              <div className="flex justify-between text-[#FBF3E7]/80">
+              <div className="flex justify-between text-[#5A4F46]">
                 <span>Shipping:</span>
                 <span>{completedOrderDetails.shipping === 0 ? 'FREE' : formatPKR(completedOrderDetails.shipping)}</span>
               </div>
-              <div className="flex justify-between text-[#FBF3E7]/80">
+              <div className="flex justify-between text-[#5A4F46]">
                 <span>Destination:</span>
-                <span className="truncate max-w-[200px] text-right">{completedOrderDetails.customerCity}</span>
+                <span className="truncate max-w-[200px] text-right font-medium">{completedOrderDetails.customerCity}</span>
               </div>
+              {completedOrderDetails.customerEmail && (
+                <div className="flex justify-between text-[#5A4F46]">
+                  <span>Confirmation Email:</span>
+                  <span className="truncate max-w-[200px] text-right font-medium">{completedOrderDetails.customerEmail}</span>
+                </div>
+              )}
             </div>
 
-            <p className="text-xs text-[#FBF3E7]/60 italic">
+            <p className="text-xs text-[#5A4F46] italic">
               "Cash on Delivery. We may confirm your order by call or WhatsApp before dispatch."
             </p>
 
@@ -386,14 +412,14 @@ export default function Checkout() {
 
               <button
                 onClick={downloadSlip}
-                className="w-full min-h-[48px] px-6 py-3 bg-[#1F140A] hover:bg-[#2a1b0e] text-[#F0C36B] border border-[#F0C36B]/30 font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 text-xs cursor-pointer"
+                className="w-full min-h-[48px] px-6 py-3 bg-[#EFE7DA] hover:bg-[#E5D7C5] text-[#211D18] border border-[#E5D7C5] font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 text-xs cursor-pointer"
               >
                 <Download className="w-4 h-4" /> Download / Save Slip
               </button>
 
               <Link
                 to="/shop"
-                className="text-xs font-semibold text-[#FBF3E7]/70 hover:text-[#D9542F] hover:underline pt-2 transition-colors"
+                className="text-xs font-semibold text-[#5A4F46] hover:text-[#D9542F] hover:underline pt-2 transition-colors"
               >
                 Continue Shopping →
               </Link>
@@ -401,15 +427,15 @@ export default function Checkout() {
           </div>
         ) : items.length === 0 ? (
           /* State 2: Empty Cart */
-          <div className="bg-[#181008] rounded-xl border border-[#241A10] p-10 text-center max-w-md mx-auto space-y-4">
-            <h2 className="text-lg font-bold text-[#FBF3E7]">Your Cart is Empty</h2>
-            <p className="text-xs text-[#FBF3E7]/60 leading-relaxed">
+          <div className="bg-white rounded-2xl border border-[#E5D7C5] p-10 text-center max-w-md mx-auto space-y-4 shadow-sm">
+            <h2 className="font-serif-heading text-xl font-bold text-[#211D18]">Your Cart is Empty</h2>
+            <p className="text-xs sm:text-sm text-[#5A4F46] leading-relaxed">
               Explore our pure, single-origin Pakistani spices ground fresh in small batches.
             </p>
             <div className="pt-2">
               <Link
                 to="/shop"
-                className="inline-block px-6 py-3 bg-[#D9542F] hover:bg-[#B0472B] text-white font-bold rounded-lg text-xs transition-colors"
+                className="inline-block px-6 py-3 bg-[#D9542F] hover:bg-[#B0472B] text-white font-bold rounded-lg text-xs transition-colors shadow-sm"
               >
                 Browse Spice Shop
               </Link>
@@ -420,7 +446,7 @@ export default function Checkout() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
             
             {/* Mobile-only collapsible order summary */}
-            <div className="lg:hidden col-span-1 bg-[#181008] rounded-xl border border-[#241A10] overflow-hidden">
+            <div className="lg:hidden col-span-1 bg-white rounded-xl border border-[#E5D7C5] overflow-hidden shadow-xs">
               <button
                 type="button"
                 onClick={() => setSummaryExpanded(!summaryExpanded)}
@@ -428,31 +454,31 @@ export default function Checkout() {
                 aria-expanded={summaryExpanded}
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-[#F0C36B]">Order Summary ({items.length} items)</span>
-                  {summaryExpanded ? <ChevronUp className="w-4 h-4 text-[#F0C36B]" /> : <ChevronDown className="w-4 h-4 text-[#F0C36B]" />}
+                  <span className="text-xs font-bold text-[#211D18]">Order Summary ({items.length} items)</span>
+                  {summaryExpanded ? <ChevronUp className="w-4 h-4 text-[#5A4F46]" /> : <ChevronDown className="w-4 h-4 text-[#5A4F46]" />}
                 </div>
                 <span className="text-sm font-bold text-[#D9542F]">{formatPKR(finalTotal)}</span>
               </button>
 
               {summaryExpanded && (
-                <div className="p-4 pt-0 border-t border-[#241A10] space-y-3">
+                <div className="p-4 pt-0 border-t border-[#E5D7C5] space-y-3 bg-[#FBF8F2]">
                   {items.map(item => (
-                    <div key={`${item.product.id}-${item.packSize}`} className="flex justify-between items-center text-xs py-2 border-b border-[#241A10]/60 last:border-none">
+                    <div key={`${item.product.id}-${item.packSize}`} className="flex justify-between items-center text-xs py-2 border-b border-[#E5D7C5]/60 last:border-none">
                       <div>
-                        <p className="font-semibold text-[#FBF3E7]">{item.product.name}</p>
-                        <p className="text-xs text-[#FBF3E7]/60">{item.packSize} × {item.quantity}</p>
+                        <p className="font-semibold text-[#211D18]">{item.product.name}</p>
+                        <p className="text-xs text-[#5A4F46]">{item.packSize} × {item.quantity}</p>
                       </div>
-                      <span className="font-bold text-[#FBF3E7]">{formatPKR(item.lineTotal)}</span>
+                      <span className="font-bold text-[#211D18]">{formatPKR(item.lineTotal)}</span>
                     </div>
                   ))}
-                  <div className="pt-2 text-xs space-y-1 text-[#FBF3E7]/70">
+                  <div className="pt-2 text-xs space-y-1 text-[#5A4F46]">
                     <div className="flex justify-between">
                       <span>Subtotal:</span>
-                      <span>{formatPKR(subtotal)}</span>
+                      <span className="font-semibold text-[#211D18]">{formatPKR(subtotal)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Nationwide Delivery:</span>
-                      <span>{isFreeShipping ? <strong className="text-[#6FAE3E]">FREE</strong> : formatPKR(STANDARD_SHIPPING)}</span>
+                      <span>{isFreeShipping ? <strong className="text-[#2F4F24]">FREE</strong> : formatPKR(STANDARD_SHIPPING)}</span>
                     </div>
                   </div>
                 </div>
@@ -461,7 +487,7 @@ export default function Checkout() {
 
             {/* Left: Customer Details Form */}
             <div className="lg:col-span-7 space-y-6">
-              <form onSubmit={handleOrderSubmit} noValidate className="bg-[#181008] p-5 sm:p-7 rounded-xl border border-[#241A10] shadow-xl space-y-5">
+              <form onSubmit={handleOrderSubmit} noValidate className="bg-white p-5 sm:p-7 rounded-2xl border border-[#E5D7C5] shadow-sm space-y-5">
                 
                 {/* Honeypot field for spam bots */}
                 <input
@@ -475,25 +501,25 @@ export default function Checkout() {
                   aria-hidden="true"
                 />
 
-                <div className="border-b border-[#241A10] pb-3">
-                  <h2 className="text-base font-bold text-[#F0C36B]">1. Delivery Details (Pakistan)</h2>
-                  <p className="text-xs text-[#FBF3E7]/60 mt-0.5">Please provide an active mobile number for cash on delivery courier updates.</p>
+                <div className="border-b border-[#E5D7C5] pb-3">
+                  <h2 className="font-serif-heading text-lg font-bold text-[#211D18]">1. Delivery Details (Pakistan)</h2>
+                  <p className="text-xs text-[#5A4F46] mt-0.5">Please provide an active mobile number and email for dispatch & tracking updates.</p>
                 </div>
 
                 {submitError && (
-                  <div className="p-4 bg-[#D9542F]/15 border border-[#D9542F] rounded-lg text-xs text-[#FBF3E7] space-y-2">
+                  <div className="p-4 bg-[#D9542F]/10 border border-[#D9542F] rounded-xl text-xs text-[#211D18] space-y-2">
                     <div className="flex items-start gap-2">
                       <AlertCircle className="w-5 h-5 text-[#D9542F] shrink-0 mt-0.5" />
                       <div>
-                        <p className="font-semibold text-[#F0C36B]">Notice</p>
-                        <p className="text-xs text-[#FBF3E7]/90 leading-relaxed">{submitError}</p>
+                        <p className="font-semibold text-[#D9542F]">Notice</p>
+                        <p className="text-xs text-[#5A4F46] leading-relaxed">{submitError}</p>
                       </div>
                     </div>
                     <a
                       href={getDirectWhatsAppUrl()}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-2 inline-flex items-center gap-2 px-4 py-2 bg-[#25D366] text-white rounded font-bold hover:bg-[#20ba59] transition-colors"
+                      className="mt-2 inline-flex items-center gap-2 px-4 py-2 bg-[#25D366] text-white rounded-lg font-bold hover:bg-[#20ba59] transition-colors"
                     >
                       <MessageCircle className="w-4 h-4" /> Order via WhatsApp Instead
                     </a>
@@ -503,7 +529,7 @@ export default function Checkout() {
                 <div className="space-y-4 text-xs">
                   {/* Full Name */}
                   <div>
-                    <label htmlFor="checkout-name" className="block text-[#FBF3E7]/90 font-semibold mb-1.5 text-xs sm:text-sm">
+                    <label htmlFor="checkout-name" className="block text-[#211D18] font-bold mb-1.5 text-xs sm:text-sm">
                       Full Name *
                     </label>
                     <input
@@ -516,7 +542,7 @@ export default function Checkout() {
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
                       onBlur={(e) => handleBlur('name', e.target.value)}
-                      className={`w-full min-h-[44px] bg-[#0E0904] border ${errors.name && touched.name ? 'border-[#D9542F]' : 'border-[#241A10]'} rounded-lg px-3.5 py-2.5 text-sm text-[#FBF3E7] placeholder-[#FBF3E7]/30 focus:outline-none focus:border-[#D9542F] transition-colors`}
+                      className={`w-full min-h-[44px] bg-[#FBF8F2] border ${errors.name && touched.name ? 'border-[#D9542F]' : 'border-[#E5D7C5]'} rounded-xl px-3.5 py-2.5 text-sm text-[#211D18] placeholder-[#5A4F46]/50 focus:outline-none focus:border-[#D9542F] focus:bg-white transition-colors`}
                     />
                     {errors.name && touched.name && (
                       <p className="text-[#D9542F] text-xs mt-1">{errors.name}</p>
@@ -527,7 +553,7 @@ export default function Checkout() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Mobile Phone */}
                     <div>
-                      <label htmlFor="checkout-phone" className="block text-[#FBF3E7]/90 font-semibold mb-1.5 text-xs sm:text-sm">
+                      <label htmlFor="checkout-phone" className="block text-[#211D18] font-bold mb-1.5 text-xs sm:text-sm">
                         Mobile Number (for COD updates) *
                       </label>
                       <input
@@ -541,7 +567,7 @@ export default function Checkout() {
                         value={customerPhone}
                         onChange={(e) => setCustomerPhone(e.target.value)}
                         onBlur={(e) => handleBlur('phone', e.target.value)}
-                        className={`w-full min-h-[44px] bg-[#0E0904] border ${errors.phone && touched.phone ? 'border-[#D9542F]' : 'border-[#241A10]'} rounded-lg px-3.5 py-2.5 text-sm text-[#FBF3E7] placeholder-[#FBF3E7]/30 focus:outline-none focus:border-[#D9542F] transition-colors`}
+                        className={`w-full min-h-[44px] bg-[#FBF8F2] border ${errors.phone && touched.phone ? 'border-[#D9542F]' : 'border-[#E5D7C5]'} rounded-xl px-3.5 py-2.5 text-sm text-[#211D18] placeholder-[#5A4F46]/50 focus:outline-none focus:border-[#D9542F] focus:bg-white transition-colors`}
                       />
                       {errors.phone && touched.phone && (
                         <p className="text-[#D9542F] text-xs mt-1">{errors.phone}</p>
@@ -550,7 +576,7 @@ export default function Checkout() {
 
                     {/* City Selector */}
                     <div>
-                      <label htmlFor="checkout-city" className="block text-[#FBF3E7]/90 font-semibold mb-1.5 text-xs sm:text-sm">
+                      <label htmlFor="checkout-city" className="block text-[#211D18] font-bold mb-1.5 text-xs sm:text-sm">
                         City *
                       </label>
                       <select
@@ -563,10 +589,10 @@ export default function Checkout() {
                           if (e.target.value !== 'Other') setCustomCity('');
                         }}
                         onBlur={(e) => handleBlur('city', e.target.value)}
-                        className="w-full min-h-[44px] bg-[#0E0904] border border-[#241A10] rounded-lg px-3 py-2.5 text-sm text-[#FBF3E7] focus:outline-none focus:border-[#D9542F] transition-colors"
+                        className="w-full min-h-[44px] bg-[#FBF8F2] border border-[#E5D7C5] rounded-xl px-3 py-2.5 text-sm text-[#211D18] focus:outline-none focus:border-[#D9542F] focus:bg-white transition-colors"
                       >
                         {PAKISTAN_MAJOR_CITIES.map(city => (
-                          <option key={city} value={city} className="bg-[#181008] text-[#FBF3E7]">
+                          <option key={city} value={city} className="bg-white text-[#211D18]">
                             {city}
                           </option>
                         ))}
@@ -580,7 +606,7 @@ export default function Checkout() {
                           value={customCity}
                           onChange={(e) => setCustomCity(e.target.value)}
                           onBlur={(e) => handleBlur('city', 'Other')}
-                          className={`mt-2 w-full min-h-[44px] bg-[#0E0904] border ${errors.city && touched.city ? 'border-[#D9542F]' : 'border-[#241A10]'} rounded-lg px-3.5 py-2.5 text-sm text-[#FBF3E7] focus:outline-none focus:border-[#D9542F]`}
+                          className={`mt-2 w-full min-h-[44px] bg-[#FBF8F2] border ${errors.city && touched.city ? 'border-[#D9542F]' : 'border-[#E5D7C5]'} rounded-xl px-3.5 py-2.5 text-sm text-[#211D18] focus:outline-none focus:border-[#D9542F] focus:bg-white`}
                         />
                       )}
                       {errors.city && touched.city && (
@@ -591,7 +617,7 @@ export default function Checkout() {
 
                   {/* Street Address */}
                   <div>
-                    <label htmlFor="checkout-address" className="block text-[#FBF3E7]/90 font-semibold mb-1.5 text-xs sm:text-sm">
+                    <label htmlFor="checkout-address" className="block text-[#211D18] font-bold mb-1.5 text-xs sm:text-sm">
                       Complete Address (House / Street / Area) *
                     </label>
                     <textarea
@@ -604,7 +630,7 @@ export default function Checkout() {
                       value={customerAddress}
                       onChange={(e) => setCustomerAddress(e.target.value)}
                       onBlur={(e) => handleBlur('address', e.target.value)}
-                      className={`w-full bg-[#0E0904] border ${errors.address && touched.address ? 'border-[#D9542F]' : 'border-[#241A10]'} rounded-lg p-3 text-sm text-[#FBF3E7] placeholder-[#FBF3E7]/30 focus:outline-none focus:border-[#D9542F] transition-colors`}
+                      className={`w-full bg-[#FBF8F2] border ${errors.address && touched.address ? 'border-[#D9542F]' : 'border-[#E5D7C5]'} rounded-xl p-3 text-sm text-[#211D18] placeholder-[#5A4F46]/50 focus:outline-none focus:border-[#D9542F] focus:bg-white transition-colors`}
                     />
                     {errors.address && touched.address && (
                       <p className="text-[#D9542F] text-xs mt-1">{errors.address}</p>
@@ -614,7 +640,7 @@ export default function Checkout() {
                   {/* Nearest Landmark & Email in grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="checkout-landmark" className="block text-[#FBF3E7]/80 font-medium mb-1.5 text-xs">
+                      <label htmlFor="checkout-landmark" className="block text-[#5A4F46] font-medium mb-1.5 text-xs">
                         Nearest Landmark (optional)
                       </label>
                       <input
@@ -623,30 +649,35 @@ export default function Checkout() {
                         placeholder="e.g. Near Shell Pump, Behind Jamia Masjid"
                         value={nearestLandmark}
                         onChange={(e) => setNearestLandmark(e.target.value)}
-                        className="w-full min-h-[44px] bg-[#0E0904] border border-[#241A10] rounded-lg px-3.5 py-2.5 text-sm text-[#FBF3E7] placeholder-[#FBF3E7]/30 focus:outline-none focus:border-[#D9542F] transition-colors"
+                        className="w-full min-h-[44px] bg-[#FBF8F2] border border-[#E5D7C5] rounded-xl px-3.5 py-2.5 text-sm text-[#211D18] placeholder-[#5A4F46]/50 focus:outline-none focus:border-[#D9542F] focus:bg-white transition-colors"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="checkout-email" className="block text-[#FBF3E7]/80 font-medium mb-1.5 text-xs">
-                        Email Address (optional, for tracking receipt)
+                      <label htmlFor="checkout-email" className="block text-[#211D18] font-bold mb-1.5 text-xs sm:text-sm">
+                        Email Address *
                       </label>
                       <input
                         id="checkout-email"
                         type="email"
                         name="email"
                         autoComplete="email"
+                        required
                         placeholder="name@example.com"
                         value={customerEmail}
                         onChange={(e) => setCustomerEmail(e.target.value)}
-                        className="w-full min-h-[44px] bg-[#0E0904] border border-[#241A10] rounded-lg px-3.5 py-2.5 text-sm text-[#FBF3E7] placeholder-[#FBF3E7]/30 focus:outline-none focus:border-[#D9542F] transition-colors"
+                        onBlur={(e) => handleBlur('email', e.target.value)}
+                        className={`w-full min-h-[44px] bg-[#FBF8F2] border ${errors.email && touched.email ? 'border-[#D9542F]' : 'border-[#E5D7C5]'} rounded-xl px-3.5 py-2.5 text-sm text-[#211D18] placeholder-[#5A4F46]/50 focus:outline-none focus:border-[#D9542F] focus:bg-white transition-colors`}
                       />
+                      {errors.email && touched.email && (
+                        <p className="text-[#D9542F] text-xs mt-1">{errors.email}</p>
+                      )}
                     </div>
                   </div>
 
                   {/* Order Notes */}
                   <div>
-                    <label htmlFor="checkout-notes" className="block text-[#FBF3E7]/80 font-medium mb-1.5 text-xs">
+                    <label htmlFor="checkout-notes" className="block text-[#5A4F46] font-medium mb-1.5 text-xs">
                       Special Delivery Instructions (optional)
                     </label>
                     <input
@@ -655,16 +686,16 @@ export default function Checkout() {
                       placeholder="e.g. Call before delivery, deliver in afternoon"
                       value={orderNotes}
                       onChange={(e) => setOrderNotes(e.target.value)}
-                      className="w-full min-h-[44px] bg-[#0E0904] border border-[#241A10] rounded-lg px-3.5 py-2.5 text-sm text-[#FBF3E7] placeholder-[#FBF3E7]/30 focus:outline-none focus:border-[#D9542F] transition-colors"
+                      className="w-full min-h-[44px] bg-[#FBF8F2] border border-[#E5D7C5] rounded-xl px-3.5 py-2.5 text-sm text-[#211D18] placeholder-[#5A4F46]/50 focus:outline-none focus:border-[#D9542F] focus:bg-white transition-colors"
                     />
                   </div>
                 </div>
 
                 {/* Payment Method section */}
-                <div className="pt-4 border-t border-[#241A10] space-y-3">
-                  <h2 className="text-base font-bold text-[#F0C36B]">2. Payment Method</h2>
+                <div className="pt-4 border-t border-[#E5D7C5] space-y-3">
+                  <h2 className="font-serif-heading text-lg font-bold text-[#211D18]">2. Payment Method</h2>
 
-                  <div className="p-3.5 rounded-lg border border-[#D9542F] bg-[#D9542F]/10 flex items-center justify-between">
+                  <div className="p-4 rounded-xl border-2 border-[#D9542F] bg-[#D9542F]/5 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <input
                         type="radio"
@@ -675,11 +706,11 @@ export default function Checkout() {
                         className="accent-[#D9542F] w-4 h-4 cursor-default"
                       />
                       <label htmlFor="payment-cod" className="cursor-pointer">
-                        <span className="font-bold text-[#FBF3E7] block text-xs sm:text-sm">Cash on Delivery (COD)</span>
-                        <span className="text-xs text-[#FBF3E7]/70">Pay cash directly to courier upon arrival</span>
+                        <span className="font-bold text-[#211D18] block text-xs sm:text-sm">Cash on Delivery (COD)</span>
+                        <span className="text-xs text-[#5A4F46]">Pay cash directly to courier upon arrival</span>
                       </label>
                     </div>
-                    <span className="text-xs font-bold text-[#6FAE3E] bg-[#6FAE3E]/10 border border-[#6FAE3E]/20 px-2.5 py-1 rounded shrink-0">
+                    <span className="text-xs font-bold text-[#2F4F24] bg-[#2F4F24]/10 border border-[#2F4F24]/20 px-2.5 py-1 rounded-md shrink-0">
                       Dispatched Nationwide
                     </span>
                   </div>
@@ -690,7 +721,7 @@ export default function Checkout() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full min-h-[52px] sm:min-h-[56px] px-6 py-3.5 bg-[#D9542F] hover:bg-[#B0472B] active:bg-[#8F351E] text-white text-base font-bold rounded-xl transition-all shadow-lg hover:shadow-xl cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full min-h-[52px] sm:min-h-[56px] px-6 py-3.5 bg-[#D9542F] hover:bg-[#B0472B] active:bg-[#8F351E] text-white text-base font-bold rounded-xl transition-all shadow-md hover:shadow-lg cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
                       <span className="flex items-center gap-2">
@@ -702,15 +733,15 @@ export default function Checkout() {
                     )}
                   </button>
 
-                  <p className="text-center text-xs text-[#FBF3E7]/80 leading-relaxed">
+                  <p className="text-center text-xs text-[#5A4F46] leading-relaxed">
                     Cash on Delivery. We may confirm your order by call or WhatsApp before dispatch.
                   </p>
 
-                  <p className="text-center text-xs text-[#FBF3E7]/70 pt-1">
+                  <p className="text-center text-xs text-[#5A4F46] pt-1">
                     By placing an order, you agree to our{' '}
-                    <Link to="/terms" target="_blank" className="text-[#F0C36B] underline hover:text-[#FFF6E8]">Terms</Link>,{' '}
-                    <Link to="/privacy" target="_blank" className="text-[#F0C36B] underline hover:text-[#FFF6E8]">Privacy</Link>, and{' '}
-                    <Link to="/returns" target="_blank" className="text-[#F0C36B] underline hover:text-[#FFF6E8]">Returns Policy</Link>.
+                    <Link to="/terms" target="_blank" className="text-[#D9542F] underline hover:text-[#B0472B]">Terms</Link>,{' '}
+                    <Link to="/privacy" target="_blank" className="text-[#D9542F] underline hover:text-[#B0472B]">Privacy</Link>, and{' '}
+                    <Link to="/returns" target="_blank" className="text-[#D9542F] underline hover:text-[#B0472B]">Returns Policy</Link>.
                   </p>
                 </div>
               </form>
@@ -718,8 +749,8 @@ export default function Checkout() {
 
             {/* Right: Desktop Order Summary */}
             <div className="hidden lg:block lg:col-span-5 space-y-4 sticky top-24">
-              <div className="bg-[#181008] p-6 rounded-xl border border-[#241A10] shadow-xl space-y-4">
-                <h2 className="text-base font-bold text-[#F0C36B] pb-2 border-b border-[#241A10]">
+              <div className="bg-white p-6 rounded-2xl border border-[#E5D7C5] shadow-sm space-y-4">
+                <h2 className="font-serif-heading text-lg font-bold text-[#211D18] pb-2 border-b border-[#E5D7C5]">
                   Order Summary ({items.length})
                 </h2>
 
@@ -727,33 +758,33 @@ export default function Checkout() {
                   {items.map(item => (
                     <div
                       key={`${item.product.id}-${item.packSize}`}
-                      className="flex gap-3 pb-3 border-b border-[#241A10] items-center justify-between"
+                      className="flex gap-3 pb-3 border-b border-[#E5D7C5] items-center justify-between"
                     >
                       <img
                         src={item.product.image}
                         alt={item.product.name}
-                        className="w-12 h-12 object-contain bg-[#0E0904] p-1 rounded-md border border-[#241A10]"
+                        className="w-12 h-12 object-contain bg-[#FBF8F2] p-1 rounded-lg border border-[#E5D7C5]"
                       />
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-xs text-[#FBF3E7] truncate">{item.product.name}</h4>
-                        <p className="text-xs text-[#FBF3E7]/60">{item.packSize}</p>
+                        <h4 className="font-serif-heading font-bold text-xs text-[#211D18] truncate">{item.product.name}</h4>
+                        <p className="text-xs text-[#5A4F46]">{item.packSize}</p>
                         <p className="text-xs font-bold text-[#D9542F]">{formatPKR(item.lineTotal)}</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="flex items-center border border-[#241A10] rounded bg-[#0E0904]">
+                        <div className="flex items-center border border-[#211D18] rounded-lg bg-[#FBF8F2]">
                           <button
                             type="button"
                             onClick={() => updateQuantity(item.product.id, item.packSize, item.quantity - 1)}
-                            className="p-1.5 text-[#FBF3E7]/70 hover:text-[#D9542F] transition-colors cursor-pointer min-w-[32px] min-h-[32px] flex items-center justify-center"
+                            className="p-1.5 text-[#211D18] hover:text-[#D9542F] transition-colors cursor-pointer min-w-[32px] min-h-[32px] flex items-center justify-center"
                             aria-label={`Decrease quantity for ${item.product.name}`}
                           >
                             <Minus className="w-3 h-3" />
                           </button>
-                          <span className="px-2 text-xs font-semibold text-[#FBF3E7]">{item.quantity}</span>
+                          <span className="px-2 text-xs font-bold text-[#211D18]">{item.quantity}</span>
                           <button
                             type="button"
                             onClick={() => updateQuantity(item.product.id, item.packSize, item.quantity + 1)}
-                            className="p-1.5 text-[#FBF3E7]/70 hover:text-[#D9542F] transition-colors cursor-pointer min-w-[32px] min-h-[32px] flex items-center justify-center"
+                            className="p-1.5 text-[#211D18] hover:text-[#D9542F] transition-colors cursor-pointer min-w-[32px] min-h-[32px] flex items-center justify-center"
                             aria-label={`Increase quantity for ${item.product.name}`}
                           >
                             <Plus className="w-3 h-3" />
@@ -762,7 +793,7 @@ export default function Checkout() {
                         <button
                           type="button"
                           onClick={() => removeFromCart(item.product.id, item.packSize)}
-                          className="p-1.5 text-[#FBF3E7]/40 hover:text-[#D9542F] transition-colors cursor-pointer min-w-[32px] min-h-[32px] flex items-center justify-center"
+                          className="p-1.5 text-[#5A4F46] hover:text-[#D9542F] transition-colors cursor-pointer min-w-[32px] min-h-[32px] flex items-center justify-center"
                           aria-label={`Remove ${item.product.name} from cart`}
                         >
                           <Trash2 className="w-4 h-4" />
@@ -773,16 +804,16 @@ export default function Checkout() {
                 </div>
 
                 {/* Subtotal Totals */}
-                <div className="pt-2 space-y-2 text-xs text-[#FBF3E7]/80">
+                <div className="pt-2 space-y-2 text-xs text-[#5A4F46]">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span className="font-semibold text-[#FBF3E7]">{formatPKR(subtotal)}</span>
+                    <span className="font-semibold text-[#211D18]">{formatPKR(subtotal)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Nationwide Delivery</span>
-                    <span>{isFreeShipping ? <strong className="text-[#6FAE3E]">FREE</strong> : formatPKR(STANDARD_SHIPPING)}</span>
+                    <span>{isFreeShipping ? <strong className="text-[#2F4F24]">FREE</strong> : formatPKR(STANDARD_SHIPPING)}</span>
                   </div>
-                  <div className="flex justify-between text-base font-bold text-[#FBF3E7] pt-3 border-t border-[#241A10]">
+                  <div className="flex justify-between text-base font-bold text-[#211D18] pt-3 border-t border-[#E5D7C5]">
                     <span>Total Amount (COD)</span>
                     <span className="text-[#D9542F]">{formatPKR(finalTotal)}</span>
                   </div>

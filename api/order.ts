@@ -93,6 +93,11 @@ export default async function handler(req: RequestLike, res: ResponseLike) {
       return res.status(400).json({ error: 'Please provide a valid full name.' });
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      return res.status(400).json({ error: 'Please provide a valid email address for order confirmation.' });
+    }
+
     // Clean and validate Pakistani mobile number: accepts 03XX..., +923XX..., 923XX...
     const cleanDigits = phone.replace(/[^0-9]/g, '');
     let normalisedPhone = '';
