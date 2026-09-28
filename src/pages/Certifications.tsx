@@ -18,7 +18,7 @@ export default function Certifications() {
             <span>Accredited Quality Standards</span>
           </div>
 
-          <h1 className="font-serif-heading text-3xl sm:text- sm:text-4xl sm:text-6xl font-bold text-[#211D18] tracking-tight">
+          <h1 className="font-serif-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#211D18] tracking-tight">
             Certifications & Standards
           </h1>
 

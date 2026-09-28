@@ -29,7 +29,7 @@ export default function Contact() {
             <span>Customer Desk & Wholesale Supply</span>
           </div>
 
-          <h1 className="font-serif-heading text-3xl sm:text- sm:text-4xl sm:text-6xl font-bold text-[#211D18] tracking-tight">
+          <h1 className="font-serif-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#211D18] tracking-tight">
             Get in Touch
           </h1>
 

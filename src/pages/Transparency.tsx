@@ -31,7 +31,7 @@ export default function Transparency() {
             <span>ISO 9001:2015 & Halal Certified Transparency</span>
           </div>
 
-          <h1 className="font-serif text-3xl sm:text- sm:text-4xl sm:text-6xl font-normal text-[#2A211B] tracking-tight">
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal text-[#2A211B] tracking-tight">
             Trace Your Jar's Provenance
           </h1>
 

@@ -87,7 +87,7 @@ export default function Shop() {
             <PureBotanicalIcon className="w-4 h-4" /> 100% Pure Botanical Pakistani Spices
           </div>
           
-          <h1 className="font-serif-heading text-3xl sm:text- sm:text-5xl font-bold text-[#FBF3E7]">
+          <h1 className="font-serif-heading text-3xl sm:text-4xl md:text-5xl font-bold text-[#FBF3E7]">
             Shop All Spices
           </h1>
 

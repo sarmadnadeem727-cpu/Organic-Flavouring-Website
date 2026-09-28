@@ -48,7 +48,7 @@ export default function Reviews() {
             <span>Customer Experiences</span>
           </div>
 
-          <h1 className="font-serif-heading text-3xl sm:text- sm:text-4xl sm:text-6xl font-bold text-[#211D18] tracking-tight leading-tight">
+          <h1 className="font-serif-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#211D18] tracking-tight leading-tight">
             Loved by Homes & Kitchens Nationwide
           </h1>
 

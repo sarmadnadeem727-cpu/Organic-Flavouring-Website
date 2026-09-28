@@ -1,61 +1,60 @@
-# Organic Flavouring Website
+# Organic Flavouring
 
-A modern, premium‑styled web application showcasing organic flavouring products.
+B2C online spice store for Pakistan (Lahore-based, cash-on-delivery, dispatched nationwide). Pure, stone-ground, hygienically packed Pakistani spices, whole masalas, and healthy flours.
 
-## ✨ Features
-- Clean, glass‑morphism UI with smooth micro‑animations
-- Responsive design for desktop and mobile
-- Product catalogue with dynamic filtering
-- Shopping cart powered by React Context API
-- Transparent information page (ingredients, sourcing)
+## Tech Stack
+- **Framework**: React 19 + TypeScript + Vite 6
+- **Routing**: React Router v7 (`react-router-dom`)
+- **Styling**: Tailwind CSS v4 + Vanilla CSS Design Tokens
+- **Icons & Animation**: Lucide React + Motion (`motion/react`) + GSAP
 
-## 🛠️ Tech Stack
-- **Frontend**: React, TypeScript, Vite (or Next.js if you prefer a framework)
-- **Styling**: Vanilla CSS with custom design tokens (HSL palettes, Google Fonts – *Inter*)
-- **State Management**: React Context (`CartContext`)
-- **Data**: Local TS modules (`products.ts`, `transparency.ts`)
+## Getting Started
 
-## 🚀 Getting Started
-1. **Clone the repo**
-   ```bash
-   git clone https://github.com/your-username/organic-flavouring-website.git
-   cd organic-flavouring-website
-   ```
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-3. **Run the dev server**
-   ```bash
-   npm run dev
-   ```
-   Open `http://localhost:5173` (default Vite port) in your browser.
+### 1. Prerequisites
+- Node.js 18+ and npm
 
-## 📦 Build for Production
+### 2. Environment Variables
+Copy `.env.example` to `.env` and fill in your keys:
 ```bash
+cp .env.example .env
+```
+
+Available variables:
+- `VITE_SITE_URL`: Base website URL (e.g. `https://organicflavouring.com`)
+- `VITE_WHATSAPP_NUMBER`: Support & ordering WhatsApp number in international format without `+` (e.g. `923000000000`)
+- `VITE_SUPPORT_EMAIL`: Customer support email address
+- `VITE_EMAILJS_PUBLIC_KEY`: EmailJS Public Key
+- `VITE_EMAILJS_SERVICE_ID`: EmailJS Service ID
+- `VITE_EMAILJS_ADMIN_TEMPLATE_ID`: EmailJS Template ID for admin alerts
+- `VITE_EMAILJS_CUSTOMER_TEMPLATE_ID`: EmailJS Template ID for customer confirmations
+- `VITE_GOOGLE_SHEETS_WEBHOOK_URL`: Google Apps Script Webhook URL for order storage
+- `VITE_META_PIXEL_ID`: Meta (Facebook/Instagram) Pixel ID (optional)
+- `VITE_GA4_ID`: Google Analytics 4 Measurement ID (optional)
+- `VITE_TIKTOK_PIXEL_ID`: TikTok Pixel ID (optional)
+
+### 3. Development
+```bash
+npm install
+npm run dev
+```
+Open `http://localhost:3000` in your browser.
+
+### 4. Build & Verification
+```bash
+# Typecheck
+npm run typecheck
+
+# Production build
 npm run build
-# Preview the production build
+
+# Local production preview
 npm run preview
 ```
 
-## 📄 Project Structure
-```
-src/
-├─ pages/          # Route components (Home, About, Contact)
-├─ data/           # Static product & transparency data
-├─ context/        # React Context providers (Cart)
-├─ assets/         # Images, fonts, icons
-└─ index.html
-```
+## Deployment Notes
+- **Hosting**: Optimized for Vercel / Netlify / Cloudflare Pages.
+- **Routing**: Client-side routing with SPA fallback via `vercel.json` and `_redirects`.
+- **Payment Method**: Cash on Delivery (COD) across Pakistan.
 
-## 🤝 Contributing
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Commit your changes and push to your fork
-4. Open a Pull Request describing the change
-
-All contributions follow the existing design system – keep the visual style premium and consistent.
-
-## 📜 License
-All rights reserved. This project is the exclusive property of **Sarmad Nadeem**. Unauthorized use, copying, or cloning of this website is strictly prohibited.
----
+## License
+All rights reserved. Proprietary and confidential.

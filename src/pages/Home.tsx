@@ -153,7 +153,7 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
             <span className="text-[11px] font-bold uppercase tracking-widest text-[#D89A2E]">
               THIS WEEK'S CRATE
             </span>
-            <h2 className="font-display text-3xl sm:text- font-normal text-[#FFF6E8]">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-normal text-[#FFF6E8]">
               Laid out the way it'd sit on our own counter.
             </h2>
           </div>
@@ -248,7 +248,7 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
           </span>
 
           {/* Word-by-Word Scroll Scrubbed Text Reveal */}
-          <div ref={quoteRef} className="font-display text-3xl sm:text- leading-relaxed text-[#FFF6E8]">
+          <div ref={quoteRef} className="font-display text-2xl sm:text-3xl md:text-4xl leading-relaxed text-[#FFF6E8]">
             {quoteText.split(' ').map((word, i) => (
               <span key={i} className="quote-word inline-block mr-2.5 transition-opacity">
                 {word}

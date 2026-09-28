@@ -1,11 +1,11 @@
 import emailjs from '@emailjs/browser';
 
-const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'QHZ9Zd0nKfHmMxYop';
-const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_g86qxka';
-const adminTemplateId = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID || 'template_wla4qrf';
-const customerTemplateId = import.meta.env.VITE_EMAILJS_CUSTOMER_TEMPLATE_ID || 'template_luh812b';
+const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const adminTemplateId = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID;
+const customerTemplateId = import.meta.env.VITE_EMAILJS_CUSTOMER_TEMPLATE_ID;
 
-// Initialize EmailJS with the public key
+// Initialize EmailJS with the public key if configured
 if (publicKey && publicKey !== 'your_public_key_here') {
   emailjs.init({ publicKey });
 }

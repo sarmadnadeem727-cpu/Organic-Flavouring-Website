@@ -5,7 +5,6 @@ import { products, officialInfo } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { Minus, Plus, ShoppingBag, MessageCircle, Check, MapPin, Box, Eye, Layers, ArrowRight } from 'lucide-react';
 import { HalalIcon, IsoIcon } from '../components/Illustrations';
-import Product3DViewer from '../components/Product3DViewer';
 
 interface FlyingParticle {
   id: number;
