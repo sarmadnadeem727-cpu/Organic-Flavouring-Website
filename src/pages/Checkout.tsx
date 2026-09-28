@@ -11,7 +11,7 @@ export default function Checkout() {
   const { items, updateQuantity, removeFromCart, subtotal, clearCart } = useCart();
   const [orderComplete, setOrderComplete] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'COD' | 'IBFT'>('COD');
+  const [paymentMethod] = useState<'COD'>('COD');
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -233,38 +233,23 @@ export default function Checkout() {
                     2. Payment Method
                   </h2>
 
-                  <div className="space-y-2 text-xs">
-                    <label className={`flex items-center justify-between p-3 rounded-md border cursor-pointer transition-colors ${
-                      paymentMethod === 'COD' ? 'border-[#D9542F] bg-[#D9542F]/10' : 'border-[#241A10] bg-[#0E0904] hover:border-[#D9542F]/50'
-                    }`}>
-                      <div className="flex items-center gap-2">
+                  <div className="text-xs">
+                    <div className="flex items-center justify-between p-3.5 rounded-lg border border-[#D9542F] bg-[#D9542F]/10">
+                      <div className="flex items-center gap-2.5">
                         <input
                           type="radio"
                           name="payment"
-                          checked={paymentMethod === 'COD'}
-                          onChange={() => setPaymentMethod('COD')}
-                          className="accent-[#D9542F]"
+                          checked={true}
+                          readOnly
+                          className="accent-[#D9542F] w-4 h-4 cursor-default"
                         />
-                        <span className="font-semibold text-[#FBF3E7]">Cash on Delivery (COD)</span>
+                        <div>
+                          <span className="font-bold text-[#FBF3E7] block">Cash on Delivery (COD)</span>
+                          <span className="text-[11px] text-[#FBF3E7]/60">Pay safely in cash when your parcel is delivered to your doorstep.</span>
+                        </div>
                       </div>
-                      <span className="text-[11px] text-[#FBF3E7]/50">Pay courier on arrival</span>
-                    </label>
-
-                    <label className={`flex items-center justify-between p-3 rounded-md border cursor-pointer transition-colors ${
-                      paymentMethod === 'IBFT' ? 'border-[#D9542F] bg-[#D9542F]/10' : 'border-[#241A10] bg-[#0E0904] hover:border-[#D9542F]/50'
-                    }`}>
-                      <div className="flex items-center gap-2">
-                        <input
-                          type="radio"
-                          name="payment"
-                          checked={paymentMethod === 'IBFT'}
-                          onChange={() => setPaymentMethod('IBFT')}
-                          className="accent-[#D9542F]"
-                        />
-                        <span className="font-semibold text-[#FBF3E7]">Bank Transfer / Raast</span>
-                      </div>
-                      <span className="text-[11px] text-[#FBF3E7]/50">Online bank transfer</span>
-                    </label>
+                      <span className="text-[11px] font-bold text-[#6FAE3E] bg-[#6FAE3E]/10 border border-[#6FAE3E]/20 px-2.5 py-1 rounded">Available Nationwide</span>
+                    </div>
                   </div>
                 </div>
 

@@ -178,27 +178,12 @@ export default function CartDrawer() {
 
                 <div className="pt-2">
                   <label className="block text-[#5A4F46] uppercase font-bold tracking-widest mb-1.5">Payment Method</label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod('COD')}
-                      className={`p-3 rounded border text-left transition-all cursor-pointer ${
-                        paymentMethod === 'COD' ? 'border-[#D9542F] bg-[#D9542F]/10 text-[#211D18]' : 'border-[#E5D7C5] bg-white text-[#5A4F46]'
-                      }`}
-                    >
-                      <p className="font-serif-heading font-bold text-xs">Cash on Delivery</p>
-                      <p className="text-[10px] text-[#5A4F46]">Pay courier on delivery</p>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setPaymentMethod('IBFT')}
-                      className={`p-3 rounded border text-left transition-all cursor-pointer ${
-                        paymentMethod === 'IBFT' ? 'border-[#D9542F] bg-[#D9542F]/10 text-[#211D18]' : 'border-[#E5D7C5] bg-white text-[#5A4F46]'
-                      }`}
-                    >
-                      <p className="font-serif-heading font-bold text-xs">Bank Transfer</p>
-                      <p className="text-[10px] text-[#5A4F46]">Direct bank payment</p>
-                    </button>
+                  <div className="p-3 rounded border border-[#D9542F] bg-[#D9542F]/10 text-[#211D18]">
+                    <div className="flex items-center justify-between">
+                      <p className="font-serif-heading font-bold text-xs text-[#211D18]">Cash on Delivery (COD)</p>
+                      <span className="text-[10px] text-[#2F4F24] font-bold">Nationwide</span>
+                    </div>
+                    <p className="text-[10px] text-[#5A4F46] mt-0.5">Pay safely when order arrives</p>
                   </div>
                 </div>
               </form>
