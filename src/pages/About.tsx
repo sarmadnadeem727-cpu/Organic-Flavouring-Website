@@ -8,14 +8,14 @@ export default function About() {
     <div className="bg-[#FBF8F2] min-h-screen text-[#211D18] bg-grain pb-24">
       
       {/* 1. Hero Section */}
-      <section className="relative bg-[#EFE7DA] border-b border-[#E5D7C5] py-20">
+      <section className="relative bg-[#EFE7DA] border-b border-[#E5D7C5] py-12 sm:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#2F4F24]/10 text-[#2F4F24] text-xs font-bold uppercase tracking-widest border border-[#2F4F24]/20">
             <PureBotanicalIcon className="w-4 h-4" />
             <span>Serving You the Natural Twist • Est. 2022</span>
           </div>
 
-          <h1 className="font-serif-heading text-4xl sm:text-6xl font-bold text-[#211D18] tracking-tight leading-tight">
+          <h1 className="font-serif-heading text-3xl sm:text- sm:text-4xl sm:text-6xl font-bold text-[#211D18] tracking-tight leading-tight">
             Our Heritage & Story
           </h1>
 
@@ -26,9 +26,9 @@ export default function About() {
       </section>
 
       {/* 2. Editorial Story Section */}
-      <section className="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-[#5A4F46] leading-relaxed text-sm sm:text-base">
+      <section className="py-12 sm:py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 text-[#5A4F46] leading-relaxed text-sm sm:text-base">
         <div className="flex items-baseline gap-4">
-          <span className="font-serif-heading text-6xl font-black text-[#D9542F] leading-none shrink-0">2022</span>
+          <span className="font-serif-heading text-3xl sm:text- font-black text-[#D9542F] leading-none shrink-0">2022</span>
           <p className="font-serif-heading text-xl text-[#211D18]">
             Organic Flavouring is your premium local spice store and health food shop.
           </p>

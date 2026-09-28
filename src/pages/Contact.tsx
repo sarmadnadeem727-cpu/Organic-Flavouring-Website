@@ -22,14 +22,14 @@ export default function Contact() {
     <div className="bg-[#FBF8F2] min-h-screen text-[#211D18] bg-grain pb-24">
       
       {/* Header Banner */}
-      <section className="relative bg-[#EFE7DA] border-b border-[#E5D7C5] py-20">
+      <section className="relative bg-[#EFE7DA] border-b border-[#E5D7C5] py-12 sm:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#2F4F24]/10 text-[#2F4F24] text-xs font-bold uppercase tracking-widest border border-[#2F4F24]/20">
             <Mail className="w-4 h-4 text-[#D9542F]" />
             <span>Customer Desk & Wholesale Supply</span>
           </div>
 
-          <h1 className="font-serif-heading text-4xl sm:text-6xl font-bold text-[#211D18] tracking-tight">
+          <h1 className="font-serif-heading text-3xl sm:text- sm:text-4xl sm:text-6xl font-bold text-[#211D18] tracking-tight">
             Get in Touch
           </h1>
 
@@ -182,7 +182,7 @@ export default function Contact() {
       </section>
 
       {/* Mandatory Dark Deep-Green Contrast Section (#2F4F24) */}
-      <section className="mt-20 py-16 bg-[#2F4F24] text-[#FBF8F2] bg-grain-dark border-t-2 border-[#C79A46]/30">
+      <section className="mt-20 py-10 sm:py-16 bg-[#2F4F24] text-[#FBF8F2] bg-grain-dark border-t-2 border-[#C79A46]/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="space-y-2 text-center md:text-left">
             <span className="text-[10px] font-bold uppercase tracking-widest text-[#C79A46]">Wholesale Sacks Desk</span>

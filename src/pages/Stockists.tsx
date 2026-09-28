@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 export default function Stockists() {
   return (
     <div className="bg-[#FBF3E7] min-h-screen text-[#2A211B] pb-24">
-      <section className="relative bg-[#F5E8D3] border-b border-[#EBDAC4] py-20 md:py-24">
+      <section className="relative bg-[#F5E8D3] border-b border-[#EBDAC4] py-12 sm:py-20 md:py-24">
         <div className="max-w-4xl mx-auto px-4 text-center space-y-6">
-          <h1 className="font-serif text-4xl sm:text-6xl font-normal text-[#2A211B]">
+          <h1 className="font-serif text-3xl sm:text- sm:text-4xl sm:text-6xl font-normal text-[#2A211B]">
             Dispatch & Delivery Network
           </h1>
           <p className="text-base text-[#5E4D40] max-w-xl mx-auto">

@@ -11,14 +11,14 @@ export default function Certifications() {
     <div className="bg-[#FBF8F2] min-h-screen text-[#211D18] bg-grain pb-24">
       
       {/* Header Banner */}
-      <section className="relative bg-[#EFE7DA] border-b border-[#E5D7C5] py-20">
+      <section className="relative bg-[#EFE7DA] border-b border-[#E5D7C5] py-12 sm:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#2F4F24]/10 text-[#2F4F24] text-xs font-bold uppercase tracking-widest border border-[#2F4F24]/20">
             <PureBotanicalIcon className="w-4 h-4" />
             <span>Accredited Quality Standards</span>
           </div>
 
-          <h1 className="font-serif-heading text-4xl sm:text-6xl font-bold text-[#211D18] tracking-tight">
+          <h1 className="font-serif-heading text-3xl sm:text- sm:text-4xl sm:text-6xl font-bold text-[#211D18] tracking-tight">
             Certifications & Standards
           </h1>
 
@@ -128,7 +128,7 @@ export default function Certifications() {
       </section>
 
       {/* Mandatory Dark Deep-Green Contrast Section (#2F4F24) */}
-      <section className="mt-20 py-16 bg-[#2F4F24] text-[#FBF8F2] bg-grain-dark border-t-2 border-[#C79A46]/30">
+      <section className="mt-20 py-10 sm:py-16 bg-[#2F4F24] text-[#FBF8F2] bg-grain-dark border-t-2 border-[#C79A46]/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <blockquote className="font-serif-heading text-xl sm:text-2xl text-[#FBF8F2]">
             “Every batch we pack meets quality and halal compliance standards — because your trust matters as much to us as it did in 2022.”

@@ -202,7 +202,7 @@ export default function CartDrawer() {
                 </div>
               </form>
             ) : items.length === 0 ? (
-              <div className="text-center py-16 space-y-4">
+              <div className="text-center py-10 sm:py-16 space-y-4">
                 <EmptyCartIllustration className="mx-auto" />
                 <p className="font-serif-heading text-xl font-bold text-[#211D18]">Your Cart is Empty</p>
                 <p className="text-xs text-[#5A4F46] max-w-xs mx-auto">

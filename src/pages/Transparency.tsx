@@ -24,14 +24,14 @@ export default function Transparency() {
     <div className="bg-[#FBF3E7] min-h-screen text-[#2A211B] pb-24">
       
       {/* Header Banner */}
-      <section className="relative bg-[#F5E8D3] border-b border-[#EBDAC4] py-20 md:py-24">
+      <section className="relative bg-[#F5E8D3] border-b border-[#EBDAC4] py-12 sm:py-20 md:py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#EFE0CB] text-[#6B4F3B] text-xs font-semibold uppercase tracking-widest">
             <QrCode className="w-3.5 h-3.5 text-[#1F4B33]" />
             <span>ISO 9001:2015 & Halal Certified Transparency</span>
           </div>
 
-          <h1 className="font-serif text-4xl sm:text-6xl font-normal text-[#2A211B] tracking-tight">
+          <h1 className="font-serif text-3xl sm:text- sm:text-4xl sm:text-6xl font-normal text-[#2A211B] tracking-tight">
             Trace Your Jar's Provenance
           </h1>
 

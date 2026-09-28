@@ -41,14 +41,14 @@ export default function Reviews() {
     <div className="bg-[#FBF8F2] min-h-screen text-[#211D18] bg-grain pb-24">
       
       {/* Hero Section */}
-      <section className="relative bg-[#EFE7DA] border-b border-[#E5D7C5] py-16 sm:py-24">
+      <section className="relative bg-[#EFE7DA] border-b border-[#E5D7C5] py-10 sm:py-16 sm:py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#D9542F]/10 text-[#D9542F] text-xs font-bold uppercase tracking-widest border border-[#D9542F]/20">
             <MessageCircle className="w-4 h-4" />
             <span>Customer Experiences</span>
           </div>
 
-          <h1 className="font-serif-heading text-4xl sm:text-6xl font-bold text-[#211D18] tracking-tight leading-tight">
+          <h1 className="font-serif-heading text-3xl sm:text- sm:text-4xl sm:text-6xl font-bold text-[#211D18] tracking-tight leading-tight">
             Loved by Homes & Kitchens Nationwide
           </h1>
 

@@ -87,7 +87,7 @@ export default function Shop() {
             <PureBotanicalIcon className="w-4 h-4" /> 100% Pure Botanical Pakistani Spices
           </div>
           
-          <h1 className="font-serif-heading text-4xl sm:text-5xl font-bold text-[#FBF3E7]">
+          <h1 className="font-serif-heading text-3xl sm:text- sm:text-5xl font-bold text-[#FBF3E7]">
             Shop All Spices
           </h1>
 
@@ -215,7 +215,7 @@ export default function Shop() {
             ))}
           </div>
         ) : (
-          <div className="py-16 text-center space-y-4">
+          <div className="py-10 sm:py-16 text-center space-y-4">
             <NoResultsIllustration className="mx-auto" />
             <h3 className="font-serif-heading text-xl font-bold">No Spices Found</h3>
             <p className="text-xs text-[#5A4F46]">Try clearing your search query or category filter.</p>
