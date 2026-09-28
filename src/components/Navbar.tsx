@@ -130,8 +130,8 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
                 <User className="w-5 h-5" />
               </Link>
 
-              <button
-                onClick={() => setIsCartOpen(true)}
+              <Link
+                to="/cart"
                 className="relative p-2 text-[#222222] hover:text-[#D9542F] transition-colors flex items-center gap-1.5 cursor-pointer"
                 aria-label="View Cart"
               >
@@ -142,7 +142,7 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
                     {totalItems}
                   </span>
                 )}
-              </button>
+              </Link>
 
               <button
                 onClick={() => setIsOpen(!isOpen)}

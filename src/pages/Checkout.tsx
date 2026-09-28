@@ -54,11 +54,16 @@ export default function Checkout() {
         date: new Date().toLocaleDateString()
       };
 
-      // Send emails
-      await Promise.all([
-        sendOrderToAdmin(orderDetails),
-        sendConfirmationToCustomer(orderDetails)
-      ]);
+      // Send emails (both admin alert and customer confirmation)
+      try {
+        await Promise.all([
+          sendOrderToAdmin(orderDetails),
+          sendConfirmationToCustomer(orderDetails)
+        ]);
+        console.log("Order confirmation emails successfully sent via EmailJS.");
+      } catch (emailErr) {
+        console.warn("EmailJS notification error (order is still placed):", emailErr);
+      }
 
       setOrderId(newOrderId);
       setCompletedOrderDetails(orderDetails);
@@ -67,7 +72,7 @@ export default function Checkout() {
       clearCart();
     } catch (error) {
       console.error("Error processing order:", error);
-      alert("There was an issue processing your order. Please try again or contact us via WhatsApp.");
+      alert("There was an issue processing your order. Please try again or contact us directly on WhatsApp.");
       setIsSubmitting(false);
     }
   };

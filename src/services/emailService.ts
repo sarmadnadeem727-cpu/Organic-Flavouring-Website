@@ -11,6 +11,7 @@ if (publicKey && publicKey !== 'your_public_key_here') {
 }
 
 export interface OrderDetails {
+  orderId?: string;
   customerName: string;
   customerEmail: string;
   customerPhone: string;
@@ -30,18 +31,27 @@ export const sendOrderToAdmin = async (orderDetails: OrderDetails) => {
   }
   
   try {
-    await emailjs.send(serviceId, adminTemplateId, {
+    const params = {
+      order_id: orderDetails.orderId || 'ORD-NEW',
       customer_name: orderDetails.customerName,
+      name: orderDetails.customerName,
       customer_email: orderDetails.customerEmail,
+      email: orderDetails.customerEmail,
       customer_phone: orderDetails.customerPhone,
+      phone: orderDetails.customerPhone,
       customer_city: orderDetails.customerCity,
+      city: orderDetails.customerCity,
       customer_address: orderDetails.customerAddress,
+      address: orderDetails.customerAddress,
       payment_method: orderDetails.paymentMethod,
       items_list: orderDetails.itemsList,
+      items: orderDetails.itemsList,
       subtotal: orderDetails.subtotal,
       shipping: orderDetails.shipping,
       total: orderDetails.total,
-    });
+      order_total: orderDetails.total,
+    };
+    await emailjs.send(serviceId, adminTemplateId, params, publicKey);
   } catch (error) {
     console.error('Failed to send order email to admin:', error);
     throw new Error('Failed to send admin notification');
@@ -55,15 +65,26 @@ export const sendConfirmationToCustomer = async (orderDetails: OrderDetails) => 
   }
 
   try {
-    await emailjs.send(serviceId, customerTemplateId, {
+    const params = {
+      order_id: orderDetails.orderId || 'ORD-NEW',
       customer_name: orderDetails.customerName,
+      name: orderDetails.customerName,
       customer_email: orderDetails.customerEmail,
+      to_email: orderDetails.customerEmail,
+      email: orderDetails.customerEmail,
       items_list: orderDetails.itemsList,
+      items: orderDetails.itemsList,
+      subtotal: orderDetails.subtotal,
+      shipping: orderDetails.shipping,
       total: orderDetails.total,
+      order_total: orderDetails.total,
       payment_method: orderDetails.paymentMethod,
-    });
+      shipping_address: `${orderDetails.customerAddress}, ${orderDetails.customerCity}`,
+    };
+    await emailjs.send(serviceId, customerTemplateId, params, publicKey);
   } catch (error) {
     console.error('Failed to send confirmation email to customer:', error);
     throw new Error('Failed to send customer confirmation');
   }
 };
+

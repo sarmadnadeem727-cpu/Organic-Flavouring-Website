@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { officialInfo } from '../data/products';
 import { X, Trash2, Plus, Minus, ArrowRight, MessageCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { EmptyCartIllustration, PureBotanicalIcon, HalalIcon, IsoIcon } from './Illustrations';
 
 export default function CartDrawer() {
@@ -296,12 +297,13 @@ export default function CartDrawer() {
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <button
-                    onClick={() => setIsCheckingOut(true)}
-                    className="btn-primary-custom w-full text-xs py-3.5"
+                  <Link
+                    to="/checkout"
+                    onClick={() => setIsCartOpen(false)}
+                    className="btn-primary-custom w-full text-xs py-3.5 text-center flex items-center justify-center gap-2"
                   >
                     Proceed to Checkout <ArrowRight className="w-4 h-4" />
-                  </button>
+                  </Link>
                   <a
                     href={generateWhatsAppOrderText()}
                     target="_blank"
