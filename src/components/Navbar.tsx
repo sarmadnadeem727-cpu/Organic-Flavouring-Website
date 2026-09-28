@@ -65,7 +65,7 @@ export default function Navbar({ onOpenCertModal, onOpenContactModal }: NavbarPr
                 <span className="font-bold text-lg text-[#222222] leading-none">
                   Organic <span className="text-[#D9542F]">Flavouring</span>
                 </span>
-                <span className="text-[10px] text-[#666666] font-medium mt-0.5">Established 1994</span>
+                <span className="text-[10px] text-[#666666] font-medium mt-0.5">Established 2022</span>
               </div>
             </Link>
 

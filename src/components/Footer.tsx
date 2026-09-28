@@ -25,7 +25,7 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
               </span>
             </Link>
             <p className="text-[#666666] leading-relaxed">
-              Procuring 100% pure sun-dried Pakistani spices stone-ground and packed for natural flavor since 1994.
+              Homegrown business established in 2022 - Organic Flavouring is your premium local spice store and health food shop for pure, freshly packed spices.
             </p>
           </div>
 
@@ -44,7 +44,7 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
           <div className="space-y-2">
             <h4 className="font-bold text-[#222222] uppercase tracking-wider text-[11px] mb-3">Discovery</h4>
             <ul className="space-y-2 text-[#666666]">
-              <li><Link to="/about" className="hover:text-[#D9542F]">Our Story (Est. 1994)</Link></li>
+              <li><Link to="/about" className="hover:text-[#D9542F]">Our Story (Est. 2022)</Link></li>
               <li><Link to="/transparency" className="hover:text-[#D9542F]">Batch Transparency</Link></li>
               <li><Link to="/reviews" className="hover:text-[#D9542F]">Customer Reviews</Link></li>
               <li><Link to="/contact" className="hover:text-[#D9542F]">Contact & Wholesale</Link></li>
@@ -91,7 +91,7 @@ export default function Footer({ onOpenCertModal, onOpenContactModal }: FooterPr
 
         {/* Bottom Copyright Line */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[#666666] text-[11px] gap-2">
-          <p>© 1994 – {new Date().getFullYear()} Organic Flavouring. All Rights Reserved. Lahore, Pakistan.</p>
+          <p>© 2022 – {new Date().getFullYear()} Organic Flavouring. All Rights Reserved. Lahore, Pakistan.</p>
           <div className="flex space-x-4">
             <Link to="/reviews" className="hover:text-[#D9542F]">Reviews</Link>
             <Link to="/certifications" className="hover:text-[#D9542F]">Certifications</Link>

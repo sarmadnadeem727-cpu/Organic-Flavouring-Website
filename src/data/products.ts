@@ -39,13 +39,16 @@ export const officialInfo = {
   name: "Organic Flavouring",
   tagline: "Serving You the Natural Twist!",
   promiseLine: "Freshly Procured. Hygienically Packed. Naturally Flavorful.",
-  positioningLine: "Premium Spices Since 1994",
-  founded: "1994",
+  positioningLine: "Premium Spices Since 2022",
+  founded: "2022",
   city: "Lahore, Pakistan",
-  phone: "+92 300 0000000",
+  address: "House 15, Al Rehman Rice mills, Al Madina Avenue, Kahna Nau, Lahore, 54000",
+  phone: "0301 5384466",
   email: "info@organicflavouring.com",
-  whatsapp: "923000000000",
-  whatsappFormatted: "+92 300 0000000"
+  whatsapp: "923015384466",
+  whatsappFormatted: "+92 301 5384466",
+  facebook: "https://www.facebook.com/organicflavouring",
+  youtube: "https://www.youtube.com/@organicflavouring"
 };
 
 export const officialCertificates = [
@@ -281,8 +284,8 @@ export const products: Product[] = [
     name: "Garam Masala",
     category: "Powders",
     tagline: "30-Year Heritage Formula • Whole Spice Royale",
-    shortDescription: "The signature 1994 family recipe combining whole black cardamom, cinnamon, cloves, nutmeg, mace, and cumin.",
-    description: "Crafted using our family's generational formula established in 1994. Every whole spice in this master blend is individually inspected, lightly roasted, and freshly ground for an incomparable royal finish.",
+    shortDescription: "The signature 2022 family recipe combining whole black cardamom, cinnamon, cloves, nutmeg, mace, and cumin.",
+    description: "Crafted using our family's generational formula established in 2022. Every whole spice in this master blend is individually inspected, lightly roasted, and freshly ground for an incomparable royal finish.",
     usageAndStorage: "Sprinkle 1/2 teaspoon over hot dishes at the very end of cooking (Dum) to trap the rich essential aromatics.",
     certificationsNote: "Halal Certified & ISO 9001:2015 Quality Management System.",
     startingPrice: 300,

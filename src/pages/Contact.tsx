@@ -51,7 +51,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-serif-heading text-xl font-bold text-[#211D18]">{officialInfo.name}</h3>
-                  <p className="text-[10px] text-[#D9542F] font-bold uppercase tracking-widest mt-0.5">Serving You the Natural Twist • Est. 1994</p>
+                  <p className="text-[10px] text-[#D9542F] font-bold uppercase tracking-widest mt-0.5">Serving You the Natural Twist • Est. 2022</p>
                 </div>
               </div>
 

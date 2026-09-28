@@ -419,7 +419,7 @@ export default function CinematicHero({ onOpenCertModal }: CinematicHeroProps) {
           <span 
             className="text-[11px] sm:text-xs font-semibold tracking-[0.32em] uppercase text-[#F0C36B] block"
           >
-            ORGANIC FLAVOURING · EST. 1994
+            ORGANIC FLAVOURING · EST. 2022
           </span>
         </div>
 

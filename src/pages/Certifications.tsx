@@ -131,7 +131,7 @@ export default function Certifications() {
       <section className="mt-20 py-16 bg-[#2F4F24] text-[#FBF8F2] bg-grain-dark border-t-2 border-[#C79A46]/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <blockquote className="font-serif-heading text-xl sm:text-2xl text-[#FBF8F2]">
-            “Every batch we pack meets quality and halal compliance standards — because your trust matters as much to us as it did in 1994.”
+            “Every batch we pack meets quality and halal compliance standards — because your trust matters as much to us as it did in 2022.”
           </blockquote>
           <p className="text-xs font-bold text-[#C79A46] uppercase tracking-widest">— Organic Flavouring Quality Board</p>
         </div>

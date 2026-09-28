@@ -76,7 +76,7 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
     // Removed trustRowRef materializing GSAP animation as it is now a CSS marquee
   }, []);
 
-  const quoteText = "What started as a spice trading business in 1994 grew through nothing but trust — delivering unadulterated flavor from Pakistan’s fertile soils directly to family kitchens.";
+  const quoteText = "What started as a spice trading business in 2022 grew through nothing but trust — delivering unadulterated flavor from Pakistan’s fertile soils directly to family kitchens.";
 
   return (
     <div className="min-h-screen text-[#2A1F16] relative bg-texture-grain">
@@ -277,7 +277,7 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
                     </div>
                     <div className="flex items-center justify-center gap-3 py-2 px-4 bg-white rounded-xl border border-[#E5D7C5] shadow-sm text-xs text-[#241D17] font-bold shrink-0">
                       <FamilyOwnedIcon className="w-5 h-5 shrink-0 text-[#D89A2E]" />
-                      <span className="uppercase tracking-widest">Est. 1994</span>
+                      <span className="uppercase tracking-widest">Est. 2022</span>
                     </div>
                     <div className="flex items-center justify-center gap-3 py-2 px-4 bg-white rounded-xl border border-[#E5D7C5] shadow-sm text-xs text-[#241D17] font-bold shrink-0">
                       <DeliveryTruckIcon className="w-5 h-5 shrink-0 text-[#241D17]" />
@@ -300,7 +300,7 @@ export default function Home({ onOpenCertModal, onOpenContactModal }: HomeProps)
                     </div>
                     <div className="flex items-center justify-center gap-3 py-2 px-4 bg-white rounded-xl border border-[#E5D7C5] shadow-sm text-xs text-[#241D17] font-bold shrink-0">
                       <FamilyOwnedIcon className="w-5 h-5 shrink-0 text-[#D89A2E]" />
-                      <span className="uppercase tracking-widest">Est. 1994</span>
+                      <span className="uppercase tracking-widest">Est. 2022</span>
                     </div>
                     <div className="flex items-center justify-center gap-3 py-2 px-4 bg-white rounded-xl border border-[#E5D7C5] shadow-sm text-xs text-[#241D17] font-bold shrink-0">
                       <DeliveryTruckIcon className="w-5 h-5 shrink-0 text-[#241D17]" />
